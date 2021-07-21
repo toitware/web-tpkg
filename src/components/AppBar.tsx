@@ -29,6 +29,7 @@ const styles = (theme: Theme) =>
     },
     toolbarBottom: {
       height: 84,
+      backgroundColor: theme.palette.primary.dark,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -62,7 +63,9 @@ const styles = (theme: Theme) =>
     inputRoot: {
       color: "inherit",
       borderWidth: 1,
-      borderColor: theme.palette.primary.dark,
+      borderTopLeftRadius: 3,
+      borderBottomLeftRadius: 3,
+      borderColor: theme.palette.primary.light,
       borderStyle: "solid",
       height: "42px",
     },
@@ -76,6 +79,11 @@ const styles = (theme: Theme) =>
     searchButton: {
       height: 42,
       borderRadius: 0,
+      borderTopRightRadius: 3,
+      borderBottomRightRadius: 3,
+      borderWidth: 1,
+      borderColor: theme.palette.primary.light,
+      borderStyle: "solid",
       width: 80,
       [theme.breakpoints.up("sm")]: {
         width: 160,

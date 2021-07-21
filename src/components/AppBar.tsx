@@ -11,7 +11,9 @@ import {
   WithStyles,
   withStyles,
 } from "@material-ui/core";
+import { History, UnregisterCallback } from "history";
 import React from "react";
+import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import PackagesTestFile from "../data/packages.json";
 import { SearchIcon, ToitLogo } from "../misc/icons";
 
@@ -91,9 +93,22 @@ const styles = (theme: Theme) =>
     },
   });
 
-type AppBarProps = WithStyles<typeof styles>;
+interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps {
+  history: History;
+}
+interface AppBarState {
+  search: string;
+}
 
-class AppBar extends React.PureComponent<AppBarProps> {
+class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
+  unlisten?: UnregisterCallback = undefined;
+
+  componentDidMount() {
+    this.setState({
+      search: "",
+    });
+  }
+
   render() {
     return (
       <Bar color="secondary">
@@ -134,15 +149,23 @@ class AppBar extends React.PureComponent<AppBarProps> {
                 input: this.props.classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={(event) => this.setState({ search: event.target.value })}
             />
           </div>
-          <Button className={this.props.classes.searchButton} color="primary" variant="contained">
-            Search
-          </Button>
+          <Route>
+            <Button
+              className={this.props.classes.searchButton}
+              color="primary"
+              variant="contained"
+              onClick={() => this.props.history.push("/search?query=" + this.state.search)}
+            >
+              Search
+            </Button>
+          </Route>
         </Toolbar>
       </Bar>
     );
   }
 }
 
-export default withStyles(styles)(AppBar);
+export default withRouter(withStyles(styles)(AppBar));

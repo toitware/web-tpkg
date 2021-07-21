@@ -49,31 +49,31 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: ["Roboto"].join(","),
     body1: {
-      fontSize: "0.85rem",
+      fontSize: "1rem",
     },
     body2: {
-      fontSize: "0.80rem",
+      fontSize: "0.875rem",
     },
     h1: {
-      fontFamily: ["Roboto"].join(","),
-      fontSize: "1.25rem",
-      fontWeight: 400,
+      fontFamily: ["Roboto Mono"].join(","),
+      fontSize: "2.25rem",
+      fontWeight: 300,
     },
     h2: {
-      fontFamily: ["Roboto"].join(","),
-      fontSize: "1.5rem",
-      fontWeight: 500,
+      fontFamily: ["ClashDisplay-SemiBold"].join(","),
+      fontSize: "2.25rem",
     },
     h3: {
-      fontFamily: ["Roboto"].join(","),
-      fontSize: "1.25rem",
-      fontWeight: 500,
+      fontFamily: ["ClashDisplay-light"].join(","),
+      fontSize: "2.25rem",
     },
     h4: {
-      fontFamily: ["Roboto"].join(","),
+      fontFamily: ["Roboto Mono"].join(","),
+      fontSize: "2.25rem",
+      fontWeight: 400,
     },
     h5: {
-      fontFamily: ["Roboto"].join(","),
+      fontFamily: ["ClashDisplay-Medium"].join(","),
       fontSize: "1.25rem",
     },
     h6: {

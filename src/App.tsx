@@ -3,7 +3,7 @@ import CookieConsent from "@toitware/cookie-consent";
 import React from "react";
 import "./App.css";
 import theme from "./assets/theme/theme";
-import AppBar from "./components/AppBar";
+import MainView from "./components/MainView";
 import Packages from "./data/packages.json";
 
 const data = Packages;
@@ -42,7 +42,7 @@ class App extends React.Component {
     }
     return (
       <MuiThemeProvider theme={theme}>
-        <AppBar />
+        <MainView />
         {/* TODO implement tracking, ask Jesper if we should do everything server side */}
         <CookieConsent segmentKey={segmentAPIKey} show={false} changeConsent={false} />
       </MuiThemeProvider>

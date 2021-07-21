@@ -21,7 +21,8 @@
   },
   "include": [
     "src",
-    "test"
+    "test",
+    "fonts"
   ],
   "exclude": [
   ]

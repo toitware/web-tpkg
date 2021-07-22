@@ -1,47 +1,88 @@
-import { createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { History } from "history";
 import React from "react";
+import { RouteComponentProps, withRouter } from "react-router";
 import SearchPackage from "./Search/SearchPackage";
 
 const styles = (theme: Theme) =>
   createStyles({
-    grid: {
-      flex: 1,
-      position: "relative",
-      overflow: "hidden",
-    },
     title: {
       paddingTop: theme.spacing(7),
+      paddingBottom: theme.spacing(4),
     },
     featured: {
-      paddingTop: theme.spacing(7),
+      paddingTop: theme.spacing(3),
       paddingBottom: theme.spacing(2),
+    },
+    button: {
+      marginTop: theme.spacing(2),
     },
   });
 
-type WelcomeProps = WithStyles<typeof styles>;
+interface WelcomeProps extends WithStyles<typeof styles>, RouteComponentProps {
+  history: History;
+}
 
 class WelcomeView extends React.Component<WelcomeProps> {
   render() {
     return (
-      <Grid container className={this.props.classes.grid}>
+      <Grid container>
         <Grid item xs={12}>
           <Typography className={this.props.classes.title} variant="h1">
             Toit package registry
           </Typography>
+        </Grid>
+        <Grid item xs={6}>
           <Typography className={this.props.classes.featured} variant="h3">
-            Features packages
+            Explore packages
+          </Typography>
+          <Typography>Find inspiration by looking at all released packages</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={this.props.classes.button}
+            onClick={() => this.props.history.push("/packages")}
+          >
+            All packages
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography className={this.props.classes.featured} variant="h3">
+            Contribute
+          </Typography>
+          <Typography>
+            You can contribute by publishing your packages to the Toit package registry. Read more about how to create
+            your own package at <a href="https://docs.toit.io/language/package/">docs.toit.io</a>{" "}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={this.props.classes.button}
+            onClick={() => this.props.history.push("/register")}
+          >
+            Contribute
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography className={this.props.classes.featured} variant="h3">
+            Featured packages
           </Typography>
           <SearchPackage
             name="toit-morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
-            access="private"
+            access="public"
             published={Date.now()}
           />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography className={this.props.classes.featured} variant="h3">
+            Latest packages
+          </Typography>
         </Grid>
       </Grid>
     );
   }
 }
 
-export default withStyles(styles)(WelcomeView);
+export default withRouter(withStyles(styles)(WelcomeView));

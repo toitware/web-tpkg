@@ -53,28 +53,28 @@ class SearchView extends React.Component<SearchProps, SearchState> {
             name="toit-morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
-            access="private"
+            access="public"
             published={Date.now()}
           />
           <SearchPackage
             name="toit-morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
-            access="private"
+            access="public"
             published={Date.now()}
           />
           <SearchPackage
             name="toit-morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
-            access="private"
+            access="public"
             published={Date.now()}
           />
           <SearchPackage
             name="toit-morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
-            access="private"
+            access="public"
             published={Date.now()}
           />
         </Grid>

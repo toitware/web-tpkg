@@ -16,6 +16,9 @@ const styles = (theme: Theme) =>
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
     },
+    title: {
+      cursor: "pointer",
+    },
   });
 
 interface SearchPackageProps extends WithStyles<typeof styles>, RouteComponentProps {
@@ -32,7 +35,11 @@ class SearchPackageView extends React.Component<SearchPackageProps> {
     return (
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
-          <Typography variant="h2" onClick={() => this.props.history.push("/package/" + this.props.name)}>
+          <Typography
+            variant="h2"
+            className={this.props.classes.title}
+            onClick={() => this.props.history.push("/package/" + this.props.name)}
+          >
             {this.props.name}
           </Typography>
           <Typography>{this.props.description}</Typography>

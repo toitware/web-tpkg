@@ -5,13 +5,14 @@ import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom
 import { dividerGrey, selected, white } from "../assets/theme/theme";
 import AppBar from "./AppBar";
 import ExploreView from "./ExploreView";
-import PackageView from "./PackageView";
+import PackageView from "./package/PackageView";
+import RegisterView from "./register/RegisterView";
 import SearchView from "./Search/SearchView";
 import WelcomeView from "./WelcomeView";
 
 const screenWidth = 1000;
 const gridSpacing = 8;
-const appBarHeight = 64;
+const appBarHeight = 126;
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -164,9 +165,9 @@ class MainView extends React.Component<MainProps, MenuState> {
       render: () => <WelcomeView />,
     },
     {
-      name: "Explore",
-      routepath: "/(explore)?",
-      linkpath: "/explore",
+      name: "Packages",
+      routepath: "/packages",
+      linkpath: "",
       exact: true,
       render: (routeProps) => <ExploreView {...routeProps} />,
     },
@@ -183,6 +184,13 @@ class MainView extends React.Component<MainProps, MenuState> {
       linkpath: "",
       exact: true,
       render: () => <SearchView />,
+    },
+    {
+      name: "Register",
+      routepath: "/register",
+      linkpath: "",
+      exact: true,
+      render: () => <RegisterView />,
     },
   ];
 

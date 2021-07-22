@@ -1,5 +1,4 @@
 import {
-  alpha,
   AppBar as Bar,
   Button,
   createStyles,
@@ -16,6 +15,7 @@ import React from "react";
 import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import PackagesTestFile from "../data/packages.json";
 import { SearchIcon, ToitLogo } from "../misc/icons";
+import ProgressBar from "./general/BorderLinearProgress";
 
 const index = 5;
 const store = PackagesTestFile;
@@ -43,9 +43,6 @@ const styles = (theme: Theme) =>
       position: "relative",
       borderRadius: theme.shape.borderRadius,
       backgroundColor: theme.palette.primary.light,
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.primary.light, 0.25),
-      },
       marginLeft: theme.spacing(2),
       width: "100%",
       [theme.breakpoints.up("sm")]: {
@@ -91,6 +88,14 @@ const styles = (theme: Theme) =>
         width: 160,
       },
     },
+    logo: {
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+    divider: {
+      backgroundColor: theme.palette.primary.light,
+    },
   });
 
 interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps {
@@ -98,20 +103,22 @@ interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps {
 }
 interface AppBarState {
   search: string;
+  loading: boolean;
 }
 
 class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   unlisten?: UnregisterCallback = undefined;
 
-  componentDidMount() {
-    this.setState({
-      search: "",
-    });
-  }
+  state = {
+    search: "",
+    loading: false,
+  };
+
+  componentDidMount() {}
 
   render() {
     return (
-      <Bar color="secondary">
+      <Bar color="secondary" position="absolute">
         <Toolbar className={this.props.classes.toolbarTop}>
           <Typography variant="h6" className={this.props.classes.title}>
             {" "}
@@ -132,10 +139,10 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
             Community
           </Button>
         </Toolbar>
-        <Divider />
+        <Divider className={this.props.classes.divider} />
         <Toolbar className={this.props.classes.toolbarBottom}>
           <Typography className={this.props.classes.title}>
-            <ToitLogo />
+            <ToitLogo className={this.props.classes.logo} onClick={() => this.props.history.push("/")} />
           </Typography>
           <div className={this.props.classes.search}>
             <div className={this.props.classes.searchIcon}>
@@ -163,6 +170,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
             </Button>
           </Route>
         </Toolbar>
+        {this.state.loading !== false && <ProgressBar />}
       </Bar>
     );
   }

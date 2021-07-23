@@ -8,7 +8,6 @@ const styles = (theme: Theme) =>
       flex: 1,
       position: "relative",
       overflow: "hidden",
-      paddingTop: theme.spacing(7),
     },
     searchInfo: {
       marginBottom: theme.spacing(2),
@@ -45,33 +44,12 @@ class SearchView extends React.Component<SearchProps, SearchState> {
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
           <Typography variant="h5" className={this.props.classes.searchInfo}>
-            {this.state.searchResult.length} results for the search:{" "}
+            {1 === 1 ? "1 result" : 1 + " results"} for the search:{" "}
             {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
           </Typography>
           {/* TODO for loop looping through search results display all packages with the format as showed below */}
           <SearchPackage
-            name="toit-morse"
-            description="Functions for International (ITU) Morse code."
-            version="1.0.1"
-            access="public"
-            published={Date.now()}
-          />
-          <SearchPackage
-            name="toit-morse"
-            description="Functions for International (ITU) Morse code."
-            version="1.0.1"
-            access="public"
-            published={Date.now()}
-          />
-          <SearchPackage
-            name="toit-morse"
-            description="Functions for International (ITU) Morse code."
-            version="1.0.1"
-            access="public"
-            published={Date.now()}
-          />
-          <SearchPackage
-            name="toit-morse"
+            name="morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
             access="public"

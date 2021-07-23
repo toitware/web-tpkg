@@ -6,7 +6,7 @@ import { dividerGrey, selected, white } from "../assets/theme/theme";
 import AppBar from "./AppBar";
 import ExploreView from "./ExploreView";
 import PackageView from "./package/PackageView";
-import RegisterView from "./register/RegisterView";
+import RegisterView from "./publish/PublishView";
 import SearchView from "./Search/SearchView";
 import WelcomeView from "./WelcomeView";
 

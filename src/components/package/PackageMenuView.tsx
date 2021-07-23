@@ -22,6 +22,9 @@ import {
   pythonShade,
 } from "../../assets/theme/theme";
 import { FileTextIcon, PackageIcon, StarIcon, TagIcon } from "../../misc/icons";
+import DependenciesView from "./DependenciesView";
+import ReadmeView from "./ReadmeView";
+import VersionsView from "./VersionsView";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -191,13 +194,13 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.menuValue} index={0}>
-            <Typography variant="h2">toit-morse</Typography>
+            <ReadmeView />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={1}>
-            Item Two
+            <DependenciesView />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={2}>
-            Item Three
+            <VersionsView />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={3}>
             Item Four

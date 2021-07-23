@@ -15,7 +15,6 @@ const styles = (theme: Theme) =>
       overflow: "hidden",
     },
     title: {
-      paddingTop: theme.spacing(7.5),
       textDecorationColor: goldenShade,
       textDecorationLine: "underline",
       textDecorationThickness: 4,
@@ -61,7 +60,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
   componentDidMount() {
     //todo: fetch https://pkg.infra.toit.io/api/v1/packages/github.com/toitware/toit-morse/versions
   }
-  installationText = "toit pkg install toit-morse";
+  installationText = "toit pkg install morse";
 
   handleCopyInstallationText(text: string) {
     void navigator.clipboard.writeText(text);
@@ -73,7 +72,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
           <Typography variant="h4" className={this.props.classes.title}>
-            toit-morse
+            morse
           </Typography>
           <PackageLineDetails version="1.0.1" access="public" published={Date.now()} />
           <Grid container className={this.props.classes.content}>
@@ -86,7 +85,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                 <Typography className={this.props.classes.bold}>Installation</Typography>
                 <Grid container direction="row" className={this.props.classes.installationLine}>
                   <Typography className={this.props.classes.install}>{this.installationText}</Typography>
-                  <ButtonBase onClick={() => this.handleCopyInstallationText("toit pkg install toit-morse")}>
+                  <ButtonBase onClick={() => this.handleCopyInstallationText("toit pkg install morse")}>
                     <CopyIcon />
                   </ButtonBase>
                 </Grid>
@@ -116,7 +115,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                     <ButtonBase
                       onClick={() =>
                         window.open(
-                          "https://pkg.infra.toit.io/github.com/toitware/ublox-gnss-driver@1.1.0/docs/ublox_gnss/library-summary"
+                          "https://pkg.infra.toit.io/github.com/toitware/toit-morse@1.0.2/docs/morse/library-summary"
                         )
                       }
                     >

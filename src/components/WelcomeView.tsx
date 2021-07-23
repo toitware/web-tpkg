@@ -7,7 +7,6 @@ import SearchPackage from "./Search/SearchPackage";
 const styles = (theme: Theme) =>
   createStyles({
     title: {
-      paddingTop: theme.spacing(7),
       paddingBottom: theme.spacing(4),
     },
     featured: {
@@ -68,7 +67,7 @@ class WelcomeView extends React.Component<WelcomeProps> {
             Featured packages
           </Typography>
           <SearchPackage
-            name="toit-morse"
+            name="morse"
             description="Functions for International (ITU) Morse code."
             version="1.0.1"
             access="public"

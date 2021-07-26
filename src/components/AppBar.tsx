@@ -115,6 +115,9 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   };
 
   componentDidMount() {}
+  componentDidUpdate() {
+    //TODO CHANGE TO COLLAPSED != mainview.
+  }
 
   render() {
     return (

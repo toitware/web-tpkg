@@ -23,13 +23,21 @@ interface SearchState {
   searchParam: string;
 }
 
+export async function http<T>(url: string): Promise<Response> {
+  const response: Response = await fetch(url);
+  return response;
+}
+
+export const API_URL_PACKAGES = "http://localhost:8733/api/v1/packages";
+
 class SearchView extends React.Component<SearchProps, SearchState> {
   state = {
     searchResult: "",
     searchParam: "",
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    console.log("SEARCH!");
     this.setState({ searchParam: "", searchResult: "" });
     const queryString = window.location.search;
     console.log("query string: ", queryString);
@@ -37,6 +45,27 @@ class SearchView extends React.Component<SearchProps, SearchState> {
     const searchParam = urlParams.get("query");
     this.setState({ searchParam: searchParam || "" });
     this.setState({ searchResult: "Content" });
+    console.log("Starting fetch");
+    http("http://localhost:8733/api/v1/packages")
+      .then((response) => {
+        return response.text();
+      })
+      .then((response) => {
+        return response
+          .split("\n")
+          .filter((line) => {
+            return line != "";
+          })
+          .map((line) => {
+            return JSON.parse(line);
+          });
+      })
+      .then((lines) => {
+        console.log(lines);
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
   }
 
   render() {

@@ -4,10 +4,10 @@ import React from "react";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import { dividerGrey, selected, white } from "../assets/theme/theme";
 import AppBar from "./AppBar";
-import ExploreView from "./ExploreView";
+import ExploreView, { Package } from "./ExploreView";
 import PackageView from "./package/PackageView";
 import RegisterView from "./publish/PublishView";
-import SearchView from "./Search/SearchView";
+import SearchView, { http } from "./Search/SearchView";
 import WelcomeView from "./WelcomeView";
 
 const screenWidth = 1000;
@@ -127,6 +127,7 @@ interface MainProps extends WithStyles<typeof styles>, RouteComponentProps {
 
 interface MenuState {
   location: string;
+  packages: Package[];
 }
 
 interface PageComponent {
@@ -148,6 +149,27 @@ class MainView extends React.Component<MainProps, MenuState> {
       });
       //analytics.page();
     });
+
+    http("http://localhost:8733/api/v1/packages")
+      .then((response) => {
+        return response.text();
+      })
+      .then((response) => {
+        return response
+          .split("\n")
+          .filter((line) => {
+            return line != "";
+          })
+          .map((line) => {
+            return JSON.parse(line) as Package;
+          });
+      })
+      .then((lines) => {
+        this.setState({ packages: lines });
+      })
+      .catch((reason) => {
+        console.log(reason);
+      });
   }
 
   componentWillUnmount() {
@@ -183,7 +205,7 @@ class MainView extends React.Component<MainProps, MenuState> {
       routepath: "/search/:searchQuery?",
       linkpath: "",
       exact: true,
-      render: () => <SearchView />,
+      render: () => <SearchView packages={this.state.packages} />,
     },
     {
       name: "Register",

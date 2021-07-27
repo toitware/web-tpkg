@@ -6,6 +6,7 @@ import { ReactComponent as Search } from "../assets/images/search.svg";
 import { ReactComponent as Star } from "../assets/images/star.svg";
 import { ReactComponent as Tag } from "../assets/images/tag.svg";
 import { ReactComponent as TheToitLogo } from "../assets/images/toit-logo.svg";
+import { ReactComponent as TheTpkgLogo } from "../assets/images/toit-package-registry-logo.svg";
 
 export const SearchIcon = Search;
 export const ExternalLinkIcon = ExternalLink;
@@ -15,3 +16,4 @@ export const TagIcon = Tag;
 export const StarIcon = Star;
 export const CopyIcon = Copy;
 export const ToitLogo = TheToitLogo;
+export const TpkgLogo = TheTpkgLogo;

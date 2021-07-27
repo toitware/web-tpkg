@@ -73,7 +73,7 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
           <Typography variant="h3" className={this.props.classes.title}>
             All packages
           </Typography>
-          {this.state.loading && (
+          {!this.state.loading && (
             <>
               <PackageSkeleton />
               <PackageSkeleton />
@@ -83,7 +83,7 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
               <PackageSkeleton />
             </>
           )}
-          {!this.state.loading &&
+          {this.state.loading &&
             this.state.data.map((element, i) => {
               return (
                 <SearchPackage

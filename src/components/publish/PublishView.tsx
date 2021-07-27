@@ -156,7 +156,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     return (
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12} md={6} className={this.props.classes.form}>
-          <Typography variant="h3" className={this.props.classes.title}>
+          <Typography variant="h2" className={this.props.classes.title}>
             Publish package
           </Typography>
           <Typography variant="body2" className={this.props.classes.description}>

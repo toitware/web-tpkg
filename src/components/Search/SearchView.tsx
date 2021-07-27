@@ -1,5 +1,6 @@
 import { createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import React from "react";
+import { Package } from "../ExploreView";
 import SearchPackage from "./SearchPackage";
 
 const styles = (theme: Theme) =>
@@ -16,6 +17,7 @@ const styles = (theme: Theme) =>
 
 interface SearchProps extends WithStyles<typeof styles> {
   searchQuery?: string;
+  packages?: Package[];
 }
 
 interface SearchState {
@@ -46,26 +48,6 @@ class SearchView extends React.Component<SearchProps, SearchState> {
     this.setState({ searchParam: searchParam || "" });
     this.setState({ searchResult: "Content" });
     console.log("Starting fetch");
-    http("http://localhost:8733/api/v1/packages")
-      .then((response) => {
-        return response.text();
-      })
-      .then((response) => {
-        return response
-          .split("\n")
-          .filter((line) => {
-            return line != "";
-          })
-          .map((line) => {
-            return JSON.parse(line);
-          });
-      })
-      .then((lines) => {
-        console.log(lines);
-      })
-      .catch((reason) => {
-        console.log(reason);
-      });
   }
 
   render() {
@@ -77,13 +59,16 @@ class SearchView extends React.Component<SearchProps, SearchState> {
             {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
           </Typography>
           {/* TODO for loop looping through search results display all packages with the format as showed below */}
-          <SearchPackage
-            name="morse"
-            description="Functions for International (ITU) Morse code."
-            version="1.0.1"
-            access="public"
-            published={Date.now()}
-          />
+          {this.props.packages?.map((element, key) => (
+            <SearchPackage
+              key={key}
+              name={element.result.package.name}
+              description={element.result.package.description}
+              version={element.result.package.latestVersion}
+              access="public"
+              published={Date.now()}
+            />
+          ))}
         </Grid>
       </Grid>
     );

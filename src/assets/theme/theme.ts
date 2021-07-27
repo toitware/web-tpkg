@@ -77,9 +77,9 @@ const theme = createMuiTheme({
       fontSize: "1.25rem",
     },
     h6: {
-      fontFamily: ["Roboto"].join(","),
-      padding: 0.5,
-      fontSize: "1rem",
+      fontFamily: ["Roboto Mono"].join(","),
+      fontWeight: 400,
+      fontSize: "1.3125rem",
     },
   },
   overrides: {

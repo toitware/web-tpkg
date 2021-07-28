@@ -22,8 +22,9 @@ import {
   pythonShade,
 } from "../../assets/theme/theme";
 import { FileTextIcon, PackageIcon, StarIcon, TagIcon } from "../../misc/icons";
-import DependenciesView from "./DependenciesView";
+import DependenciesView, { Version } from "./DependenciesView";
 import ReadmeView from "./ReadmeView";
+import ScoresView from "./ScoresView";
 import VersionsView from "./VersionsView";
 
 const styles = (theme: Theme) =>
@@ -66,10 +67,12 @@ const styles = (theme: Theme) =>
 
 interface PackageMenuProps extends WithStyles<typeof styles> {
   searchQuery?: string;
+  pkgs: Version[];
 }
 
 interface PackageMenuState {
   menuValue: number;
+  loading: boolean;
 }
 
 interface TabPanelProps {
@@ -108,16 +111,20 @@ function a11yProps(index: number) {
 class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState> {
   state = {
     menuValue: 0,
+    loading: true,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("PAAAAACKAGES:", this.props.pkgs);
+    this.setState({ loading: false });
+  }
 
   onTabChange = (event: React.ChangeEvent<unknown>, newValue: number): void => {
     this.setState({ menuValue: newValue });
   };
 
   render() {
-    return (
+    return !this.state.loading ? (
       <Grid container className={this.props.classes.grid}>
         <div className={this.props.classes.root}>
           <AppBar position="static" color="default">
@@ -194,19 +201,21 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.menuValue} index={0}>
-            <ReadmeView />
+            <ReadmeView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={1}>
-            <DependenciesView />
+            <DependenciesView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={2}>
-            <VersionsView />
+            <VersionsView pkgs={this.props.pkgs} />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={3}>
-            Item Four
+            <ScoresView />
           </TabPanel>
         </div>
       </Grid>
+    ) : (
+      <Typography>Loading</Typography>
     );
   }
 }

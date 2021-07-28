@@ -22,7 +22,7 @@ class ScoresView extends React.Component<ScoresProps> {
     return (
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
-          <Typography variant="h2">morse</Typography>
+          <Typography>To be implemented</Typography>
         </Grid>
       </Grid>
     );

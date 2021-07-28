@@ -9,6 +9,7 @@ const styles = (theme: Theme) =>
       flex: 1,
       position: "relative",
       overflow: "hidden",
+      paddingTop: 123,
     },
     searchInfo: {
       marginBottom: theme.spacing(2),
@@ -55,7 +56,7 @@ class SearchView extends React.Component<SearchProps, SearchState> {
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
           <Typography variant="h5" className={this.props.classes.searchInfo}>
-            {1 === 1 ? "1 result" : 1 + " results"} for the search:{" "}
+            {this.props.packages?.length === 1 ? "1 result" : this.props.packages?.length + " results"} for the search:{" "}
             {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
           </Typography>
           {/* TODO for loop looping through search results display all packages with the format as showed below */}
@@ -67,6 +68,7 @@ class SearchView extends React.Component<SearchProps, SearchState> {
               version={element.result.package.latestVersion}
               access="public"
               published={Date.now()}
+              url={element.result.package.url}
             />
           ))}
         </Grid>

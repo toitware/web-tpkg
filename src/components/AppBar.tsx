@@ -14,6 +14,7 @@ import {
 import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, withRouter } from "react-router-dom";
+import { setTimeout } from "timers";
 import PackagesTestFile from "../data/packages.json";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../misc/icons";
 import { Package } from "./ExploreView";
@@ -138,12 +139,14 @@ const styles = (theme: Theme) =>
 
 interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps {
   history: History;
+  callback: any;
 }
 interface AppBarState {
   search: string;
   loading: boolean;
   location: string;
   packages: Package[];
+  store: Package[];
 }
 
 const landingPage = "/";
@@ -156,6 +159,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     loading: false,
     location: "",
     packages: [],
+    store: [] as Package[],
   };
 
   componentDidMount() {
@@ -172,14 +176,14 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
         return response
           .split("\n")
           .filter((line) => {
-            return line != "";
+            return line !== "";
           })
           .map((line) => {
             return JSON.parse(line) as Package;
           });
       })
       .then((lines) => {
-        this.setState({ packages: lines });
+        this.setState({ store: lines });
       })
       .catch((reason) => {
         console.log(reason);
@@ -194,6 +198,27 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
 
   componentDidUpdate() {
     console.log("Current page:", this.state.location);
+  }
+
+  filterSearch() {
+    const filtered = this.state.store.filter((pkg) => {
+      return pkg.result.package.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    this.props.callback(filtered);
+    console.log(filtered);
+  }
+
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async handleSearch() {
+    this.setState({ loading: true });
+    this.filterSearch();
+    await this.delay(1000);
+    this.setState({ loading: false });
+    this.props.history.push("/search?query=" + this.state.search);
   }
 
   render() {
@@ -247,7 +272,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
                   className={this.props.classes.searchButton}
                   color="primary"
                   variant="contained"
-                  onClick={() => this.props.history.push("/search?query=" + this.state.search)}
+                  onClick={() => this.handleSearch()}
                 >
                   Search
                 </Button>
@@ -304,7 +329,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
               className={this.props.classes.searchButton}
               color="primary"
               variant="contained"
-              onClick={() => this.props.history.push("/search?query=" + this.state.search)}
+              onClick={() => this.handleSearch()}
             >
               Search
             </Button>

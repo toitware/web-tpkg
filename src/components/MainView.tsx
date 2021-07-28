@@ -12,7 +12,6 @@ import WelcomeView from "./WelcomeView";
 
 const screenWidth = 1000;
 const gridSpacing = 8;
-const appBarHeight = 126;
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -27,7 +26,6 @@ const styles = (theme: Theme) =>
       },
     },
     appBar: {
-      height: appBarHeight,
       color: theme.palette.primary.main,
       // transition: theme.transitions.create(["margin", "width"], {
       //   easing: theme.transitions.easing.sharp,
@@ -55,9 +53,7 @@ const styles = (theme: Theme) =>
     hide: {
       display: "none",
     },
-    toolbar: {
-      height: appBarHeight,
-    },
+    toolbar: {},
     appBarContent: {
       paddingLeft: theme.spacing(1.5),
       paddingRight: theme.spacing(1.5),
@@ -128,6 +124,7 @@ interface MainProps extends WithStyles<typeof styles>, RouteComponentProps {
 interface MenuState {
   location: string;
   packages: Package[];
+  filteredPackages: Package[];
 }
 
 interface PageComponent {
@@ -191,21 +188,21 @@ class MainView extends React.Component<MainProps, MenuState> {
       routepath: "/packages",
       linkpath: "",
       exact: true,
-      render: (routeProps) => <ExploreView {...routeProps} />,
+      render: (routeProps) => <ExploreView packages={this.state.packages} {...routeProps} />,
     },
     {
       name: "Package",
       routepath: "/package/:packageName?",
       linkpath: "",
       exact: true,
-      render: (routeProps) => <PackageView {...routeProps} />,
+      render: () => <PackageView />,
     },
     {
       name: "Search",
       routepath: "/search/:searchQuery?",
       linkpath: "",
       exact: true,
-      render: () => <SearchView packages={this.state.packages} />,
+      render: () => <SearchView packages={this.state.filteredPackages} />,
     },
     {
       name: "Register",
@@ -216,13 +213,17 @@ class MainView extends React.Component<MainProps, MenuState> {
     },
   ];
 
+  handleCallback(pkgs: Package[]) {
+    this.setState({ filteredPackages: pkgs });
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar />
+        <AppBar callback={(p: Package[]) => this.handleCallback(p)} />
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>

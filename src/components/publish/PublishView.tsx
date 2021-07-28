@@ -34,10 +34,9 @@ const styles = (theme: Theme) =>
   createStyles({
     grid: {
       flex: 1,
-      paddingTop: 0,
+      paddingTop: 126,
       [theme.breakpoints.down("sm")]: {
         justifyContent: "center",
-        paddingTop: 126,
       },
     },
     title: {
@@ -161,7 +160,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
           </Typography>
           <Typography variant="body2" className={this.props.classes.description}>
             You contribute to the community by publishing your packages and help other IoT developers get going faster.
-            Read more about how to publish a package at docs.toit.io. Thanks.
+            Learn how to publish a package at docs.toit.io. Thanks.
           </Typography>
           <InputLabel className={this.props.classes.formText}>Url*</InputLabel>
           <BlackBorderTextField

@@ -32,7 +32,9 @@ export type Packages = {
   };
 };
 
-type ExploreProps = WithStyles<typeof styles>;
+interface ExploreProps extends WithStyles<typeof styles> {
+  packages?: Package[];
+}
 interface ExploreState {
   data: Package[];
   loading: boolean;
@@ -47,33 +49,16 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
   componentDidMount() {
     this.setState({ loading: false });
     this.setState({ data: PackagesTestFile });
-
-    //console.log(obj);
-    /*
-    fetch(API_URL, { credentials: "include" })
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        this.setState({ data: json as Package[] });
-      })
-      .catch((reason) => {
-        console.log(reason);
-      })
-      .finally(() => {
-        this.setState({ loading: true });
-      });
-      */
   }
 
   render() {
     return (
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
-          <Typography variant="h3" className={this.props.classes.title}>
+          <Typography variant="h2" className={this.props.classes.title}>
             All packages
           </Typography>
-          {!this.state.loading && (
+          {this.state.loading && (
             <>
               <PackageSkeleton />
               <PackageSkeleton />
@@ -83,19 +68,19 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
               <PackageSkeleton />
             </>
           )}
-          {this.state.loading &&
-            this.state.data.map((element, i) => {
-              return (
-                <SearchPackage
-                  name={element.result.package.name}
-                  description={element.result.package.description}
-                  version={element.result.package.latestVersion}
-                  access="public"
-                  published={0}
-                  key={i}
-                />
-              );
-            })}
+          {this.props.packages?.map((element, i) => {
+            return (
+              <SearchPackage
+                name={element.result.package.name}
+                description={element.result.package.description}
+                version={element.result.package.latestVersion}
+                access="public"
+                published={0}
+                key={i}
+                url={element.result.package.url}
+              />
+            );
+          })}
         </Grid>
       </Grid>
     );

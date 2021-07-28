@@ -1,7 +1,6 @@
 import { createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
-import Package from "../../data/package.json";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -30,7 +29,9 @@ export type Version = {
   };
 };
 
-type DependenciesProps = WithStyles<typeof styles>;
+interface DependenciesProps extends WithStyles<typeof styles> {
+  pkg: Version;
+}
 
 interface DependenciesState {
   dependencies: Dependency[];
@@ -41,21 +42,21 @@ class DependenciesView extends React.Component<DependenciesProps, DependenciesSt
     dependencies: [] as Dependency[],
   };
 
-  componentDidMount() {
-    const data: Version = Package;
-    console.log("Qvist: ", data);
-    this.setState({ dependencies: data.result.version.dependencies });
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <Grid container className={this.props.classes.grid}>
         <Grid item xs={12}>
-          {this.state.dependencies.map((element, i) => (
-            <Typography onClick={() => window.open("https://" + element.url)} key={i}>
-              {element.url} (version:{element.version})
-            </Typography>
-          ))}
+          {this.props.pkg.result.version.dependencies.length > 0 ? (
+            this.props.pkg.result.version.dependencies.map((element, i) => (
+              <Typography onClick={() => window.open("https://" + element.url)} key={i}>
+                {element.url} ({element.version})
+              </Typography>
+            ))
+          ) : (
+            <Typography>No dependencies</Typography>
+          )}
         </Grid>
       </Grid>
     );

@@ -28,6 +28,7 @@ interface SearchPackageProps extends WithStyles<typeof styles>, RouteComponentPr
   version: string;
   access: "public" | "private";
   published: number;
+  url: string;
 }
 
 class SearchPackageView extends React.Component<SearchPackageProps> {
@@ -38,7 +39,9 @@ class SearchPackageView extends React.Component<SearchPackageProps> {
           <Typography
             variant="h2"
             className={this.props.classes.title}
-            onClick={() => this.props.history.push("/package/" + this.props.name)}
+            onClick={() =>
+              this.props.history.push("package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F"))
+            }
           >
             {this.props.name}
           </Typography>

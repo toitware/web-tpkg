@@ -17,25 +17,23 @@ const styles = (theme: Theme) =>
     featuredSectionBg: {
       backgroundColor: tigerShade,
       content: "",
-      top: 310,
+      top: 0,
       position: "absolute",
       left: "50%",
       transform: "translateX( -50%)",
-      height: 550,
+      height: 850,
       width: "100vw",
     },
     featuredSection: {
-      marginTop: 107,
       zIndex: 1,
       marginBottom: theme.spacing(10),
+      marginTop: 330,
     },
 
     button: {
       marginTop: theme.spacing(2),
     },
-    container: {
-      marginTop: 123,
-    },
+    container: {},
   });
 
 interface WelcomeProps extends WithStyles<typeof styles>, RouteComponentProps {
@@ -79,8 +77,8 @@ class WelcomeView extends React.Component<WelcomeProps> {
               Contribute
             </Typography>
             <Typography>
-              You can contribute by publishing your packages to the Toit package registry. Read more about how to create
-              your own package at <a href="https://docs.toit.io/language/package/">docs.toit.io</a>{" "}
+              You can contribute by publishing your packages to the Toit package registry. learn how to create your own
+              package at <a href="https://docs.toit.io/language/package/">docs.toit.io</a>{" "}
             </Typography>
             <Button
               variant="contained"

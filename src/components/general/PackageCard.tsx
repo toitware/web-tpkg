@@ -61,7 +61,7 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
         return response
           .split("\n")
           .filter((line) => {
-            return line != "";
+            return line !== "";
           })
           .map((line) => {
             return JSON.parse(line);
@@ -86,7 +86,9 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
       <Grid item xs={4}>
         <Box
           className={this.props.classes.featuredPackage}
-          onClick={() => this.props.history.push("package/" + this.state.name)}
+          onClick={() =>
+            this.props.history.push("package/" + this.state.name + "&url=" + this.state.url.split("/").join("%2F"))
+          }
         >
           <Box className={this.props.classes.featuredPackageContent}>
             <Typography variant="h6">{this.state.name}</Typography>

@@ -1,4 +1,4 @@
-import { createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
+import { createStyles, Grid, Link, Theme, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
 import { Version } from "./DependenciesView";
@@ -24,9 +24,11 @@ class VersionsView extends React.Component<VersionsProps> {
   render() {
     return (
       <Grid container className={this.props.classes.grid}>
-        <Grid item xs={12}>
+        <Grid item container xs={12} direction="column">
           {this.props.pkgs.map((element, i) => (
-            <Typography key={i}>{element.result.version.version}</Typography>
+            <Link href={element.result.version.url} key={i}>
+              {element.result.version.version}
+            </Link>
           ))}
         </Grid>
       </Grid>

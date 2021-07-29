@@ -223,7 +223,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
 
   render() {
     return this.props.history.location.pathname === landingPage || this.state.location === landingPage ? (
-      <Bar color="secondary" position="absolute">
+      <Bar color="secondary" position="absolute" elevation={0}>
         <Toolbar className={this.props.classes.toolbarTop}>
           <Typography variant="h6" className={this.props.classes.title}>
             {" "}
@@ -283,7 +283,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
         {this.state.loading !== false && <ProgressBar />}
       </Bar>
     ) : (
-      <Bar color="secondary" position="absolute">
+      <Bar color="secondary" position="absolute" elevation={0}>
         <Toolbar className={this.props.classes.toolbarTop}>
           <Typography variant="h6" className={this.props.classes.title}>
             {" "}

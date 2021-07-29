@@ -2,7 +2,7 @@ import { createStyles, CssBaseline, Theme, withStyles, WithStyles } from "@mater
 import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
-import { dividerGrey, selected, white } from "../assets/theme/theme";
+import { dividerGrey, selected } from "../assets/theme/theme";
 import AppBar from "./AppBar";
 import ExploreView, { Package } from "./ExploreView";
 import PackageView from "./package/PackageView";
@@ -10,20 +10,25 @@ import RegisterView from "./publish/PublishView";
 import SearchView, { http } from "./Search/SearchView";
 import WelcomeView from "./WelcomeView";
 
-const screenWidth = 1000;
+export const screenWidth = 1000;
 const gridSpacing = 8;
 
 const styles = (theme: Theme) =>
   createStyles({
     root: {
+      minHeight: "100vh",
+      position: "relative",
+    },
+    container: {
       display: "flex",
-      marginTop: theme.spacing(8),
+      paddingTop: theme.spacing(8),
       marginLeft: theme.spacing(4),
       marginRight: theme.spacing(4),
       [theme.breakpoints.up("md")]: {
         marginLeft: `calc((100% - ${screenWidth}px)/2)`,
         marginRight: `calc((100% - ${screenWidth}px)/2)`,
       },
+      flexDirection: "column",
     },
     appBar: {
       color: theme.palette.primary.main,
@@ -32,7 +37,7 @@ const styles = (theme: Theme) =>
       //   duration: theme.transitions.duration.leavingScreen,
       // }),
       zIndex: 0,
-      backgroundColor: white,
+      backgroundColor: "transparent",
       borderBottomWidth: "1px",
       borderBottomColor: dividerGrey,
       borderBottomStyle: "solid",
@@ -60,11 +65,10 @@ const styles = (theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: "transparent",
       padding: gridSpacing / 2,
       display: "flex",
       flexDirection: "column",
-      height: "100vh",
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -125,6 +129,7 @@ interface MenuState {
   location: string;
   packages: Package[];
   filteredPackages: Package[];
+  loading: boolean;
 }
 
 interface PageComponent {
@@ -138,6 +143,18 @@ interface PageComponent {
 
 class MainView extends React.Component<MainProps, MenuState> {
   unlisten?: UnregisterCallback = undefined;
+  state = {
+    location: "",
+    packages: [],
+    filteredPackages: [],
+    loading: true,
+  };
+
+  setLoading(loading: boolean) {
+    this.setState({
+      loading: loading,
+    });
+  }
 
   componentDidMount() {
     this.unlisten = this.props.history.listen((location, action) => {
@@ -167,6 +184,7 @@ class MainView extends React.Component<MainProps, MenuState> {
       .catch((reason) => {
         console.log(reason);
       });
+    this.setState({ loading: false });
   }
 
   componentWillUnmount() {
@@ -222,16 +240,20 @@ class MainView extends React.Component<MainProps, MenuState> {
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        <AppBar callback={(p: Package[]) => this.handleCallback(p)} />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-            {this.pages.map((page, index) => (
-              <Route key={index} path={page.routepath} exact={page.exact} render={page.render} />
-            ))}
-          </Switch>
-        </main>
+        <div className={classes.container}>
+          <CssBaseline />
+          <AppBar callback={(p: Package[]) => this.handleCallback(p)} />
+          {!this.state.loading && (
+            <main className={classes.content}>
+              <div className={classes.toolbar} />
+              <Switch>
+                {this.pages.map((page, index) => (
+                  <Route key={index} path={page.routepath} exact={page.exact} render={page.render} />
+                ))}
+              </Switch>
+            </main>
+          )}
+        </div>
       </div>
     );
   }

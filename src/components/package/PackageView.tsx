@@ -5,6 +5,7 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { goldenShade, tigerShade } from "../../assets/theme/theme";
 import { CopyIcon, ExternalLinkIcon } from "../../misc/icons";
+import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
 import { http } from "../Search/SearchView";
@@ -18,6 +19,7 @@ const styles = (theme: Theme) =>
       position: "relative",
       overflow: "hidden",
       paddingTop: 123,
+      paddingBottom: footerHeight + 120,
     },
     title: {
       textDecorationColor: goldenShade,
@@ -110,93 +112,98 @@ class PackageView extends React.Component<PackageProps, PackageState> {
   render() {
     return (
       !this.state.loading && (
-        <Grid container className={this.props.classes.grid}>
-          <Grid item xs={12}>
-            <Typography variant="h4" className={this.props.classes.title}></Typography>
-            <PackageLineDetails
-              version={this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
-              access="public"
-              published={Date.now()}
-            />
-            <Grid container className={this.props.classes.content}>
-              <Grid item xs={8}>
-                <PackageMenuView pkgs={this.state.pkgs} />
-              </Grid>
+        <>
+          <Grid container className={this.props.classes.grid}>
+            <Grid item xs={12}>
+              <Typography variant="h4" className={this.props.classes.title}>
+                {this.state.pkgs[this.state.pkgs.length - 1].result.version.name}
+              </Typography>
+              <PackageLineDetails
+                version={this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
+                access="public"
+                published={Date.now()}
+              />
+              <Grid container className={this.props.classes.content}>
+                <Grid item xs={8}>
+                  <PackageMenuView pkgs={this.state.pkgs} />
+                </Grid>
 
-              <Grid item xs={4} className={this.props.classes.sideInfo}>
-                <Grid item className={this.props.classes.sideInfoContent}>
-                  <Typography className={this.props.classes.bold}>Installation</Typography>
-                  <Grid container direction="row" className={this.props.classes.installationLine}>
-                    <Typography className={this.props.classes.install}>
-                      {`toit pkg install ${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}`}
-                    </Typography>
-                    <ButtonBase
-                      onClick={() =>
-                        this.handleCopyInstallationText(
-                          `toit pkg install ${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}`
-                        )
-                      }
-                    >
-                      <CopyIcon />
-                    </ButtonBase>
-                  </Grid>
-                  <Grid container direction="row" className={this.props.classes.textContainer}>
-                    <Grid item xs={6}>
-                      <Typography className={this.props.classes.bold}>License</Typography>
-                      <Typography variant="body2">
-                        {this.state.pkgs[this.state.pkgs.length - 1].result.version.license}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography className={this.props.classes.bold}>Version</Typography>
-                      <Typography variant="body2">
-                        {this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container direction="row" className={this.props.classes.textContainer}>
-                    <Typography className={this.props.classes.bold}>Repository</Typography>
+                <Grid item xs={4} className={this.props.classes.sideInfo}>
+                  <Grid item className={this.props.classes.sideInfoContent}>
+                    <Typography className={this.props.classes.bold}>Installation</Typography>
                     <Grid container direction="row" className={this.props.classes.installationLine}>
                       <Typography className={this.props.classes.install}>
-                        {this.state.pkgs[this.state.pkgs.length - 1].result.version.url}
+                        {`toit pkg install ${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}`}
                       </Typography>
                       <ButtonBase
                         onClick={() =>
-                          window.open("https://" + this.state.pkgs[this.state.pkgs.length - 1].result.version.url)
-                        }
-                      >
-                        <ExternalLinkIcon />
-                      </ButtonBase>
-                    </Grid>
-                  </Grid>
-                  <Grid container direction="row" className={this.props.classes.textContainer}>
-                    <Typography className={this.props.classes.bold}>Documentation</Typography>
-                    <Grid container direction="row" className={this.props.classes.installationLine}>
-                      <Typography className={this.props.classes.install}>{`pkg.toit.io/packages/${
-                        this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                      }`}</Typography>
-                      <ButtonBase
-                        onClick={() =>
-                          window.open(
-                            "https://pkg.infra.toit.io/github.com/toitware/toit-morse@1.0.2/docs/morse/library-summary"
+                          this.handleCopyInstallationText(
+                            `toit pkg install ${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}`
                           )
                         }
                       >
-                        <ExternalLinkIcon />
+                        <CopyIcon />
                       </ButtonBase>
+                    </Grid>
+                    <Grid container direction="row" className={this.props.classes.textContainer}>
+                      <Grid item xs={6}>
+                        <Typography className={this.props.classes.bold}>License</Typography>
+                        <Typography variant="body2">
+                          {this.state.pkgs[this.state.pkgs.length - 1].result.version.license}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography className={this.props.classes.bold}>Version</Typography>
+                        <Typography variant="body2">
+                          {this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container direction="row" className={this.props.classes.textContainer}>
+                      <Typography className={this.props.classes.bold}>Repository</Typography>
+                      <Grid container direction="row" className={this.props.classes.installationLine}>
+                        <Typography className={this.props.classes.install}>
+                          {this.state.pkgs[this.state.pkgs.length - 1].result.version.url}
+                        </Typography>
+                        <ButtonBase
+                          onClick={() =>
+                            window.open("https://" + this.state.pkgs[this.state.pkgs.length - 1].result.version.url)
+                          }
+                        >
+                          <ExternalLinkIcon />
+                        </ButtonBase>
+                      </Grid>
+                    </Grid>
+                    <Grid container direction="row" className={this.props.classes.textContainer}>
+                      <Typography className={this.props.classes.bold}>Documentation</Typography>
+                      <Grid container direction="row" className={this.props.classes.installationLine}>
+                        <Typography className={this.props.classes.install}>{`pkg.toit.io/packages/${
+                          this.state.pkgs[this.state.pkgs.length - 1].result.version.name
+                        }`}</Typography>
+                        <ButtonBase
+                          onClick={() =>
+                            window.open(
+                              "https://pkg.infra.toit.io/github.com/toitware/toit-morse@1.0.2/docs/morse/library-summary"
+                            )
+                          }
+                        >
+                          <ExternalLinkIcon />
+                        </ButtonBase>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
+            <SnackBar
+              message="Text copied"
+              type="success"
+              open={this.state.snackbar}
+              onClose={() => this.setState({ snackbar: false })}
+            ></SnackBar>
           </Grid>
-          <SnackBar
-            message="Text copied"
-            type="success"
-            open={this.state.snackbar}
-            onClose={() => this.setState({ snackbar: false })}
-          ></SnackBar>
-        </Grid>
+          <Footer />
+        </>
       )
     );
   }

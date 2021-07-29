@@ -14,6 +14,7 @@ import {
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as PackageFactory } from "../../assets/images/package-factory.svg";
+import Footer, { footerHeight } from "../general/Footer";
 import { SnackBar } from "../general/SnackBar";
 
 const BlackBorderTextField = styled(TextField)`
@@ -35,6 +36,7 @@ const styles = (theme: Theme) =>
     grid: {
       flex: 1,
       paddingTop: 126,
+      paddingBottom: footerHeight + 120,
       [theme.breakpoints.down("sm")]: {
         justifyContent: "center",
       },
@@ -153,74 +155,77 @@ class PublishView extends React.Component<PublishProps, PublishState> {
 
   render() {
     return (
-      <Grid container className={this.props.classes.grid}>
-        <Grid item xs={12} md={6} className={this.props.classes.form}>
-          <Typography variant="h2" className={this.props.classes.title}>
-            Publish package
-          </Typography>
-          <Typography variant="body2" className={this.props.classes.description}>
-            You contribute to the community by publishing your packages and help other IoT developers get going faster.
-            Learn how to publish a package at docs.toit.io. Thanks.
-          </Typography>
-          <InputLabel className={this.props.classes.formText}>Url*</InputLabel>
-          <BlackBorderTextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="url"
-            name="url"
-            onChange={this.handleTextChange("url")}
-            autoComplete="url"
-            autoFocus
-            size="small"
-            className={this.props.classes.textField}
+      <>
+        <Grid container className={this.props.classes.grid}>
+          <Grid item xs={12} md={6} className={this.props.classes.form}>
+            <Typography variant="h2" className={this.props.classes.title}>
+              Publish package
+            </Typography>
+            <Typography variant="body2" className={this.props.classes.description}>
+              You contribute to the community by publishing your packages and help other IoT developers get going
+              faster. Learn how to publish a package at docs.toit.io. Thanks.
+            </Typography>
+            <InputLabel className={this.props.classes.formText}>Url*</InputLabel>
+            <BlackBorderTextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="url"
+              name="url"
+              onChange={this.handleTextChange("url")}
+              autoComplete="url"
+              autoFocus
+              size="small"
+              className={this.props.classes.textField}
+            />
+            <InputLabel className={this.props.classes.formText}>Version*</InputLabel>
+            <BlackBorderTextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="version"
+              name="version"
+              onChange={this.handleTextChange("version")}
+              autoComplete="version"
+              size="small"
+              className={this.props.classes.textField}
+            />
+            {this.state.error !== undefined && <FormHelperText error={true}>{this.state.error}</FormHelperText>}
+            <div className={this.props.classes.buttonWrapper}>
+              <Button
+                type="submit"
+                variant="contained"
+                className={this.props.classes.button}
+                color="primary"
+                onClick={() => this.publishPackage()}
+              >
+                {!this.state.loading ? (
+                  "Publish"
+                ) : (
+                  <CircularProgress color="secondary" size="16px" className={this.props.classes.circularProgress} />
+                )}
+              </Button>
+            </div>
+            <Typography variant="body2" className={this.props.classes.terms}>
+              Your Github repository has to be public to successfully be able to publish a pack- age to the Toit package
+              registry. Your package will be validated by the Toit team and this is only done in order to avoid having
+              packages that are potential harmful.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>
+            <PackageFactory />
+          </Grid>
+          <SnackBar
+            message={this.state.snackbarText}
+            open={this.state.snackbarOpen}
+            type="info"
+            onClose={() => this.setState({ snackbarOpen: false })}
           />
-          <InputLabel className={this.props.classes.formText}>Version*</InputLabel>
-          <BlackBorderTextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="version"
-            name="version"
-            onChange={this.handleTextChange("version")}
-            autoComplete="version"
-            size="small"
-            className={this.props.classes.textField}
-          />
-          {this.state.error !== undefined && <FormHelperText error={true}>{this.state.error}</FormHelperText>}
-          <div className={this.props.classes.buttonWrapper}>
-            <Button
-              type="submit"
-              variant="contained"
-              className={this.props.classes.button}
-              color="primary"
-              onClick={() => this.publishPackage()}
-            >
-              {!this.state.loading ? (
-                "Publish"
-              ) : (
-                <CircularProgress color="secondary" size="16px" className={this.props.classes.circularProgress} />
-              )}
-            </Button>
-          </div>
-          <Typography variant="body2" className={this.props.classes.terms}>
-            Your Github repository has to be public to successfully be able to publish a pack- age to the Toit package
-            registry. Your package will be validated by the Toit team and this is only done in order to avoid having
-            packages that are potential harmful.
-          </Typography>
         </Grid>
-        <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>
-          <PackageFactory />
-        </Grid>
-        <SnackBar
-          message={this.state.snackbarText}
-          open={this.state.snackbarOpen}
-          type="info"
-          onClose={() => this.setState({ snackbarOpen: false })}
-        />
-      </Grid>
+        <Footer />
+      </>
     );
   }
 }

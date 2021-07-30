@@ -21,10 +21,9 @@ import {
   python,
   pythonShade,
 } from "../../assets/theme/theme";
-import { FileTextIcon, PackageIcon, StarIcon, TagIcon } from "../../misc/icons";
+import { FileTextIcon, PackageIcon, TagIcon } from "../../misc/icons";
 import DependenciesView, { Version } from "./DependenciesView";
 import ReadmeView from "./ReadmeView";
-import ScoresView from "./ScoresView";
 import VersionsView from "./VersionsView";
 
 const styles = (theme: Theme) =>
@@ -115,7 +114,6 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
   };
 
   componentDidMount() {
-    console.log("PAAAAACKAGES:", this.props.pkgs);
     this.setState({ loading: false });
   }
 
@@ -132,7 +130,7 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
               value={this.state.menuValue}
               onChange={this.onTabChange}
               variant="standard"
-              scrollButtons="off"
+              scrollButtons="on"
               indicatorColor="primary"
               textColor="primary"
               aria-label="package menu"
@@ -186,7 +184,7 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
                 {...a11yProps(3)}
                 className={this.props.classes.tabVersions}
               />
-              <Tab
+              {/* <Tab
                 label={
                   <>
                     <div>
@@ -197,7 +195,7 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
                 }
                 {...a11yProps(4)}
                 className={this.props.classes.tabScores}
-              />
+              /> */}
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.menuValue} index={0}>
@@ -209,9 +207,10 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
           <TabPanel value={this.state.menuValue} index={2}>
             <VersionsView pkgs={this.props.pkgs} />
           </TabPanel>
+          {/* 
           <TabPanel value={this.state.menuValue} index={3}>
             <ScoresView />
-          </TabPanel>
+          </TabPanel> */}
         </div>
       </Grid>
     ) : (

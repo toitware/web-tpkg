@@ -113,11 +113,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     snackbarText: "",
   };
 
-  componentDidMount(): void {
-    console.log(this.state.loading);
-  }
   handleTextChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(name + " : " + event.target.value);
     this.setState((prevState) => {
       return {
         ...prevState,
@@ -127,7 +123,6 @@ class PublishView extends React.Component<PublishProps, PublishState> {
   };
 
   async publishPackage() {
-    console.log("Publishing package...");
     this.setState({ snackbarOpen: true, snackbarText: "" });
     this.setState({ loading: true });
     try {
@@ -138,7 +133,6 @@ class PublishView extends React.Component<PublishProps, PublishState> {
           credentials: "include",
         }
       );
-      console.log("response: ", response.ok);
       if (response.ok) {
         this.setState({ snackbarOpen: true, snackbarText: "Successfully published package" });
       }
@@ -150,6 +144,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
       this.setState({ snackbarOpen: true, snackbarText: `Failed to publish. ${err}` });
     } finally {
       this.setState({ loading: false });
+      //TODO Jacob: Create a fun IoT Device that does something crazy everytime a user publishes a package
     }
   }
 
@@ -165,7 +160,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               You contribute to the community by publishing your packages and help other IoT developers get going
               faster. Learn how to publish a package at docs.toit.io. Thanks.
             </Typography>
-            <InputLabel className={this.props.classes.formText}>Url*</InputLabel>
+            <InputLabel className={this.props.classes.formText}>Git url*</InputLabel>
             <BlackBorderTextField
               variant="outlined"
               margin="normal"
@@ -179,7 +174,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               size="small"
               className={this.props.classes.textField}
             />
-            <InputLabel className={this.props.classes.formText}>Version*</InputLabel>
+            <InputLabel className={this.props.classes.formText}>Git tag*</InputLabel>
             <BlackBorderTextField
               variant="outlined"
               margin="normal"
@@ -209,13 +204,13 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               </Button>
             </div>
             <Typography variant="body2" className={this.props.classes.terms}>
-              Your Github repository has to be public to successfully be able to publish a pack- age to the Toit package
+              Your Github repository has to be public to successfully be able to publish a package to the Toit package
               registry. Your package will be validated by the Toit team and this is only done in order to avoid having
               packages that are potential harmful.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>
-            <PackageFactory />
+            <PackageFactory width="100%" />
           </Grid>
           <SnackBar
             message={this.state.snackbarText}

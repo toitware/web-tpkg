@@ -20,10 +20,12 @@ class PackageLineDetailsView extends React.Component<PackageLineDetailsProps> {
     return (
       <Grid container direction="row">
         <Typography variant="body2">{this.props.version}</Typography>
+        {/* 
+        introduce again when data is available
         <Typography className={this.props.classes.dot}>•</Typography>
         <Typography variant="body2">{this.capitalizeFirstLetter(this.props.access)}</Typography>
         <Typography className={this.props.classes.dot}>•</Typography>
-        <Typography variant="body2">{new Date(this.props.published).toISOString().split("T")[0]}</Typography>
+        <Typography variant="body2">{new Date(this.props.published).toISOString().split("T")[0]}</Typography> */}
       </Grid>
     );
   }

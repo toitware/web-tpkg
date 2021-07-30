@@ -172,7 +172,7 @@ class MainView extends React.Component<MainProps, MenuState> {
         return response
           .split("\n")
           .filter((line) => {
-            return line != "";
+            return line !== "";
           })
           .map((line) => {
             return JSON.parse(line) as Package;

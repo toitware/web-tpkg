@@ -1,5 +1,6 @@
 import { createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import React from "react";
+import { EmptyPackages } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import Footer, { footerHeight } from "../general/Footer";
 import SearchPackage from "./SearchPackage";
@@ -15,6 +16,13 @@ const styles = (theme: Theme) =>
     },
     searchInfo: {
       marginBottom: theme.spacing(2),
+    },
+    emptyPackages: {
+      width: "100%",
+      height: "100%",
+    },
+    container: {
+      height: "300px",
     },
   });
 
@@ -41,16 +49,13 @@ class SearchView extends React.Component<SearchProps, SearchState> {
     searchParam: "",
   };
 
-  async componentDidMount() {
-    console.log("SEARCH!");
-    this.setState({ searchParam: "", searchResult: "" });
+  componentDidUpdate(prevProp: SearchProps, prevState: SearchState) {
     const queryString = window.location.search;
-    console.log("query string: ", queryString);
     const urlParams = new URLSearchParams(queryString);
-    const searchParam = urlParams.get("query");
-    this.setState({ searchParam: searchParam || "" });
-    this.setState({ searchResult: "Content" });
-    console.log("Starting fetch");
+    const searchParam = urlParams.get("query") || "";
+    if (searchParam !== prevState.searchParam) {
+      this.setState({ searchParam: searchParam });
+    }
   }
 
   render() {
@@ -62,7 +67,6 @@ class SearchView extends React.Component<SearchProps, SearchState> {
               {this.props.packages?.length === 1 ? "1 result" : this.props.packages?.length + " results"} for the
               search: {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
             </Typography>
-            {/* TODO for loop looping through search results display all packages with the format as showed below */}
             {this.props.packages?.map((element, key) => (
               <SearchPackage
                 key={key}
@@ -74,6 +78,13 @@ class SearchView extends React.Component<SearchProps, SearchState> {
                 url={element.result.package.url}
               />
             ))}
+            {this.props.packages?.length === 0 && (
+              <Grid container>
+                <Grid item xs={4}>
+                  <EmptyPackages className={this.props.classes.emptyPackages} />{" "}
+                </Grid>
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Footer />

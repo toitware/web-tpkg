@@ -4,12 +4,9 @@ import React from "react";
 import "./App.css";
 import theme from "./assets/theme/theme";
 import MainView from "./components/MainView";
-import Packages from "./data/packages.json";
-
-const data = Packages;
 
 class App extends React.Component {
-  loadCrispChat() {
+  loadCrispChat(): void {
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "bf6d2763-2d2d-4ebb-b8eb-da83a95ec3bf";
 
@@ -23,15 +20,10 @@ class App extends React.Component {
     })();
   }
 
-  async componentDidMount() {
+  async componentDidMount(): Promise<void> {
     this.loadCrispChat();
-    //const response = await fetch("https://pkg.infra.toit.io/api/v1/packages");
-    console.log("response: ", data);
   }
-
-  componentWillUnmount() {}
-
-  render() {
+  render(): JSX.Element {
     let segmentAPIKey = "";
     if (typeof document !== `undefined`) {
       // Check if the meta segment-key is set.

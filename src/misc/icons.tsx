@@ -1,4 +1,5 @@
 import { ReactComponent as Copy } from "../assets/images/copy.svg";
+import { ReactComponent as Empty } from "../assets/images/empty-packages.svg";
 import { ReactComponent as ExternalLink } from "../assets/images/external-link.svg";
 import { ReactComponent as FileText } from "../assets/images/file-text.svg";
 import { ReactComponent as Linkedin } from "../assets/images/linkedin.svg";
@@ -10,7 +11,6 @@ import { ReactComponent as Tag } from "../assets/images/tag.svg";
 import { ReactComponent as TheToitLogo } from "../assets/images/toit-logo.svg";
 import { ReactComponent as TheTpkgLogo } from "../assets/images/toit-package-registry-logo.svg";
 import { ReactComponent as Twitter } from "../assets/images/twitter.svg";
-
 export const SearchIcon = Search;
 export const ExternalLinkIcon = ExternalLink;
 export const FileTextIcon = FileText;
@@ -23,3 +23,4 @@ export const TpkgLogo = TheTpkgLogo;
 export const TwitterLogo = Twitter;
 export const LinkedinLogo = Linkedin;
 export const RedditLogo = Reddit;
+export const EmptyPackages = Empty;

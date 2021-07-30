@@ -1,6 +1,18 @@
-import { Button, createStyles, Grid, Link, Theme, Typography, withStyles, WithStyles } from "@material-ui/core";
+import {
+  Button,
+  createStyles,
+  Grid,
+  isWidthUp,
+  Link,
+  Theme,
+  Typography,
+  withStyles,
+  WithStyles,
+} from "@material-ui/core";
+import withWidth, { WithWidth } from "@material-ui/core/withWidth";
 import { History } from "history";
 import React from "react";
+import Carousel from "react-material-ui-carousel";
 import { RouteComponentProps, withRouter } from "react-router";
 import { tigerShade } from "../assets/theme/theme";
 import Footer, { footerHeight } from "./general/Footer";
@@ -12,7 +24,7 @@ const styles = (theme: Theme) =>
       paddingBottom: theme.spacing(4),
     },
     featured: {
-      paddingTop: theme.spacing(3),
+      paddingTop: theme.spacing(8),
       paddingBottom: theme.spacing(2),
     },
     featuredSectionBg: {
@@ -38,9 +50,16 @@ const styles = (theme: Theme) =>
     container: {
       paddingBottom: footerHeight + 120,
     },
+    carousel: {
+      height: 332,
+    },
+    text: {
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
+    },
   });
 
-interface WelcomeProps extends WithStyles<typeof styles>, RouteComponentProps {
+interface WelcomeProps extends WithStyles<typeof styles>, RouteComponentProps, WithWidth {
   history: History;
 }
 
@@ -54,20 +73,68 @@ class WelcomeView extends React.Component<WelcomeProps> {
             <Typography className={this.props.classes.title} variant="h2">
               Featured packages
             </Typography>{" "}
-            <Grid container spacing={2}>
-              <PackageCard url="http://localhost:8733/api/v1/packages/github.com/toitware/toit-color-tft/versions" />
-              <PackageCard url="http://localhost:8733/api/v1/packages/github.com/andersjohnsen/pid/versions" />
-              <PackageCard url="http://localhost:8733/api/v1/packages/github.com/toitware/bme280-driver/versions" />
-              <PackageCard url="http://localhost:8733/api/v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions" />
-              <PackageCard url="http://localhost:8733/api/v1/packages/github.com/toitware/ublox-gnss-driver/versions" />
-            </Grid>
+            {isWidthUp("md", this.props.width) ? (
+              <Grid container spacing={2}>
+                <PackageCard
+                  width={4}
+                  url="http://localhost:8733/api/v1/packages/github.com/toitware/toit-color-tft/versions"
+                />
+                <PackageCard
+                  width={4}
+                  url="http://localhost:8733/api/v1/packages/github.com/andersjohnsen/pid/versions"
+                />
+                <PackageCard
+                  width={4}
+                  url="http://localhost:8733/api/v1/packages/github.com/toitware/bme280-driver/versions"
+                />
+                <PackageCard
+                  width={4}
+                  url="http://localhost:8733/api/v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions"
+                />
+                <PackageCard
+                  width={4}
+                  url="http://localhost:8733/api/v1/packages/github.com/toitware/ublox-gnss-driver/versions"
+                />
+              </Grid>
+            ) : (
+              <Carousel className={this.props.classes.carousel}>
+                <Grid container spacing={2} key={0}>
+                  <PackageCard
+                    width={6}
+                    url="http://localhost:8733/api/v1/packages/github.com/toitware/toit-color-tft/versions"
+                  />
+                  <PackageCard
+                    width={6}
+                    url="http://localhost:8733/api/v1/packages/github.com/andersjohnsen/pid/versions"
+                  />
+                </Grid>
+                <Grid container spacing={2} key={1}>
+                  <PackageCard
+                    width={6}
+                    url="http://localhost:8733/api/v1/packages/github.com/toitware/bme280-driver/versions"
+                  />
+                  <PackageCard
+                    width={6}
+                    url="http://localhost:8733/api/v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions"
+                  />
+                </Grid>
+                <Grid container spacing={2} key={2}>
+                  <PackageCard
+                    width={6}
+                    url="http://localhost:8733/api/v1/packages/github.com/toitware/ublox-gnss-driver/versions"
+                  />
+                </Grid>
+              </Carousel>
+            )}
           </Grid>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Explore packages
               </Typography>
-              <Typography>Find inspiration by looking at all released packages</Typography>
+              <Typography className={this.props.classes.text}>
+                Find inspiration by looking at all released packages.
+              </Typography>
               <Button
                 variant="contained"
                 color="primary"
@@ -77,13 +144,17 @@ class WelcomeView extends React.Component<WelcomeProps> {
                 All packages
               </Button>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={false} md={2} />
+            <Grid item xs={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Contribute
               </Typography>
-              <Typography>
-                You can contribute by publishing your packages to the Toit package registry. learn how to create your
-                own package at <Link href="https://docs.toit.io/language/package/">docs.toit.io</Link>{" "}
+              <Typography className={this.props.classes.text}>
+                Read about how to create your own package at the{" "}
+                <Link href="https://docs.toit.io/language/package/">Toit documentation</Link>.
+              </Typography>
+              <Typography className={this.props.classes.text}>
+                When you’re ready, you can contribute by publishing your packages to the Toit package registry.
               </Typography>
               <Button
                 variant="contained"
@@ -91,7 +162,7 @@ class WelcomeView extends React.Component<WelcomeProps> {
                 className={this.props.classes.button}
                 onClick={() => this.props.history.push("/register")}
               >
-                Contribute
+                Publish package
               </Button>
             </Grid>
           </Grid>
@@ -102,4 +173,4 @@ class WelcomeView extends React.Component<WelcomeProps> {
   }
 }
 
-export default withRouter(withStyles(styles)(WelcomeView));
+export default withWidth()(withRouter(withStyles(styles)(WelcomeView)));

@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
       marginTop: theme.spacing(4),
     },
   });
-const API_URL = "https://pkg.infra.toit.io/api/v1/packages";
+
 export type Package = {
   result: {
     package: {

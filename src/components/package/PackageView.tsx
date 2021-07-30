@@ -75,9 +75,6 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     this.setState({ loading: true });
     const pathName = this.props.history.location.pathname;
     const url = pathName.split("url=")[1];
-    const packageUrl = pathName.split("/package/")[1].split("&url=")[0];
-    console.log(`http://localhost:8733/api/v1/packages/${url}/versions`);
-    console.log("Package url", packageUrl);
     http(`http://localhost:8733/api/v1/packages/${url}/versions`)
       .then((response) => {
         return response.text();
@@ -101,7 +98,6 @@ class PackageView extends React.Component<PackageProps, PackageState> {
       .finally(() => {
         this.setState({ loading: false });
       });
-    //todo: fetch https://pkg.infra.toit.io/api/v1/packages/github.com/toitware/toit-morse/versions
   }
 
   handleCopyInstallationText(text: string) {
@@ -124,11 +120,11 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                 published={Date.now()}
               />
               <Grid container className={this.props.classes.content}>
-                <Grid item xs={8}>
+                <Grid item xs={12} md={8}>
                   <PackageMenuView pkgs={this.state.pkgs} />
                 </Grid>
 
-                <Grid item xs={4} className={this.props.classes.sideInfo}>
+                <Grid item xs={12} md={4} className={this.props.classes.sideInfo}>
                   <Grid item className={this.props.classes.sideInfoContent}>
                     <Typography className={this.props.classes.bold}>Installation</Typography>
                     <Grid container direction="row" className={this.props.classes.installationLine}>
@@ -183,7 +179,11 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                         <ButtonBase
                           onClick={() =>
                             window.open(
-                              "https://pkg.infra.toit.io/github.com/toitware/toit-morse@1.0.2/docs/morse/library-summary"
+                              `https://pkg.infra.toit.io/${
+                                this.state.pkgs[this.state.pkgs.length - 1].result.version.url
+                              }@${this.state.pkgs[this.state.pkgs.length - 1].result.version.version}/docs/${
+                                this.state.pkgs[this.state.pkgs.length - 1].result.version.name
+                              }/library-summary`
                             )
                           }
                         >

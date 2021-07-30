@@ -1,6 +1,5 @@
 import { createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import React from "react";
-import PackagesTestFile from "../data/packages.json";
 import PackageSkeleton from "./package/PackageSkeleton";
 import SearchPackage from "./Search/SearchPackage";
 
@@ -14,7 +13,6 @@ const styles = (theme: Theme) =>
       marginBottom: theme.spacing(2),
     },
   });
-const API_URL = "https://pkg.infra.toit.io/api/v1/packages";
 export type Package = {
   result: {
     package: {
@@ -48,7 +46,6 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
 
   componentDidMount() {
     this.setState({ loading: false });
-    this.setState({ data: PackagesTestFile });
   }
 
   render() {

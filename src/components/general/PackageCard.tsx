@@ -23,6 +23,7 @@ const styles = (theme: Theme) =>
 interface PackageLineDetailsProps extends WithStyles<typeof styles>, RouteComponentProps {
   history: History;
   url: string;
+  width: boolean | "auto" | 3 | 2 | 1 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 }
 
 interface PackageCardState {
@@ -83,7 +84,7 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
   }
   render() {
     return (
-      <Grid item xs={4}>
+      <Grid item xs={this.props.width}>
         <Box
           className={this.props.classes.featuredPackage}
           onClick={() =>

@@ -15,14 +15,10 @@ import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { setTimeout } from "timers";
-import PackagesTestFile from "../data/packages.json";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../misc/icons";
 import { Package } from "./ExploreView";
 import ProgressBar from "./general/BorderLinearProgress";
 import { http } from "./Search/SearchView";
-
-const index = 5;
-const store = PackagesTestFile;
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -120,7 +116,7 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.palette.primary.light,
       [theme.breakpoints.up("sm")]: {
         width: "100%",
-        maxWidth: 900,
+        maxWidth: 826,
       },
     },
     searchIconTpkg: {
@@ -139,7 +135,7 @@ const styles = (theme: Theme) =>
 
 interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps {
   history: History;
-  callback: any;
+  callback: (pkg: Package[]) => void;
 }
 interface AppBarState {
   search: string;
@@ -196,17 +192,11 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     }
   }
 
-  componentDidUpdate() {
-    console.log("Current page:", this.state.location);
-  }
-
   filterSearch() {
     const filtered = this.state.store.filter((pkg) => {
       return pkg.result.package.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     this.props.callback(filtered);
-    console.log(filtered);
   }
 
   delay(ms: number) {
@@ -216,7 +206,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   async handleSearch() {
     this.setState({ loading: true });
     this.filterSearch();
-    await this.delay(1000);
+    await this.delay(100);
     this.setState({ loading: false });
     this.props.history.push("/search?query=" + this.state.search);
   }
@@ -265,6 +255,12 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
                   }}
                   inputProps={{ "aria-label": "search" }}
                   onChange={(event) => this.setState({ search: event.target.value })}
+                  onKeyPress={(en) => {
+                    if (en.key === "Enter") {
+                      en.preventDefault();
+                      this.handleSearch().catch((e) => console.log(e));
+                    }
+                  }}
                 />
               </div>
               <Route>
@@ -289,7 +285,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
             {" "}
           </Typography>
           <Button color="secondary" href="https://toit.io" target="blank">
-            Website
+            Toit.io
           </Button>
           <Button color="secondary" href="https://console.toit.io" target="blank">
             Console

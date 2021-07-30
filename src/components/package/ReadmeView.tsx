@@ -24,10 +24,6 @@ class ReadmeView extends React.Component<ReadmeProps> {
     snackbar: false,
   };
 
-  componentDidMount() {
-    console.log(this.props.pkg);
-  }
-
   render() {
     return (
       <Grid container className={this.props.classes.grid}>

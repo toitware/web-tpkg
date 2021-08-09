@@ -87,8 +87,8 @@ function TabPanel(props: TabPanelProps) {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`scrollable-force-tabpanel-${index}`}
-      aria-labelledby={`scrollable-force-tab-${index}`}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -102,8 +102,8 @@ function TabPanel(props: TabPanelProps) {
 
 function a11yProps(index: number) {
   return {
-    id: `scrollable-force-tab-${index}`,
-    "aria-controls": `scrollable-force-tabpanel-${index}`,
+    id: `scrollable-auto-tab-${index}`,
+    "aria-controls": `scrollable-auto-tabpanel-${index}`,
   };
 }
 
@@ -129,8 +129,8 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
             <Tabs
               value={this.state.menuValue}
               onChange={this.onTabChange}
-              variant="standard"
-              scrollButtons="on"
+              variant="scrollable"
+              scrollButtons="off"
               indicatorColor="primary"
               textColor="primary"
               aria-label="package menu"

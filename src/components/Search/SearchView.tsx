@@ -73,7 +73,6 @@ class SearchView extends React.Component<SearchProps, SearchState> {
                 name={element.result.package.name}
                 description={element.result.package.description}
                 version={element.result.package.latestVersion}
-                access="public"
                 published={Date.now()}
                 url={element.result.package.url}
               />

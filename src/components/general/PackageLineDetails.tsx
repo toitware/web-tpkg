@@ -11,8 +11,7 @@ const styles = (theme: Theme) =>
 
 interface PackageLineDetailsProps extends WithStyles<typeof styles> {
   version: string;
-  access: "public" | "private";
-  published: number;
+  published: number | undefined;
 }
 
 class PackageLineDetailsView extends React.Component<PackageLineDetailsProps> {
@@ -22,8 +21,6 @@ class PackageLineDetailsView extends React.Component<PackageLineDetailsProps> {
         <Typography variant="body2">{this.props.version}</Typography>
         {/* 
         introduce again when data is available
-        <Typography className={this.props.classes.dot}>•</Typography>
-        <Typography variant="body2">{this.capitalizeFirstLetter(this.props.access)}</Typography>
         <Typography className={this.props.classes.dot}>•</Typography>
         <Typography variant="body2">{new Date(this.props.published).toISOString().split("T")[0]}</Typography> */}
       </Grid>

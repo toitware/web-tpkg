@@ -18,6 +18,9 @@ import { tigerShade } from "../assets/theme/theme";
 import Footer, { footerHeight } from "./general/Footer";
 import PackageCard from "./general/PackageCard";
 
+const fullFeaturedSectionHeight = 850;
+const fullToSmallCut = 150;
+
 const styles = (theme: Theme) =>
   createStyles({
     title: {
@@ -34,16 +37,18 @@ const styles = (theme: Theme) =>
       position: "absolute",
       left: "50%",
       transform: "translateX( -50%)",
-      height: 850,
+      height: fullFeaturedSectionHeight,
       width: "100vw",
       zIndex: -1,
+      [theme.breakpoints.down("sm")]: {
+        height: fullFeaturedSectionHeight - fullToSmallCut,
+      },
     },
     featuredSection: {
       zIndex: 1,
       marginBottom: theme.spacing(10),
       marginTop: 330,
     },
-
     button: {
       marginTop: theme.spacing(2),
     },
@@ -51,7 +56,7 @@ const styles = (theme: Theme) =>
       paddingBottom: footerHeight + 120,
     },
     carousel: {
-      height: 332,
+      height: 332 - fullToSmallCut,
     },
     text: {
       paddingTop: theme.spacing(2),
@@ -128,7 +133,7 @@ class WelcomeView extends React.Component<WelcomeProps> {
             )}
           </Grid>
           <Grid container>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Explore packages
               </Typography>
@@ -145,7 +150,7 @@ class WelcomeView extends React.Component<WelcomeProps> {
               </Button>
             </Grid>
             <Grid item xs={false} md={2} />
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Contribute
               </Typography>

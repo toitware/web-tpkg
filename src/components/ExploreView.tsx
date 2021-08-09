@@ -1,7 +1,8 @@
 import { createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import React from "react";
+import Footer, { footerHeight } from "./general/Footer";
 import PackageSkeleton from "./package/PackageSkeleton";
-import SearchPackage from "./Search/SearchPackage";
+import SearchPackage from "./search/SearchPackage";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -11,6 +12,9 @@ const styles = (theme: Theme) =>
     },
     title: {
       marginBottom: theme.spacing(2),
+    },
+    content: {
+      paddingBottom: footerHeight,
     },
   });
 export type Package = {
@@ -51,8 +55,8 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
   render() {
     return (
       <Grid container className={this.props.classes.grid}>
-        <Grid item xs={12}>
-          <Typography variant="h2" className={this.props.classes.title}>
+        <Grid item xs={12} className={this.props.classes.content}>
+          <Typography variant="h5" className={this.props.classes.title}>
             All packages
           </Typography>
           {this.state.loading && (
@@ -71,7 +75,6 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
                 name={element.result.package.name}
                 description={element.result.package.description}
                 version={element.result.package.latestVersion}
-                access="public"
                 published={0}
                 key={i}
                 url={element.result.package.url}
@@ -79,6 +82,7 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
             );
           })}
         </Grid>
+        <Footer />
       </Grid>
     );
   }

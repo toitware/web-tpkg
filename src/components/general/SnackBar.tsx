@@ -15,10 +15,6 @@ const styles = (theme: Theme) =>
       marginRight: theme.spacing(1),
       fontSize: 20,
     },
-    buttonText: {
-      color: "green",
-      textDecoration: "none",
-    },
   });
 
 interface ButtonProps {

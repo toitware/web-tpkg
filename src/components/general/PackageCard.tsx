@@ -3,7 +3,7 @@ import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Version } from "../package/DependenciesView";
-import { http } from "../Search/SearchView";
+import { http } from "../search/SearchView";
 
 const styles = (theme: Theme) =>
   createStyles({

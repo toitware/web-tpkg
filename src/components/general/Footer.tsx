@@ -3,6 +3,7 @@ import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { LinkedinLogo, RedditLogo, ToitLogo, TwitterLogo } from "../../misc/icons";
+import { docs } from "../header/ToolbarTop";
 import { screenWidth } from "../MainView";
 
 export const footerHeight = 490;
@@ -94,7 +95,7 @@ class Footer extends React.Component<FooterProps> {
           <Grid item xs={6} sm={3} md={2}>
             <Typography className={this.props.classes.heading}>Developers</Typography>
             <Typography className={this.props.classes.link}>
-              <Link className={this.props.classes.link} href="https://docs.toit.io" target="blank">
+              <Link className={this.props.classes.link} href={docs} target="blank">
                 Documentation
               </Link>
             </Typography>

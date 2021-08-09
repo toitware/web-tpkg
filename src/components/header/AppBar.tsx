@@ -6,7 +6,7 @@ import {
   Grid,
   InputBase,
   Theme,
-  Toolbar,
+  Toolbar as MuiToolbar,
   Typography,
   WithStyles,
   withStyles,
@@ -15,10 +15,11 @@ import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { setTimeout } from "timers";
-import { SearchIcon, ToitLogo, TpkgLogo } from "../misc/icons";
-import { Package } from "./ExploreView";
-import ProgressBar from "./general/BorderLinearProgress";
-import { http } from "./Search/SearchView";
+import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
+import { Package } from "../ExploreView";
+import ProgressBar from "../general/BorderLinearProgress";
+import { http } from "../search/SearchView";
+import ToolbarTop from "./ToolbarTop";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -29,16 +30,13 @@ const styles = (theme: Theme) =>
       minHeight: 42,
       backgroundColor: theme.palette.primary.dark,
     },
-    toolbarBottom: {
+    toolbarSmall: {
       height: 84,
       backgroundColor: theme.palette.primary.dark,
     },
-    toolbarBottomTpkg: {
+    toolbarBig: {
       height: 276,
       backgroundColor: theme.palette.primary.dark,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
@@ -51,7 +49,6 @@ const styles = (theme: Theme) =>
       width: "100%",
       [theme.breakpoints.up("sm")]: {
         marginLeft: theme.spacing(4),
-        width: "100%",
       },
     },
     searchIcon: {
@@ -79,12 +76,6 @@ const styles = (theme: Theme) =>
       transition: theme.transitions.create("width"),
       width: "100%",
     },
-    inputInputTpkg: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      transition: theme.transitions.create("width"),
-      width: "100%",
-    },
     searchButton: {
       height: 42,
       borderRadius: 0,
@@ -102,6 +93,7 @@ const styles = (theme: Theme) =>
       "&:hover": {
         cursor: "pointer",
       },
+      maxWidth: "90%",
     },
     tpkgLogo: {
       textAlign: "center",
@@ -114,8 +106,8 @@ const styles = (theme: Theme) =>
       borderRadius: theme.shape.borderRadius,
       height: 42,
       backgroundColor: theme.palette.primary.light,
+      width: "100%",
       [theme.breakpoints.up("sm")]: {
-        width: "100%",
         maxWidth: 826,
       },
     },
@@ -208,33 +200,21 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     this.filterSearch();
     await this.delay(100);
     this.setState({ loading: false });
+    /*
+    analytics.ready(() => {
+      //TODO: Get Jesper to confirm that this is good enough before trying it out.
+      //analytics.track("Package Search", this.state.search);
+    });
+    */
     this.props.history.push("/search?query=" + this.state.search);
+    this.setState({ search: "" });
   }
 
   render() {
     return this.props.history.location.pathname === landingPage || this.state.location === landingPage ? (
       <Bar color="secondary" position="absolute" elevation={0}>
-        <Toolbar className={this.props.classes.toolbarTop}>
-          <Typography variant="h6" className={this.props.classes.title}>
-            {" "}
-          </Typography>
-          <Button color="secondary" href="https://toit.io" target="blank">
-            Website
-          </Button>
-          <Button color="secondary" href="https://console.toit.io" target="blank">
-            Console
-          </Button>
-          <Button color="secondary" href="https://docs.toit.io" target="blank">
-            Documentation
-          </Button>
-          <Button color="secondary" href="https://libs.toit.io" target="blank">
-            Library
-          </Button>
-          <Button color="secondary" href="https://chat.toit.io" target="blank">
-            Community
-          </Button>
-        </Toolbar>
-        <Toolbar className={this.props.classes.toolbarBottomTpkg}>
+        <ToolbarTop />
+        <MuiToolbar className={this.props.classes.toolbarBig}>
           <Grid container direction="row">
             <Grid item xs={12} className={this.props.classes.tpkgLogo}>
               <Typography className={this.props.classes.title}>
@@ -275,33 +255,14 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
               </Route>
             </Grid>
           </Grid>
-        </Toolbar>
+        </MuiToolbar>
         {this.state.loading !== false && <ProgressBar />}
       </Bar>
     ) : (
       <Bar color="secondary" position="absolute" elevation={0}>
-        <Toolbar className={this.props.classes.toolbarTop}>
-          <Typography variant="h6" className={this.props.classes.title}>
-            {" "}
-          </Typography>
-          <Button color="secondary" href="https://toit.io" target="blank">
-            Toit.io
-          </Button>
-          <Button color="secondary" href="https://console.toit.io" target="blank">
-            Console
-          </Button>
-          <Button color="secondary" href="https://docs.toit.io" target="blank">
-            Documentation
-          </Button>
-          <Button color="secondary" href="https://libs.toit.io" target="blank">
-            Library
-          </Button>
-          <Button color="secondary" href="https://slack.toit.io" target="blank">
-            Community
-          </Button>
-        </Toolbar>
+        <ToolbarTop />
         <Divider className={this.props.classes.divider} />
-        <Toolbar className={this.props.classes.toolbarBottom}>
+        <MuiToolbar className={this.props.classes.toolbarSmall}>
           <Typography className={this.props.classes.title}>
             <ToitLogo className={this.props.classes.logo} onClick={() => this.props.history.push("/")} />
           </Typography>
@@ -318,6 +279,12 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
               }}
               inputProps={{ "aria-label": "search" }}
               onChange={(event) => this.setState({ search: event.target.value })}
+              onKeyPress={(en) => {
+                if (en.key === "Enter") {
+                  en.preventDefault();
+                  this.handleSearch().catch((e) => console.log(e));
+                }
+              }}
             />
           </div>
           <Route>
@@ -330,7 +297,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
               Search
             </Button>
           </Route>
-        </Toolbar>
+        </MuiToolbar>
         {this.state.loading !== false && <ProgressBar />}
       </Bar>
     );

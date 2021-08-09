@@ -8,7 +8,7 @@ import { CopyIcon, ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
-import { http } from "../Search/SearchView";
+import { http } from "../search/SearchView";
 import { Version } from "./DependenciesView";
 import PackageMenuView from "./PackageMenuView";
 
@@ -116,7 +116,6 @@ class PackageView extends React.Component<PackageProps, PackageState> {
               </Typography>
               <PackageLineDetails
                 version={this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
-                access="public"
                 published={Date.now()}
               />
               <Grid container className={this.props.classes.content}>

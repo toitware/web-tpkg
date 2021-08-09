@@ -51,12 +51,6 @@ const styles = (theme: Theme) =>
     button: {
       minWidth: 100,
     },
-    heading: {
-      paddingBottom: theme.spacing(3),
-    },
-    link: {
-      marginTop: theme.spacing(2),
-    },
     textField: {
       borderColor: theme.palette.primary.dark,
       marginBottom: theme.spacing(4),

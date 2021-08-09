@@ -1,4 +1,4 @@
-import { createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
@@ -12,11 +12,7 @@ const styles = (theme: Theme) =>
       overflow: "hidden",
       paddingBottom: theme.spacing(4),
     },
-    dot: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-    },
-    title: {
+    package: {
       cursor: "pointer",
     },
   });
@@ -26,32 +22,26 @@ interface SearchPackageProps extends WithStyles<typeof styles>, RouteComponentPr
   name: string;
   description: string;
   version: string;
-  access: "public" | "private";
-  published: number;
+  published?: number;
   url: string;
 }
 
-class SearchPackageView extends React.Component<SearchPackageProps> {
+class SearchPackage extends React.Component<SearchPackageProps> {
   render() {
     return (
       <Grid container className={this.props.classes.grid}>
-        <Grid item xs={12}>
-          <Typography
-            variant="h2"
-            className={this.props.classes.title}
-            onClick={() =>
-              this.props.history.push("package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F"))
-            }
-          >
-            {this.props.name}
-          </Typography>
-          <Typography>{this.props.description}</Typography>
-          <PackageLineDetails
-            version={this.props.version}
-            access={this.props.access}
-            published={this.props.published}
-          />
-        </Grid>
+        <Box
+          onClick={() =>
+            this.props.history.push("package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F"))
+          }
+          className={this.props.classes.package}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h6">{this.props.name}</Typography>
+            <Typography>{this.props.description}</Typography>
+            <PackageLineDetails version={this.props.version} published={this.props.published} />
+          </Grid>
+        </Box>
       </Grid>
     );
   }
@@ -61,4 +51,4 @@ class SearchPackageView extends React.Component<SearchPackageProps> {
   }
 }
 
-export default withRouter(withStyles(styles)(SearchPackageView));
+export default withRouter(withStyles(styles)(SearchPackage));

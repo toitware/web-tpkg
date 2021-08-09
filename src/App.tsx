@@ -1,7 +1,6 @@
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CookieConsent from "@toitware/cookie-consent";
 import React from "react";
-import "./App.css";
 import theme from "./assets/theme/theme";
 import MainView from "./components/MainView";
 
@@ -35,7 +34,6 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <MainView />
-        {/* TODO implement tracking, ask Jesper if we should do everything server side */}
         <CookieConsent segmentKey={segmentAPIKey} show={false} changeConsent={false} />
       </MuiThemeProvider>
     );

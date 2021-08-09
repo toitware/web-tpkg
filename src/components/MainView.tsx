@@ -2,12 +2,12 @@ import { createStyles, CssBaseline, Theme, withStyles, WithStyles } from "@mater
 import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
-import { dividerGrey, selected } from "../assets/theme/theme";
-import AppBar from "./AppBar";
+import { dividerGrey } from "../assets/theme/theme";
 import ExploreView, { Package } from "./ExploreView";
+import AppBar from "./header/AppBar";
 import PackageView from "./package/PackageView";
 import RegisterView from "./publish/PublishView";
-import SearchView, { http } from "./Search/SearchView";
+import SearchView, { http } from "./search/SearchView";
 import WelcomeView from "./WelcomeView";
 
 export const screenWidth = 1000;
@@ -28,6 +28,10 @@ const styles = (theme: Theme) =>
         marginLeft: `calc((100% - ${screenWidth}px)/2)`,
         marginRight: `calc((100% - ${screenWidth}px)/2)`,
       },
+      [theme.breakpoints.only("xs")]: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+      },
       flexDirection: "column",
     },
     appBar: {
@@ -42,27 +46,6 @@ const styles = (theme: Theme) =>
       borderBottomColor: dividerGrey,
       borderBottomStyle: "solid",
     },
-    logo: {
-      marginLeft: "13px",
-      height: "1rem",
-    },
-    menuButton: {
-      position: "absolute",
-      right: theme.spacing(1.5),
-      padding: 0,
-    },
-    menuExpandButton: {
-      padding: 0,
-      marginRight: theme.spacing(1.25),
-    },
-    hide: {
-      display: "none",
-    },
-    toolbar: {},
-    appBarContent: {
-      paddingLeft: theme.spacing(1.5),
-      paddingRight: theme.spacing(1.5),
-    },
     content: {
       flexGrow: 1,
       backgroundColor: "transparent",
@@ -75,49 +58,6 @@ const styles = (theme: Theme) =>
       }),
       marginLeft: 0,
       width: "calc(100% - " + 0 + "px)",
-    },
-    contentShift: {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    },
-    title: {
-      flexGrow: 1,
-    },
-    typography: {
-      padding: theme.spacing(3),
-    },
-    button: {
-      color: theme.palette.common.black,
-    },
-    appBarRight: {
-      display: "flex",
-      alignItems: "center",
-      marginLeft: "auto",
-    },
-    exitButton: {
-      color: theme.palette.common.black,
-      "&:hover": {
-        backgroundColor: "transparent",
-      },
-    },
-    list: {
-      overflowX: "hidden",
-      overflow: "auto",
-    },
-    listItem: {
-      "&:hover, &.Mui-selected, &.Mui-selected:hover": {
-        backgroundColor: selected,
-      },
-    },
-    icon: {
-      color: "black",
-    },
-    orgNameAndHelp: {
-      display: "flex",
-      alignItems: "center",
     },
   });
 
@@ -245,7 +185,7 @@ class MainView extends React.Component<MainProps, MenuState> {
           <AppBar callback={(p: Package[]) => this.handleCallback(p)} />
           {!this.state.loading && (
             <main className={classes.content}>
-              <div className={classes.toolbar} />
+              <div />
               <Switch>
                 {this.pages.map((page, index) => (
                   <Route key={index} path={page.routepath} exact={page.exact} render={page.render} />

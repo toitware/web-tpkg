@@ -103,27 +103,26 @@ class MainView extends React.Component<MainProps, MenuState> {
       });
     });
 
-    () =>
-      http(API_URL_PACKAGES)
-        .then((response) => {
-          return response.text();
-        })
-        .then((response) => {
-          return response
-            .split("\n")
-            .filter((line) => {
-              return line !== "";
-            })
-            .map((line) => {
-              return JSON.parse(line) as Package;
-            });
-        })
-        .then((lines) => {
-          this.setState({ packages: lines });
-        })
-        .catch((reason) => {
-          console.log(reason);
-        });
+    http(API_URL_PACKAGES)
+      .then((response: Response) => {
+        return response.text();
+      })
+      .then((response: string) => {
+        return response
+          .split("\n")
+          .filter((line: string) => {
+            return line !== "";
+          })
+          .map((line: string) => {
+            return JSON.parse(line) as Package;
+          });
+      })
+      .then((lines: Package[]) => {
+        this.setState({ packages: lines });
+      })
+      .catch((reason: Error) => {
+        console.log(reason);
+      });
     this.setState({ loading: false });
   }
 

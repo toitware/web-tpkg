@@ -18,7 +18,7 @@ import { setTimeout } from "timers";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import ProgressBar from "../general/BorderLinearProgress";
-import { API_URL_PACKAGES, http } from "../search/SearchView";
+import { API_URL_PACKAGES } from "../search/SearchView";
 import ToolbarTop from "./ToolbarTop";
 
 const styles = (theme: Theme) =>
@@ -154,32 +154,27 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     store: [] as Package[],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.unlisten = this.props.history.listen((location, action) => {
       this.setState({
         location: location.pathname,
       });
     });
-    http(`${API_URL_PACKAGES}`)
-      .then((response: Response) => {
-        return response.text();
-      })
-      .then((response: string) => {
-        return response
-          .split("\n")
-          .filter((line) => {
-            return line !== "";
-          })
-          .map((line: string) => {
-            return JSON.parse(line) as Package;
-          });
-      })
-      .then((lines: Package[]) => {
-        this.setState({ store: lines });
-      })
-      .catch((reason: Error) => {
-        console.log(reason);
+    try {
+      const response = await fetch(API_URL_PACKAGES);
+      const text = await response.text();
+      const split = await text.split("\n");
+      const filter = await split.filter((line) => {
+        return line !== "";
       });
+      const map = await filter.map((line) => {
+        return JSON.parse(line);
+      });
+      const lines = map as Package[];
+      this.setState({ store: lines });
+    } catch (error) {
+      console.log("Error fetching", error);
+    }
   }
 
   componentWillUnmount() {

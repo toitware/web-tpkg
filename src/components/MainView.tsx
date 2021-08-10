@@ -7,7 +7,7 @@ import ExploreView, { Package } from "./ExploreView";
 import AppBar from "./header/AppBar";
 import PackageView from "./package/PackageView";
 import RegisterView from "./publish/PublishView";
-import SearchView, { API_URL_PACKAGES, http } from "./search/SearchView";
+import SearchView, { API_URL_PACKAGES } from "./search/SearchView";
 import WelcomeView from "./WelcomeView";
 
 export const screenWidth = 1000;
@@ -96,35 +96,28 @@ class MainView extends React.Component<MainProps, MenuState> {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.unlisten = this.props.history.listen((location, action) => {
       this.setState({
         location: location.pathname,
       });
     });
-
-    http(API_URL_PACKAGES)
-      .then(
-        (response: Response): Promise<string> => {
-          return response.text();
-        }
-      )
-      .then((response: string): Package[] => {
-        return response
-          .split("\n")
-          .filter((line: string) => {
-            return line !== "";
-          })
-          .map((line: string) => {
-            return JSON.parse(line) as Package;
-          });
-      })
-      .then((lines: Package[]): void => {
-        this.setState({ packages: lines });
-      })
-      .catch((reason: Error): void => {
-        console.log(reason);
+    try {
+      const response = await fetch(API_URL_PACKAGES);
+      const text = await response.text();
+      const split = await text.split("\n");
+      const filter = await split.filter((line) => {
+        return line !== "";
       });
+      const map = await filter.map((line) => {
+        return JSON.parse(line) as Package;
+      });
+      this.setState({
+        packages: map,
+      });
+    } catch (error) {
+      console.log("Error fetching", error);
+    }
     this.setState({ loading: false });
   }
 

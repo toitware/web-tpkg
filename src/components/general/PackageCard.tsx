@@ -3,7 +3,6 @@ import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Version } from "../package/DependenciesView";
-import { http } from "../search/SearchView";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -53,34 +52,29 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
     version: "",
     url: "",
   };
-  componentDidMount() {
-    http(this.props.url)
-      .then((response: Response) => {
-        return response.text();
-      })
-      .then((response: string) => {
-        return response
-          .split("\n")
-          .filter((line) => {
-            return line !== "";
-          })
-          .map((line: string) => {
-            return JSON.parse(line);
-          });
-      })
-      .then((lines: Version[]) => {
-        const lastIndex = lines.length - 1;
-        const json = lines[lastIndex];
-        this.setState({
-          name: json.result.version.name,
-          description: json.result.version.description,
-          version: json.result.version.version,
-          url: json.result.version.url,
-        });
-      })
-      .catch((reason: Error) => {
-        console.log(reason);
+  async componentDidMount() {
+    try {
+      const response = await fetch(this.props.url);
+      const text = await response.text();
+      const split = await text.split("\n");
+      const filter = await split.filter((line) => {
+        return line !== "";
       });
+      const map = await filter.map((line) => {
+        return JSON.parse(line);
+      });
+      const lines = map as Version[];
+      const lastIndex = lines.length - 1;
+      const json = lines[lastIndex];
+      this.setState({
+        name: json.result.version.name,
+        description: json.result.version.description,
+        version: json.result.version.version,
+        url: json.result.version.url,
+      });
+    } catch (error) {
+      console.log("Error fetching", error);
+    }
   }
   render() {
     return (

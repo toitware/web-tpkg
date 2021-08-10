@@ -8,7 +8,7 @@ import { ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
-import { API_URL_PACKAGES, http } from "../search/SearchView";
+import { API_URL_PACKAGES } from "../search/SearchView";
 import { Version } from "./DependenciesView";
 import PackageMenuView from "./PackageMenuView";
 
@@ -76,29 +76,22 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     const pathName = this.props.history.location.pathname;
     const url = pathName.split("url=")[1];
 
-    http(`${API_URL_PACKAGES}/${url}/versions`)
-      .then((response: Response) => {
-        return response.text();
-      })
-      .then((response: string) => {
-        return response
-          .split("\n")
-          .filter((line: string) => {
-            return line !== "";
-          })
-          .map((line: string) => {
-            return JSON.parse(line) as Version;
-          });
-      })
-      .then((lines: Version[]) => {
-        this.setState({ pkgs: lines });
-      })
-      .catch((reason: Error) => {
-        console.log(reason);
-      })
-      .finally(() => {
-        this.setState({ loading: false });
+    try {
+      const response = await fetch(`${API_URL_PACKAGES}/${url}/versions`);
+      const text = await response.text();
+      const split = await text.split("\n");
+      const filter = await split.filter((line) => {
+        return line !== "";
       });
+      const map = await filter.map((line) => {
+        return JSON.parse(line);
+      });
+      const lines = map as Version[];
+      this.setState({ pkgs: lines });
+    } catch (error) {
+      console.log("Error fetching", error);
+    }
+    this.setState({ loading: false });
   }
 
   handleCopyInstallationText(text: string) {

@@ -34,7 +34,7 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <MainView />
-        <CookieConsent segmentKey={segmentAPIKey} show={false} changeConsent={false} />
+        <CookieConsent segmentKey={segmentAPIKey || "no-key"} show={true} changeConsent={false} />
       </MuiThemeProvider>
     );
   }

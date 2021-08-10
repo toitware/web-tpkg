@@ -69,18 +69,20 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
               <PackageSkeleton />
             </>
           )}
-          {this.props.packages?.map((element, i) => {
-            return (
-              <SearchPackage
-                name={element.result.package.name}
-                description={element.result.package.description}
-                version={element.result.package.latestVersion}
-                published={0}
-                key={i}
-                url={element.result.package.url}
-              />
-            );
-          })}
+          {this.props.packages
+            ?.sort((a, b) => a.result.package.name.localeCompare(b.result.package.name))
+            .map((element, i) => {
+              return (
+                <SearchPackage
+                  name={element.result.package.name}
+                  description={element.result.package.description}
+                  version={element.result.package.latestVersion}
+                  published={0}
+                  key={i}
+                  url={element.result.package.url}
+                />
+              );
+            })}
         </Grid>
         <Footer />
       </Grid>

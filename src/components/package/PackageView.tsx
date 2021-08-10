@@ -4,7 +4,7 @@ import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { goldenShade, tigerShade } from "../../assets/theme/theme";
-import { CopyIcon, ExternalLinkIcon } from "../../misc/icons";
+import { ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
@@ -48,7 +48,7 @@ const styles = (theme: Theme) =>
       lineBreak: "anywhere",
     },
     textContainer: {
-      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
     },
     content: {
       marginTop: theme.spacing(6),
@@ -125,6 +125,9 @@ class PackageView extends React.Component<PackageProps, PackageState> {
 
                 <Grid item xs={12} md={4} className={this.props.classes.sideInfo}>
                   <Grid item className={this.props.classes.sideInfoContent}>
+                    {/* 
+                    
+                    
                     <Typography className={this.props.classes.bold}>Installation</Typography>
                     <Grid container direction="row" className={this.props.classes.installationLine}>
                       <Typography className={this.props.classes.install}>
@@ -140,6 +143,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                         <CopyIcon />
                       </ButtonBase>
                     </Grid>
+                          */}
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>License</Typography>

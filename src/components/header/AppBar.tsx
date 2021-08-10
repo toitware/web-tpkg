@@ -137,6 +137,10 @@ interface AppBarState {
   store: Package[];
 }
 
+interface SearchValues {
+  search: string;
+}
+
 const landingPage = "/";
 
 class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
@@ -200,12 +204,10 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     this.filterSearch();
     await this.delay(100);
     this.setState({ loading: false });
-    /*
+    const searchValue = { search: this.state.search.toLowerCase() } as SearchValues;
     analytics.ready(() => {
-      //TODO: Get Jesper to confirm that this is good enough before trying it out.
-      //analytics.track("Package Search", this.state.search);
+      analytics.track("Package Search", searchValue);
     });
-    */
     this.props.history.push("/search?query=" + this.state.search);
     this.setState({ search: "" });
   }

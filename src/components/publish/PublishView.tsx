@@ -5,6 +5,7 @@ import {
   FormHelperText,
   Grid,
   InputLabel,
+  Link,
   TextField,
   Theme,
   Typography,
@@ -152,7 +153,8 @@ class PublishView extends React.Component<PublishProps, PublishState> {
             </Typography>
             <Typography variant="body2" className={this.props.classes.description}>
               You contribute to the community by publishing your packages and help other IoT developers get going
-              faster. Learn how to publish a package at docs.toit.io. Thanks.
+              faster. Learn how to write a package at{" "}
+              <Link href="https://docs.toit.io/language/package/pkgtutorial">docs.toit.io</Link>. Thanks.
             </Typography>
             <InputLabel className={this.props.classes.formText}>Git url*</InputLabel>
             <BlackBorderTextField

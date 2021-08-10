@@ -23,7 +23,7 @@ import {
 } from "../../assets/theme/theme";
 import { FileTextIcon, PackageIcon, TagIcon } from "../../misc/icons";
 import DependenciesView, { Version } from "./DependenciesView";
-import ReadmeView from "./ReadmeView";
+import InstallationView from "./InstallationView";
 import VersionsView from "./VersionsView";
 
 const styles = (theme: Theme) =>
@@ -153,7 +153,7 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
                   <>
                     <div>
                       <FileTextIcon className={this.props.classes.menuIcon} />
-                      Readme
+                      Install
                     </div>
                   </>
                 }
@@ -165,7 +165,7 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
                   <>
                     <div>
                       <PackageIcon className={this.props.classes.menuIcon} />
-                      Dependecies
+                      Dependencies
                     </div>
                   </>
                 }
@@ -199,7 +199,7 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.menuValue} index={0}>
-            <ReadmeView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />
+            <InstallationView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={1}>
             <DependenciesView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />

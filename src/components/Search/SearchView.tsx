@@ -36,7 +36,7 @@ interface SearchState {
   searchParam: string;
 }
 
-export async function http<T>(url: string): Promise<Response> {
+export async function http(url: string): Promise<Response> {
   const response: Response = await fetch(url);
   return response;
 }

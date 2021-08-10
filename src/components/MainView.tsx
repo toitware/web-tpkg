@@ -7,7 +7,7 @@ import ExploreView, { Package } from "./ExploreView";
 import AppBar from "./header/AppBar";
 import PackageView from "./package/PackageView";
 import RegisterView from "./publish/PublishView";
-import SearchView, { http } from "./search/SearchView";
+import SearchView, { API_URL_PACKAGES, http } from "./search/SearchView";
 import WelcomeView from "./WelcomeView";
 
 export const screenWidth = 1000;
@@ -101,10 +101,9 @@ class MainView extends React.Component<MainProps, MenuState> {
       this.setState({
         location: location.pathname,
       });
-      //analytics.page();
     });
 
-    http("http://localhost:8733/api/v1/packages")
+    http(API_URL_PACKAGES)
       .then((response) => {
         return response.text();
       })

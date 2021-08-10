@@ -8,7 +8,7 @@ import { ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
-import { http } from "../search/SearchView";
+import { API_URL_PACKAGES, http } from "../search/SearchView";
 import { Version } from "./DependenciesView";
 import PackageMenuView from "./PackageMenuView";
 
@@ -75,7 +75,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     this.setState({ loading: true });
     const pathName = this.props.history.location.pathname;
     const url = pathName.split("url=")[1];
-    http(`http://localhost:8733/api/v1/packages/${url}/versions`)
+    http(`${API_URL_PACKAGES}/${url}/versions`)
       .then((response) => {
         return response.text();
       })

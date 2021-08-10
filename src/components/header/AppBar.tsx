@@ -18,7 +18,7 @@ import { setTimeout } from "timers";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import ProgressBar from "../general/BorderLinearProgress";
-import { http } from "../search/SearchView";
+import { API_URL_PACKAGES, http } from "../search/SearchView";
 import ToolbarTop from "./ToolbarTop";
 
 const styles = (theme: Theme) =>
@@ -160,7 +160,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
         location: location.pathname,
       });
     });
-    http("http://localhost:8733/api/v1/packages")
+    http(`${API_URL_PACKAGES}`)
       .then((response) => {
         return response.text();
       })

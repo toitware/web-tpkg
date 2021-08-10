@@ -120,7 +120,7 @@ class MainView extends React.Component<MainProps, MenuState> {
       .then((lines) => {
         this.setState({ packages: lines });
       })
-      .catch((reason) => {
+      .catch((reason: Error) => {
         console.log(reason);
       });
     this.setState({ loading: false });

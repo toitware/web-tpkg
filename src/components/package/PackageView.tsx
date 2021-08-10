@@ -92,7 +92,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
       .then((lines) => {
         this.setState({ pkgs: lines });
       })
-      .catch((reason) => {
+      .catch((reason: Error) => {
         console.log(reason);
       })
       .finally(() => {

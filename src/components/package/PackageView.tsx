@@ -77,26 +77,30 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     const url = pathName.split("url=")[1];
 
     http(`${API_URL_PACKAGES}/${url}/versions`)
-      .then((response: Response) => {
-        return response.text();
-      })
+      .then(
+        (response: Response): Promise<string> => {
+          return response.text();
+        }
+      )
       .then((response: string) => {
         return response
           .split("\n")
           .filter((line: string) => {
             return line !== "";
           })
-          .map((line: string) => {
-            return JSON.parse(line) as Version;
-          });
+          .map(
+            (line: string): Version => {
+              return JSON.parse(line) as Version;
+            }
+          );
       })
-      .then((lines: Version[]) => {
+      .then((lines: Version[]): void => {
         this.setState({ pkgs: lines });
       })
-      .catch((reason: Error) => {
+      .catch((reason: Error): void => {
         console.log(reason);
       })
-      .finally(() => {
+      .finally((): void => {
         this.setState({ loading: false });
       });
   }

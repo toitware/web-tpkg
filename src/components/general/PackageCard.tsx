@@ -54,37 +54,33 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
     url: "",
   };
   componentDidMount() {
-    try {
-      http(this.props.url)
-        .then((response) => {
-          return response.text();
-        })
-        .then((response) => {
-          return response
-            .split("\n")
-            .filter((line) => {
-              return line !== "";
-            })
-            .map((line) => {
-              return JSON.parse(line);
-            });
-        })
-        .then((lines) => {
-          const lastIndex = lines.length - 1;
-          const json = lines[lastIndex] as Version;
-          this.setState({
-            name: json.result.version.name,
-            description: json.result.version.description,
-            version: json.result.version.version,
-            url: json.result.version.url,
+    http(this.props.url)
+      .then((response: Response) => {
+        return response.text();
+      })
+      .then((response: string) => {
+        return response
+          .split("\n")
+          .filter((line) => {
+            return line !== "";
+          })
+          .map((line: string) => {
+            return JSON.parse(line);
           });
-        })
-        .catch((reason: Error) => {
-          console.log(reason);
+      })
+      .then((lines: Version[]) => {
+        const lastIndex = lines.length - 1;
+        const json = lines[lastIndex];
+        this.setState({
+          name: json.result.version.name,
+          description: json.result.version.description,
+          version: json.result.version.version,
+          url: json.result.version.url,
         });
-    } catch (error) {
-      console.log(error);
-    }
+      })
+      .catch((reason: Error) => {
+        console.log(reason);
+      });
   }
   render() {
     return (

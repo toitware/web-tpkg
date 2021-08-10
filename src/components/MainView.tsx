@@ -104,10 +104,12 @@ class MainView extends React.Component<MainProps, MenuState> {
     });
 
     http(API_URL_PACKAGES)
-      .then((response: Response) => {
-        return response.text();
-      })
-      .then((response: string) => {
+      .then(
+        (response: Response): Promise<string> => {
+          return response.text();
+        }
+      )
+      .then((response: string): Package[] => {
         return response
           .split("\n")
           .filter((line: string) => {
@@ -117,10 +119,10 @@ class MainView extends React.Component<MainProps, MenuState> {
             return JSON.parse(line) as Package;
           });
       })
-      .then((lines: Package[]) => {
+      .then((lines: Package[]): void => {
         this.setState({ packages: lines });
       })
-      .catch((reason: Error) => {
+      .catch((reason: Error): void => {
         console.log(reason);
       });
     this.setState({ loading: false });

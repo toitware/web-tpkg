@@ -161,20 +161,20 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
       });
     });
     http(`${API_URL_PACKAGES}`)
-      .then((response) => {
+      .then((response: Response) => {
         return response.text();
       })
-      .then((response) => {
+      .then((response: string) => {
         return response
           .split("\n")
           .filter((line) => {
             return line !== "";
           })
-          .map((line) => {
+          .map((line: string) => {
             return JSON.parse(line) as Package;
           });
       })
-      .then((lines) => {
+      .then((lines: Package[]) => {
         this.setState({ store: lines });
       })
       .catch((reason: Error) => {

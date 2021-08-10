@@ -102,8 +102,9 @@ class MainView extends React.Component<MainProps, MenuState> {
         location: location.pathname,
       });
     });
-    try {
-      void http(API_URL_PACKAGES)
+
+    () =>
+      http(API_URL_PACKAGES)
         .then((response) => {
           return response.text();
         })
@@ -119,10 +120,10 @@ class MainView extends React.Component<MainProps, MenuState> {
         })
         .then((lines) => {
           this.setState({ packages: lines });
+        })
+        .catch((reason) => {
+          console.log(reason);
         });
-    } catch (error) {
-      console.log(error);
-    }
     this.setState({ loading: false });
   }
 

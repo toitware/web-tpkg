@@ -77,7 +77,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     const url = pathName.split("url=")[1];
 
     try {
-      const response = await fetch(`${API_URL_PACKAGES}/${url}/versions`);
+      const response = await fetch(API_URL_PACKAGES + "/" + url + "/versions");
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

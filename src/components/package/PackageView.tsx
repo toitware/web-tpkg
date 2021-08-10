@@ -71,10 +71,11 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     pkgs: [] as Version[],
     loading: true,
   };
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({ loading: true });
     const pathName = this.props.history.location.pathname;
     const url = pathName.split("url=")[1];
+
     http(`${API_URL_PACKAGES}/${url}/versions`)
       .then((response) => {
         return response.text();

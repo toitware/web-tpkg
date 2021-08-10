@@ -78,7 +78,7 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
           url: json.result.version.url,
         });
       })
-      .catch((reason) => {
+      .catch((reason: Error) => {
         console.log(reason);
       });
   }

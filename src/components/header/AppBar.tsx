@@ -177,7 +177,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
       .then((lines) => {
         this.setState({ store: lines });
       })
-      .catch((reason) => {
+      .catch((reason: Error) => {
         console.log(reason);
       });
   }

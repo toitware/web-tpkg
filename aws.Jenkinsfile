@@ -51,12 +51,6 @@ pipeline {
                     sh "toitarchive build_${BUILD_VERSION}.tgz toit-web pkg.toit.io ${BUILD_VERSION}"
                 }
             }
-
-            post {
-                always {
-                    sh "make clean"
-                }
-            }
         }
     }
 }

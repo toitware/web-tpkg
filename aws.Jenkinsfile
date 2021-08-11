@@ -27,17 +27,6 @@ pipeline {
             }
         }
 
-        stage("test") {
-            steps {
-                sh "yarn test:jenkins"
-            }
-            post {
-                always {
-                    junit "junit.xml"
-                }
-            }
-        }
-
         stage("build") {
             steps {
                 sh "yarn build"

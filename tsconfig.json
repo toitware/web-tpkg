@@ -20,9 +20,7 @@
     "jsx": "preserve"
   },
   "include": [
-    "src",
-    "test",
-    "fonts"
+    "src"
   ],
   "exclude": [
   ]

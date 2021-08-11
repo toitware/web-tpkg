@@ -175,6 +175,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     } catch (error) {
       console.log("Error fetching", error);
     }
+    this.setState({ loading: false });
   }
 
   componentWillUnmount() {

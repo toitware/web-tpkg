@@ -36,11 +36,6 @@ interface SearchState {
   searchParam: string;
 }
 
-export async function http(url: string): Promise<Response> {
-  const response: Response = await fetch(url);
-  return response;
-}
-
 export const API_URL_PACKAGES = "http://localhost:8733/api/v1/packages";
 
 class SearchView extends React.Component<SearchProps, SearchState> {

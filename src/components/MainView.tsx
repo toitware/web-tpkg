@@ -2,6 +2,7 @@ import { createStyles, CssBaseline, Theme, withStyles, WithStyles } from "@mater
 import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
+import { API_URL } from "../App";
 import { dividerGrey } from "../assets/theme/theme";
 import ExploreView, { Package } from "./ExploreView";
 import AppBar from "./header/AppBar";
@@ -102,15 +103,8 @@ class MainView extends React.Component<MainProps, MenuState> {
         location: location.pathname,
       });
     });
-    let API_URL = "";
-    if (typeof document !== `undefined`) {
-      const apiUrl = document.querySelector('meta[name="api-url"]');
-      if (apiUrl) {
-        API_URL = apiUrl.getAttribute("content") || API_URL;
-      }
-    }
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL + "v1/packages");
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

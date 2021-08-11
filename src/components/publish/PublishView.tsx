@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
+import { API_URL } from "../../App";
 import { ReactComponent as PackageFactory } from "../../assets/images/package-factory.svg";
 import Footer, { footerHeight } from "../general/Footer";
 import { SnackBar } from "../general/SnackBar";
@@ -112,7 +113,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     this.setState({ snackbarOpen: true, snackbarText: "" });
     this.setState({ loading: true });
     try {
-      const response = await fetch(`https://pkg.toit.io/api/v1/register/${this.state.url}/version/${this.state.url}`, {
+      const response = await fetch(API_URL + `/v1/register/${this.state.url}/version/${this.state.url}`, {
         method: "GET",
         credentials: "include",
       });

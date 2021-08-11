@@ -18,7 +18,6 @@ import { setTimeout } from "timers";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import ProgressBar from "../general/BorderLinearProgress";
-import { API_URL_PACKAGES } from "../search/SearchView";
 import ToolbarTop from "./ToolbarTop";
 
 const styles = (theme: Theme) =>
@@ -160,8 +159,16 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
         location: location.pathname,
       });
     });
+    let API_URL = "";
+    if (typeof document !== `undefined`) {
+      // Check if the meta segment-key is set.
+      const apiUrl = document.querySelector('meta[name="api-url"]');
+      if (apiUrl) {
+        API_URL = apiUrl.getAttribute("content") || API_URL;
+      }
+    }
     try {
-      const response = await fetch(API_URL_PACKAGES);
+      const response = await fetch(API_URL);
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

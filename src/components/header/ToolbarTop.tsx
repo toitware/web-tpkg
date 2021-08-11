@@ -42,7 +42,7 @@ export const toitio = "https://toit.io";
 export const console = "https://console.toit.io";
 export const docs = "https://docs.toit.io";
 export const libs = "https://libs.toit.io";
-export const community = "https://slack.toit.io";
+export const community = "https://chat.toit.io";
 
 class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
   handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

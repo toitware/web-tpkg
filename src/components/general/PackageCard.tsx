@@ -46,12 +46,6 @@ export type Pkg = {
 };
 
 class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardState> {
-  state = {
-    name: "",
-    description: "",
-    version: "",
-    url: "",
-  };
   async componentDidMount() {
     try {
       const response = await fetch(this.props.url);
@@ -77,18 +71,17 @@ class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardSt
     }
   }
   render() {
+    const state: PackageCardState = this.state || {};
     return (
       <Grid item xs={this.props.width}>
         <Box
           className={this.props.classes.featuredPackage}
-          onClick={() =>
-            this.props.history.push("package/" + this.state.name + "&url=" + this.state.url.split("/").join("%2F"))
-          }
+          onClick={() => this.props.history.push("package/" + state.name + "&url=" + state.url.split("/").join("%2F"))}
         >
           <Box className={this.props.classes.featuredPackageContent}>
-            <Typography variant="h6">{this.state.name}</Typography>
-            <Typography>{this.state.description}</Typography>
-            <Typography variant="body2">{this.state.version}</Typography>
+            <Typography variant="h6">{state.name}</Typography>
+            <Typography>{state.description}</Typography>
+            <Typography variant="body2">{state.version}</Typography>
           </Box>
         </Box>
       </Grid>

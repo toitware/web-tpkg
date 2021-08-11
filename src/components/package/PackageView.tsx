@@ -8,7 +8,6 @@ import { ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
-import { API_URL_PACKAGES } from "../search/SearchView";
 import { Version } from "./DependenciesView";
 import PackageMenuView from "./PackageMenuView";
 
@@ -75,9 +74,15 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     this.setState({ loading: true });
     const pathName = this.props.history.location.pathname;
     const url = pathName.split("url=")[1];
-
+    let API_URL = "";
+    if (typeof document !== `undefined`) {
+      const apiUrl = document.querySelector('meta[name="api-url"]');
+      if (apiUrl) {
+        API_URL = apiUrl.getAttribute("content") || API_URL;
+      }
+    }
     try {
-      const response = await fetch(API_URL_PACKAGES + "/" + url + "/versions");
+      const response = await fetch(API_URL + "/" + url + "/versions");
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

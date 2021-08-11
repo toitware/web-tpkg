@@ -7,7 +7,7 @@ import ExploreView, { Package } from "./ExploreView";
 import AppBar from "./header/AppBar";
 import PackageView from "./package/PackageView";
 import RegisterView from "./publish/PublishView";
-import SearchView, { API_URL_PACKAGES } from "./search/SearchView";
+import SearchView from "./search/SearchView";
 import WelcomeView from "./WelcomeView";
 
 export const screenWidth = 1000;
@@ -102,8 +102,15 @@ class MainView extends React.Component<MainProps, MenuState> {
         location: location.pathname,
       });
     });
+    let API_URL = "";
+    if (typeof document !== `undefined`) {
+      const apiUrl = document.querySelector('meta[name="api-url"]');
+      if (apiUrl) {
+        API_URL = apiUrl.getAttribute("content") || API_URL;
+      }
+    }
     try {
-      const response = await fetch(API_URL_PACKAGES);
+      const response = await fetch(API_URL);
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

@@ -36,8 +36,6 @@ interface SearchState {
   searchParam: string;
 }
 
-export const API_URL_PACKAGES = "http://localhost:8733/api/v1/packages";
-
 class SearchView extends React.Component<SearchProps, SearchState> {
   state = {
     searchResult: "",

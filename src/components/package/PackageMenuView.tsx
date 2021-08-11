@@ -184,18 +184,6 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
                 {...a11yProps(3)}
                 className={this.props.classes.tabVersions}
               />
-              {/* <Tab
-                label={
-                  <>
-                    <div>
-                      <StarIcon className={this.props.classes.menuIcon} />
-                      Scores
-                    </div>
-                  </>
-                }
-                {...a11yProps(4)}
-                className={this.props.classes.tabScores}
-              /> */}
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.menuValue} index={0}>
@@ -207,10 +195,6 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
           <TabPanel value={this.state.menuValue} index={2}>
             <VersionsView pkgs={this.props.pkgs} />
           </TabPanel>
-          {/* 
-          <TabPanel value={this.state.menuValue} index={3}>
-            <ScoresView />
-          </TabPanel> */}
         </div>
       </Grid>
     ) : (

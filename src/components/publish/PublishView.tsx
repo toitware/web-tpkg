@@ -99,15 +99,6 @@ interface PublishState {
 }
 
 class PublishView extends React.Component<PublishProps, PublishState> {
-  state = {
-    loading: false,
-    error: "",
-    version: "",
-    url: "",
-    snackbarOpen: false,
-    snackbarText: "",
-  };
-
   handleTextChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState((prevState) => {
       return {
@@ -121,13 +112,10 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     this.setState({ snackbarOpen: true, snackbarText: "" });
     this.setState({ loading: true });
     try {
-      const response = await fetch(
-        `https://pkg.infra.toit.io/api/v1/register/${this.state.url}/version/${this.state.url}`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`https://pkg.toit.io/api/v1/register/${this.state.url}/version/${this.state.url}`, {
+        method: "GET",
+        credentials: "include",
+      });
       if (response.ok) {
         this.setState({ snackbarOpen: true, snackbarText: "Successfully published package" });
       }
@@ -144,6 +132,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
   }
 
   render() {
+    const state: PublishState = this.state || {};
     return (
       <>
         <Grid container className={this.props.classes.grid}>
@@ -183,7 +172,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               size="small"
               className={this.props.classes.textField}
             />
-            {this.state.error !== undefined && <FormHelperText error={true}>{this.state.error}</FormHelperText>}
+            {state.error !== undefined && <FormHelperText error={true}>{state.error}</FormHelperText>}
             <div className={this.props.classes.buttonWrapper}>
               <Button
                 type="submit"
@@ -192,7 +181,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
                 color="primary"
                 onClick={() => this.publishPackage()}
               >
-                {!this.state.loading ? (
+                {!state.loading ? (
                   "Publish"
                 ) : (
                   <CircularProgress color="secondary" size="16px" className={this.props.classes.circularProgress} />
@@ -209,8 +198,8 @@ class PublishView extends React.Component<PublishProps, PublishState> {
             <PackageFactory width="100%" />
           </Grid>
           <SnackBar
-            message={this.state.snackbarText}
-            open={this.state.snackbarOpen}
+            message={state.snackbarText}
+            open={state.snackbarOpen}
             type="info"
             onClose={() => this.setState({ snackbarOpen: false })}
           />

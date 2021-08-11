@@ -113,13 +113,23 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     this.setState({ snackbarOpen: true, snackbarText: "" });
     this.setState({ loading: true });
     try {
-      const response = await fetch(API_URL + `/v1/register/${this.state.url}/version/${this.state.version}`, {
+      console.log("before")
+      const response = await fetch(API_URL + `v1/register/${this.state.url}/version/${this.state.version}`, {
         method: "GET",
         credentials: "include",
       });
-      if (response.ok) {
-        this.setState({ snackbarOpen: true, snackbarText: "Successfully published package" });
+      console.log("after", response)
+      if (!response.ok) {
+        let err = response.statusText;
+        try {
+          const body = await response.text();
+          const msg = JSON.parse(body);
+          err = msg.message || err;
+        } catch (e) {}
+        throw err
       }
+
+      this.setState({ snackbarOpen: true, snackbarText: "Successfully published package" });
     } catch (e) {
       let err = "" + e;
       if (e instanceof Error) {

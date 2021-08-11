@@ -115,7 +115,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     try {
       console.log("before")
       const response = await fetch(API_URL + `v1/register/${this.state.url}/version/${this.state.version}`, {
-        method: "GET",
+        method: "POST",
         credentials: "include",
       });
       console.log("after", response)

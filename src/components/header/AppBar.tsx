@@ -15,6 +15,7 @@ import { History, UnregisterCallback } from "history";
 import React from "react";
 import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { setTimeout } from "timers";
+import { API_URL } from "../../App";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import ProgressBar from "../general/BorderLinearProgress";
@@ -159,16 +160,8 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
         location: location.pathname,
       });
     });
-    let API_URL = "";
-    if (typeof document !== `undefined`) {
-      // Check if the meta segment-key is set.
-      const apiUrl = document.querySelector('meta[name="api-url"]');
-      if (apiUrl) {
-        API_URL = apiUrl.getAttribute("content") || API_URL;
-      }
-    }
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL + "v1/packages");
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

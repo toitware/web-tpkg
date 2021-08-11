@@ -2,6 +2,7 @@ import { Box, createStyles, Grid, Theme, Typography, WithStyles, withStyles } fr
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
+import { API_URL } from "../../App";
 import { Version } from "../package/DependenciesView";
 
 const styles = (theme: Theme) =>
@@ -48,7 +49,7 @@ export type Pkg = {
 class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardState> {
   async componentDidMount() {
     try {
-      const response = await fetch(this.props.url);
+      const response = await fetch(API_URL + this.props.url);
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {

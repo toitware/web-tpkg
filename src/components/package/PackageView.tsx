@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/styles";
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
+import { API_URL } from "../../App";
 import { goldenShade, tigerShade } from "../../assets/theme/theme";
 import { ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
@@ -74,15 +75,8 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     this.setState({ loading: true });
     const pathName = this.props.history.location.pathname;
     const url = pathName.split("url=")[1];
-    let API_URL = "";
-    if (typeof document !== `undefined`) {
-      const apiUrl = document.querySelector('meta[name="api-url"]');
-      if (apiUrl) {
-        API_URL = apiUrl.getAttribute("content") || API_URL;
-      }
-    }
     try {
-      const response = await fetch(API_URL + "/" + url + "/versions");
+      const response = await fetch(API_URL + "v1/packages/" + url + "/versions");
       const text = await response.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {
@@ -124,9 +118,9 @@ class PackageView extends React.Component<PackageProps, PackageState> {
 
                 <Grid item xs={12} md={4} className={this.props.classes.sideInfo}>
                   <Grid item className={this.props.classes.sideInfoContent}>
-                    {/* 
-                    
-                    
+                    {/*
+
+
                     <Typography className={this.props.classes.bold}>Installation</Typography>
                     <Grid container direction="row" className={this.props.classes.installationLine}>
                       <Typography className={this.props.classes.install}>
@@ -181,11 +175,12 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                         <ButtonBase
                           onClick={() =>
                             window.open(
-                              `https://pkg.infra.toit.io/${
-                                this.state.pkgs[this.state.pkgs.length - 1].result.version.url
-                              }@${this.state.pkgs[this.state.pkgs.length - 1].result.version.version}/docs/${
-                                this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                              }/library-summary`
+                              process.env.REACT_APP_DOMAIN +
+                                `${this.state.pkgs[this.state.pkgs.length - 1].result.version.url}@${
+                                  this.state.pkgs[this.state.pkgs.length - 1].result.version.version
+                                }/docs/${
+                                  this.state.pkgs[this.state.pkgs.length - 1].result.version.name
+                                }/library-summary`
                             )
                           }
                         >

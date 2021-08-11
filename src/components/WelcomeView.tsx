@@ -68,8 +68,6 @@ interface WelcomeProps extends WithStyles<typeof styles>, RouteComponentProps, W
   history: History;
 }
 
-const API_URL = document.querySelector('meta[name="api-url"]')?.getAttribute("content");
-
 class WelcomeView extends React.Component<WelcomeProps> {
   render() {
     return (
@@ -82,27 +80,30 @@ class WelcomeView extends React.Component<WelcomeProps> {
             </Typography>{" "}
             {isWidthUp("md", this.props.width) ? (
               <Grid container spacing={2}>
-                <PackageCard width={4} url={API_URL + "/github.com/toitware/toit-color-tft/versions"} />
-                <PackageCard width={4} url={API_URL + "/github.com/andersjohnsen/pid/versions"} />
-                <PackageCard width={4} url={API_URL + "/github.com/toitware/bme280-driver/versions"} />
-                <PackageCard width={4} url={API_URL + "/github.com/toitware/toit-font-google-100dpi-roboto/versions"} />
-                <PackageCard width={4} url={API_URL + "/github.com/toitware/ublox-gnss-driver/versions"} />
+                <PackageCard width={4} url={"v1/packages/github.com/toitware/toit-color-tft/versions"} />
+                <PackageCard width={4} url={"v1/packages/github.com/andersjohnsen/pid/versions"} />
+                <PackageCard width={4} url={"v1/packages/github.com/toitware/bme280-driver/versions"} />
+                <PackageCard
+                  width={4}
+                  url={"v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions"}
+                />
+                <PackageCard width={4} url={"v1/packages/github.com/toitware/ublox-gnss-driver/versions"} />
               </Grid>
             ) : (
               <Carousel className={this.props.classes.carousel}>
                 <Grid container spacing={2} key={0}>
-                  <PackageCard width={6} url={API_URL + "/github.com/toitware/toit-color-tft/versions"} />
-                  <PackageCard width={6} url={API_URL + "/github.com/andersjohnsen/pid/versions"} />
+                  <PackageCard width={6} url={"v1/packages/github.com/toitware/toit-color-tft/versions"} />
+                  <PackageCard width={6} url={"v1/packages/github.com/andersjohnsen/pid/versions"} />
                 </Grid>
                 <Grid container spacing={2} key={1}>
-                  <PackageCard width={6} url={API_URL + "/github.com/toitware/bme280-driver/versions"} />
+                  <PackageCard width={6} url={"v1/packages/github.com/toitware/bme280-driver/versions"} />
                   <PackageCard
                     width={6}
-                    url={API_URL + "/github.com/toitware/toit-font-google-100dpi-roboto/versions"}
+                    url={"v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions"}
                   />
                 </Grid>
                 <Grid container spacing={2} key={2}>
-                  <PackageCard width={6} url={API_URL + "/github.com/toitware/ublox-gnss-driver/versions"} />
+                  <PackageCard width={6} url={"v1/packages/github.com/toitware/ublox-gnss-driver/versions"} />
                 </Grid>
               </Carousel>
             )}

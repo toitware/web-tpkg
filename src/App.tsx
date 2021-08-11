@@ -4,6 +4,16 @@ import React from "react";
 import theme from "./assets/theme/theme";
 import MainView from "./components/MainView";
 
+function getMetaValue(name: string): string | undefined {
+  const elements = document.getElementsByName(name);
+  if (elements.length === 1) {
+    return (elements[0] as HTMLMetaElement).content;
+  }
+  return undefined;
+}
+export const API_URL = getMetaValue("api-url") || "/api/";
+export const SEGMENT_KEY = getMetaValue("segment-key") || "";
+
 class App extends React.Component {
   loadCrispChat(): void {
     window.$crisp = [];
@@ -23,18 +33,10 @@ class App extends React.Component {
     this.loadCrispChat();
   }
   render(): JSX.Element {
-    let segmentAPIKey = "";
-    if (typeof document !== `undefined`) {
-      // Check if the meta segment-key is set.
-      const segmentKeyDOM = document.querySelector('meta[name="segment-key"]');
-      if (segmentKeyDOM) {
-        segmentAPIKey = segmentKeyDOM.getAttribute("content") || segmentAPIKey;
-      }
-    }
     return (
       <MuiThemeProvider theme={theme}>
         <MainView />
-        <CookieConsent segmentKey={segmentAPIKey || "no-key"} show={true} changeConsent={false} />
+        <CookieConsent segmentKey={SEGMENT_KEY} show={true} changeConsent={false} />
       </MuiThemeProvider>
     );
   }

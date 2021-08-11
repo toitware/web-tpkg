@@ -32,5 +32,30 @@ pipeline {
                 sh "yarn build"
             }
         }
+
+        stage("upload") {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch pattern: "release-v\\d+.\\d+", comparator: "REGEXP"
+                    tag "v*"
+                }
+            }
+
+            steps {
+                sh "tar -zcf build_${BUILD_VERSION}.tgz -C build/ ."
+                withCredentials([[$class: 'FileBinding', credentialsId: 'gcloud-service-auth', variable: 'GOOGLE_APPLICATION_CREDENTIALS']]) {
+                    sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                    sh "gcloud config set project infrastructure-220307"
+                    sh "toitarchive build_${BUILD_VERSION}.tgz toit-web pkg.toit.io ${BUILD_VERSION}"
+                }
+            }
+
+            post {
+                always {
+                    sh "make clean"
+                }
+            }
+        }
     }
 }

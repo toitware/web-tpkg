@@ -181,11 +181,9 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                         <ButtonBase
                           onClick={() =>
                             window.open(
-                              `https://pkg.infra.toit.io/${
-                                this.state.pkgs[this.state.pkgs.length - 1].result.version.url
-                              }@${this.state.pkgs[this.state.pkgs.length - 1].result.version.version}/docs/${
-                                this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                              }/library-summary`
+                              `${this.state.pkgs[this.state.pkgs.length - 1].result.version.url}@${
+                                this.state.pkgs[this.state.pkgs.length - 1].result.version.version
+                              }/docs/${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}/library-summary`
                             )
                           }
                         >

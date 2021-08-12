@@ -1,9 +1,9 @@
-import { ButtonBase, createStyles, Grid, Link, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { createStyles, Grid, Link, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { LinkedinLogo, RedditLogo, ToitLogo, TwitterLogo } from "../../misc/icons";
-import { docs } from "../header/ToolbarTop";
+import { docs, toitio } from "../header/ToolbarTop";
 import { screenWidth } from "../MainView";
 
 export const footerHeight = 490;
@@ -77,19 +77,19 @@ class Footer extends React.Component<FooterProps> {
       <Grid container className={this.props.classes.footer}>
         <Grid container className={this.props.classes.container}>
           <Grid item xs={6} sm={3} md={6}>
-            <ButtonBase>
+            <Link href={toitio} target="blank">
               <ToitLogo />
-            </ButtonBase>
+            </Link>
             <Grid container direction="row" className={this.props.classes.social}>
-              <ButtonBase>
+              <Link href="https://twitter.com/toitware" target="blank">
                 <TwitterLogo />
-              </ButtonBase>
-              <ButtonBase>
+              </Link>
+              <Link href="https://www.linkedin.com/company/toitio" target="blank">
                 <LinkedinLogo />
-              </ButtonBase>
-              <ButtonBase>
+              </Link>
+              <Link href="https://www.reddit.com/r/toit/" target="blank">
                 <RedditLogo />
-              </ButtonBase>
+              </Link>
             </Grid>
           </Grid>
           <Grid item xs={6} sm={3} md={2}>
@@ -99,24 +99,47 @@ class Footer extends React.Component<FooterProps> {
                 Documentation
               </Link>
             </Typography>
-            <Typography className={this.props.classes.link}>API</Typography>
-          </Grid>
-          <Grid item xs={6} sm={3} md={2}>
-            <Typography className={this.props.classes.heading}>Company</Typography>
-            <Typography
-              className={this.props.classes.link}
-              onClick={() => this.props.history.push("https://toit.io/terms-of-service")}
-            >
-              Terms of service
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://docs.toit.io/apis/api" target="blank">
+                API
+              </Link>
             </Typography>
-            <Typography className={this.props.classes.link}>Cookies policy</Typography>
           </Grid>
           <Grid item xs={6} sm={3} md={2}>
             <Typography className={this.props.classes.heading}>Legal</Typography>
-            <Typography className={this.props.classes.link}>About</Typography>
-            <Typography className={this.props.classes.link}>Blog</Typography>
-            <Typography className={this.props.classes.link}>FAQ</Typography>
-            <Typography className={this.props.classes.link}>Contact us</Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://toit.io/terms-of-service" target="blank">
+                Terms of service
+              </Link>
+            </Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://toit.io/cookies-policy" target="blank">
+                Cookies policy
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={3} md={2}>
+            <Typography className={this.props.classes.heading}>Company</Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://toit.io/company/about" target="blank">
+                About
+              </Link>
+            </Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://blog.toit.io/" target="blank">
+                Blog
+              </Link>
+            </Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://toit.io/developers/faq" target="blank">
+                FAQ
+              </Link>
+            </Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="mailto:contact@toit.io">
+                Contact us
+              </Link>
+            </Typography>
           </Grid>
         </Grid>
         <Typography className={this.props.classes.copyright}>© Toitware ApS. 2021.</Typography>

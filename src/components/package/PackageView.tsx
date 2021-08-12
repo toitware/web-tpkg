@@ -178,9 +178,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                               process.env.REACT_APP_DOMAIN +
                                 `${this.state.pkgs[this.state.pkgs.length - 1].result.version.url}@${
                                   this.state.pkgs[this.state.pkgs.length - 1].result.version.version
-                                }/docs/${
-                                  this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                                }/library-summary`
+                                }/docs/`
                             )
                           }
                         >

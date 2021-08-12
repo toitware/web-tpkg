@@ -137,7 +137,6 @@ class PublishView extends React.Component<PublishProps, PublishState> {
       this.setState({ snackbarOpen: true, snackbarText: `Failed to publish. ${err}` });
     } finally {
       this.setState({ loading: false });
-      //TODO Jacob: Create a fun IoT Device that does something crazy everytime a user publishes a package
     }
   }
 

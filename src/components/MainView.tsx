@@ -134,7 +134,7 @@ class MainView extends React.Component<MainProps, MenuState> {
       routepath: "/",
       linkpath: "",
       exact: true,
-      render: () => <WelcomeView />,
+      render: () => <WelcomeView packages={this.state.packages} />,
     },
     {
       name: "Packages",

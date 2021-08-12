@@ -83,6 +83,11 @@ const theme = createMuiTheme({
     },
   },
   overrides: {
+    MuiLink: {
+      root: {
+        color: dart,
+      },
+    },
     MuiButton: {
       root: {
         textTransform: "none",

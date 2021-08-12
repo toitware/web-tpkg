@@ -108,7 +108,7 @@ class WelcomeView extends React.Component<WelcomeProps> {
               </Carousel>
             )}
           </Grid>
-          <Grid container>
+          <Grid container spacing={1}>
             <Grid item xs={12} sm={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Explore packages
@@ -125,13 +125,13 @@ class WelcomeView extends React.Component<WelcomeProps> {
                 All packages
               </Button>
             </Grid>
-            <Grid item xs={false} md={2} />
+            {isWidthUp("md", this.props.width) && <Grid item xs={2} />}
             <Grid item xs={12} sm={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Contribute
               </Typography>
               <Typography className={this.props.classes.text}>
-                Read about how to create your own package at the{" "}
+                Read about how to create your own package in the{" "}
                 <Link href="https://docs.toit.io/language/package/">Toit documentation</Link>.
               </Typography>
               <Typography className={this.props.classes.text}>
@@ -141,7 +141,7 @@ class WelcomeView extends React.Component<WelcomeProps> {
                 variant="contained"
                 color="primary"
                 className={this.props.classes.button}
-                onClick={() => this.props.history.push("/register")}
+                onClick={() => this.props.history.push("/publish")}
               >
                 Publish package
               </Button>

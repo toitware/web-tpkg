@@ -1,14 +1,14 @@
-import { ButtonBase, createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
+import { createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { API_URL } from "../../App";
 import { goldenShade, tigerShade } from "../../assets/theme/theme";
-import { ExternalLinkIcon } from "../../misc/icons";
 import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
+import ActionBox from "./ActionBox";
 import { Version } from "./DependenciesView";
 import PackageMenuView from "./PackageMenuView";
 
@@ -118,25 +118,6 @@ class PackageView extends React.Component<PackageProps, PackageState> {
 
                 <Grid item xs={12} md={4} className={this.props.classes.sideInfo}>
                   <Grid item className={this.props.classes.sideInfoContent}>
-                    {/*
-
-
-                    <Typography className={this.props.classes.bold}>Installation</Typography>
-                    <Grid container direction="row" className={this.props.classes.installationLine}>
-                      <Typography className={this.props.classes.install}>
-                        {`toit pkg install ${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}`}
-                      </Typography>
-                      <ButtonBase
-                        onClick={() =>
-                          this.handleCopyInstallationText(
-                            `toit pkg install ${this.state.pkgs[this.state.pkgs.length - 1].result.version.name}`
-                          )
-                        }
-                      >
-                        <CopyIcon />
-                      </ButtonBase>
-                    </Grid>
-                          */}
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>License</Typography>
@@ -153,39 +134,19 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Repository</Typography>
-                      <Grid container direction="row" className={this.props.classes.installationLine}>
-                        <Typography className={this.props.classes.install}>
-                          {this.state.pkgs[this.state.pkgs.length - 1].result.version.url}
-                        </Typography>
-                        <ButtonBase
-                          onClick={() =>
-                            window.open("https://" + this.state.pkgs[this.state.pkgs.length - 1].result.version.url)
-                          }
-                        >
-                          <ExternalLinkIcon />
-                        </ButtonBase>
+                      <Grid container direction="row">
+                        <ActionBox text={this.state.pkgs[this.state.pkgs.length - 1].result.version.url} type="url" />
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Documentation</Typography>
-                      <Grid container direction="row" className={this.props.classes.installationLine}>
-                        <Typography className={this.props.classes.install}>{`pkg.toit.io/packages/${
-                          this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                        }`}</Typography>
-                        <ButtonBase
-                          onClick={() =>
-                            window.open(
-                              process.env.REACT_APP_DOMAIN +
-                                `${this.state.pkgs[this.state.pkgs.length - 1].result.version.url}@${
-                                  this.state.pkgs[this.state.pkgs.length - 1].result.version.version
-                                }/docs/${
-                                  this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                                }/library-summary`
-                            )
-                          }
-                        >
-                          <ExternalLinkIcon />
-                        </ButtonBase>
+                      <Grid container direction="row">
+                        <ActionBox
+                          text={`pkg.toit.io/packages/${
+                            this.state.pkgs[this.state.pkgs.length - 1].result.version.name
+                          }`}
+                          type="url"
+                        />
                       </Grid>
                     </Grid>
                   </Grid>

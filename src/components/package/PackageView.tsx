@@ -104,6 +104,18 @@ class PackageView extends React.Component<PackageProps, PackageState> {
   }
 
   render() {
+    if (!this.state.loading) {
+      console.log(
+        "URL",
+        new URL(
+          process.env.REACT_APP_DOMAIN +
+            `${this.state.pkgs[this.state.index].result.version.url}@${
+              this.state.pkgs[this.state.index].result.version.version
+            }/docs/`,
+          window.location.href
+        ).toString()
+      );
+    }
     return (
       !this.state.loading && (
         <>
@@ -149,9 +161,10 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                       <Grid container direction="row">
                         <ActionBox
                           text={new URL(
-                            `${this.state.pkgs[this.state.index].result.version.url}@${
-                              this.state.pkgs[this.state.index].result.version.version
-                            }/docs/`,
+                            process.env.REACT_APP_DOMAIN +
+                              `${this.state.pkgs[this.state.index].result.version.url}@${
+                                this.state.pkgs[this.state.index].result.version.version
+                              }/docs/`,
                             window.location.href
                           ).toString()}
                           type="url"

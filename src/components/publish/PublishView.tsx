@@ -215,7 +215,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
             <Typography variant="body2" className={this.props.classes.terms}>
               Your Git repository (GitHub, GitLab or other) has to be public to successfully be able to publish a
               package to the Toit package registry. Your package will be validated by the Toit team and this is only
-              done in order to avoid having packages that are potential harmful.
+              done in order to avoid having packages that are potentially harmful.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>

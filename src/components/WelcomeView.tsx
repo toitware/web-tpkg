@@ -205,7 +205,8 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                 variant="contained"
                 color="primary"
                 className={this.props.classes.button}
-                onClick={() => window.open("https://docs.toit.io/language/package/")}
+                href="https://docs.toit.io/language/package/"
+                target="blank"
               >
                 Start learning
               </Button>

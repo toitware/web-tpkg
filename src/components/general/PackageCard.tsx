@@ -48,7 +48,9 @@ class PackageCard extends React.Component<PackageLineDetailsProps> {
         <Box
           className={this.props.classes.featuredPackage}
           onClick={() =>
-            this.props.history.push("package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F"))
+            this.props.history.push(
+              "package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F") + "&index=latest"
+            )
           }
         >
           <Box className={this.props.classes.featuredPackageContent}>

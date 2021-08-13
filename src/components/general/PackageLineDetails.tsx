@@ -19,9 +19,17 @@ class PackageLineDetailsView extends React.Component<PackageLineDetailsProps> {
   render() {
     return (
       <Grid container direction="row">
-        <Typography variant="body2">{this.props.version}</Typography>
-        <Typography className={this.props.classes.dot}>•</Typography>
-        <Typography variant="body2">{this.props.url}</Typography>
+        <Grid item>
+          <Typography variant="body2">{this.props.version}</Typography>
+        </Grid>
+        <Grid item>
+          <Typography className={this.props.classes.dot}>•</Typography>
+        </Grid>
+        <Grid item xs zeroMinWidth>
+          <Typography variant="body2" noWrap>
+            {this.props.url}
+          </Typography>
+        </Grid>
         {/* 
         introduce again when data is available
         <Typography className={this.props.classes.dot}>•</Typography>

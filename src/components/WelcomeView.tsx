@@ -14,6 +14,7 @@ import { History } from "history";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 import { RouteComponentProps, withRouter } from "react-router";
+import { ReactComponent as PackagesImage } from "../assets/images/packages.svg";
 import { tigerShade } from "../assets/theme/theme";
 import { Package } from "./ExploreView";
 import Footer, { footerHeight } from "./general/Footer";
@@ -62,6 +63,9 @@ const styles = (theme: Theme) =>
     text: {
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(2),
+    },
+    packagesImage: {
+      alignSelf: "flex-end",
     },
   });
 
@@ -176,7 +180,37 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
               )
             )}
           </Grid>
-          <Grid container>
+          <Grid container spacing={1}>
+            {isWidthUp("sm", this.props.width) && (
+              <Grid item xs={12} sm={6} md={4} className={this.props.classes.packagesImage}>
+                <PackagesImage width="80%" />
+              </Grid>
+            )}
+            {isWidthUp("md", this.props.width) && <Grid item xs={2} />}
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography className={this.props.classes.featured} variant="h2">
+                Learn
+              </Typography>
+              <Typography className={this.props.classes.text}>
+                The process of writing a package is easier than you might think.
+              </Typography>
+              <Typography className={this.props.classes.text}>
+                Go to the{" "}
+                <Link target="_blank" href="https://docs.toit.io/language/package/">
+                  Toit documentation
+                </Link>{" "}
+                to start learning how to write your first package.
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                className={this.props.classes.button}
+                href="https://docs.toit.io/language/package/"
+                target="blank"
+              >
+                Start learning
+              </Button>
+            </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Explore packages
@@ -193,14 +227,10 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                 All packages
               </Button>
             </Grid>
-            <Grid item xs={false} md={2} />
+            {isWidthUp("md", this.props.width) && <Grid item xs={2} />}
             <Grid item xs={12} sm={6} md={4}>
               <Typography className={this.props.classes.featured} variant="h2">
                 Contribute
-              </Typography>
-              <Typography className={this.props.classes.text}>
-                Read about how to create your own package at the{" "}
-                <Link href="https://docs.toit.io/language/package/">Toit documentation</Link>.
               </Typography>
               <Typography className={this.props.classes.text}>
                 When you’re ready, you can contribute by publishing your packages to the Toit package registry.
@@ -209,7 +239,7 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                 variant="contained"
                 color="primary"
                 className={this.props.classes.button}
-                onClick={() => this.props.history.push("/register")}
+                onClick={() => this.props.history.push("/publish")}
               >
                 Publish package
               </Button>

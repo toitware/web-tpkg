@@ -1,7 +1,9 @@
+import { ReactComponent as ChevronRight } from "../assets/images/chevron-right.svg";
 import { ReactComponent as Copy } from "../assets/images/copy.svg";
 import { ReactComponent as Empty } from "../assets/images/empty-packages.svg";
 import { ReactComponent as ExternalLink } from "../assets/images/external-link.svg";
 import { ReactComponent as FileText } from "../assets/images/file-text.svg";
+import { ReactComponent as Link } from "../assets/images/link.svg";
 import { ReactComponent as Linkedin } from "../assets/images/linkedin.svg";
 import { ReactComponent as Menu } from "../assets/images/menu.svg";
 import { ReactComponent as Package } from "../assets/images/package.svg";
@@ -26,3 +28,5 @@ export const TwitterLogo = Twitter;
 export const LinkedinLogo = Linkedin;
 export const RedditLogo = Reddit;
 export const EmptyPackages = Empty;
+export const ChevronRightIcon = ChevronRight;
+export const LinkIcon = Link;

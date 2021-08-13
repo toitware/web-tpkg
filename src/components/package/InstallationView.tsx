@@ -1,8 +1,8 @@
-import { ButtonBase, createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
+import { createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
-import { CopyIcon } from "../../misc/icons";
 import { SnackBar } from "../general/SnackBar";
+import ActionBox from "./ActionBox";
 import { Version } from "./DependenciesView";
 
 const styles = (theme: Theme) =>
@@ -17,6 +17,7 @@ const styles = (theme: Theme) =>
     },
     installation: {
       paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     },
     install: {
       fontFamily: "Roboto Mono",
@@ -53,18 +54,9 @@ class InstallationView extends React.Component<InstallationProps> {
           <Typography variant="h5">Description</Typography>
           <Typography>{this.props.pkg.result.version.description}</Typography>
         </Grid>
-        <Grid item xs={12} className={this.props.classes.description}>
+        <Grid item xs={12} className={this.props.classes.installation}>
           <Typography variant="h5">Installation</Typography>
-          <Grid container direction="row" className={this.props.classes.installationLine}>
-            <Typography className={this.props.classes.install}>
-              {`toit pkg install ${this.props.pkg.result.version.name}`}
-            </Typography>
-            <ButtonBase
-              onClick={() => this.handleCopyInstallationText(`toit pkg install ${this.props.pkg.result.version.name}`)}
-            >
-              <CopyIcon />
-            </ButtonBase>
-          </Grid>
+          <ActionBox type="copy" text={`toit pkg install ${this.props.pkg.result.version.name}`} />
         </Grid>
         <SnackBar
           message="Text copied"

@@ -11,7 +11,7 @@ import RegisterView from "./publish/PublishView";
 import SearchView from "./search/SearchView";
 import WelcomeView from "./WelcomeView";
 
-export const screenWidth = 1000;
+export const screenWidth = 1200;
 const gridSpacing = 8;
 
 const styles = (theme: Theme) =>
@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
       paddingTop: theme.spacing(8),
       marginLeft: theme.spacing(4),
       marginRight: theme.spacing(4),
-      [theme.breakpoints.up("md")]: {
+      [theme.breakpoints.up("lg")]: {
         marginLeft: `calc((100% - ${screenWidth}px)/2)`,
         marginRight: `calc((100% - ${screenWidth}px)/2)`,
       },
@@ -158,8 +158,8 @@ class MainView extends React.Component<MainProps, MenuState> {
       render: () => <SearchView packages={this.state.filteredPackages} />,
     },
     {
-      name: "Register",
-      routepath: "/register",
+      name: "Publish",
+      routepath: "/publish",
       linkpath: "",
       exact: true,
       render: () => <RegisterView />,

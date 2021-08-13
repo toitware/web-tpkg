@@ -110,6 +110,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
               <PackageLineDetails
                 version={this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
                 published={Date.now()}
+                url={this.state.pkgs[this.state.pkgs.length - 1].result.version.url}
               />
               <Grid container className={this.props.classes.content}>
                 <Grid item xs={12} md={8}>

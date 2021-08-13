@@ -16,6 +16,7 @@ import React from "react";
 import styled from "styled-components";
 import { API_URL } from "../../App";
 import { ReactComponent as PackageFactory } from "../../assets/images/package-factory.svg";
+import { tiger } from "../../assets/theme/theme";
 import Footer, { footerHeight } from "../general/Footer";
 import { SnackBar } from "../general/SnackBar";
 
@@ -62,6 +63,8 @@ const styles = (theme: Theme) =>
       fontSize: 18,
       color: theme.palette.primary.dark,
       marginBottom: -12,
+      display: "flex",
+      placeItems: "flex-end",
     },
     description: {
       marginBottom: theme.spacing(3),
@@ -85,6 +88,9 @@ const styles = (theme: Theme) =>
       margin: 4,
       marginLeft: 15,
       marginRight: 15,
+    },
+    star: {
+      color: tiger,
     },
   });
 
@@ -140,6 +146,10 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     }
   }
 
+  componentDidMount() {
+    this.setState({ url: "", version: "" });
+  }
+
   render() {
     const state: PublishState = this.state || {};
     return (
@@ -154,7 +164,9 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               faster. Learn how to write a package at{" "}
               <Link href="https://docs.toit.io/language/package/pkgtutorial">docs.toit.io</Link>. Thanks.
             </Typography>
-            <InputLabel className={this.props.classes.formText}>Git url*</InputLabel>
+            <InputLabel className={this.props.classes.formText}>
+              Git URL<Typography className={this.props.classes.star}>*</Typography>
+            </InputLabel>
             <BlackBorderTextField
               variant="outlined"
               margin="normal"
@@ -168,7 +180,9 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               size="small"
               className={this.props.classes.textField}
             />
-            <InputLabel className={this.props.classes.formText}>Git tag*</InputLabel>
+            <InputLabel className={this.props.classes.formText}>
+              Git tag<Typography className={this.props.classes.star}>*</Typography>
+            </InputLabel>
             <BlackBorderTextField
               variant="outlined"
               margin="normal"
@@ -188,6 +202,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
                 variant="contained"
                 className={this.props.classes.button}
                 color="primary"
+                disabled={state.version === "" || state.url === ""}
                 onClick={() => this.publishPackage()}
               >
                 {!state.loading ? (
@@ -198,9 +213,9 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               </Button>
             </div>
             <Typography variant="body2" className={this.props.classes.terms}>
-              Your Github repository has to be public to successfully be able to publish a package to the Toit package
-              registry. Your package will be validated by the Toit team and this is only done in order to avoid having
-              packages that are potential harmful.
+              Your Git repository (GitHub, GitLab or other) has to be public to successfully be able to publish a
+              package to the Toit package registry. Your package will be validated by the Toit team and this is only
+              done in order to avoid having packages that are potential harmful.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>

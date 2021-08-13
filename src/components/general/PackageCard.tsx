@@ -2,6 +2,7 @@ import { Box, createStyles, Grid, Theme, Typography, WithStyles, withStyles } fr
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
+import PackageLineDetails from "./PackageLineDetails";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -53,7 +54,7 @@ class PackageCard extends React.Component<PackageLineDetailsProps> {
           <Box className={this.props.classes.featuredPackageContent}>
             <Typography variant="h6">{this.props.name}</Typography>
             <Typography>{this.props.description}</Typography>
-            <Typography variant="body2">{this.props.version}</Typography>
+            <PackageLineDetails url={this.props.url} version={this.props.version} published={Date.now()} />
           </Box>
         </Box>
       </Grid>

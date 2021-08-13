@@ -39,7 +39,7 @@ class SearchPackage extends React.Component<SearchPackageProps> {
           <Grid item xs={12}>
             <Typography variant="h6">{this.props.name}</Typography>
             <Typography>{this.props.description}</Typography>
-            <PackageLineDetails version={this.props.version} published={this.props.published} />
+            <PackageLineDetails version={this.props.version} published={this.props.published} url={this.props.url} />
           </Grid>
         </Box>
       </Grid>

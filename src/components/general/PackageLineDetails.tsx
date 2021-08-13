@@ -12,13 +12,24 @@ const styles = (theme: Theme) =>
 interface PackageLineDetailsProps extends WithStyles<typeof styles> {
   version: string;
   published: number | undefined;
+  url: string;
 }
 
 class PackageLineDetailsView extends React.Component<PackageLineDetailsProps> {
   render() {
     return (
       <Grid container direction="row">
-        <Typography variant="body2">{this.props.version}</Typography>
+        <Grid item>
+          <Typography variant="body2">{this.props.version}</Typography>
+        </Grid>
+        <Grid item>
+          <Typography className={this.props.classes.dot}>•</Typography>
+        </Grid>
+        <Grid item xs zeroMinWidth>
+          <Typography variant="body2" noWrap>
+            {this.props.url}
+          </Typography>
+        </Grid>
         {/* 
         introduce again when data is available
         <Typography className={this.props.classes.dot}>•</Typography>

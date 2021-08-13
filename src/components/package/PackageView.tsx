@@ -153,7 +153,10 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Repository</Typography>
                       <Grid container direction="row">
-                        <ActionBox text={"https://"+this.state.pkgs[this.state.index].result.version.url} type="url" />
+                        <ActionBox
+                          text={"https://" + this.state.pkgs[this.state.index].result.version.url}
+                          type="url"
+                        />
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>

@@ -108,7 +108,7 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.palette.primary.light,
       width: "100%",
       [theme.breakpoints.up("sm")]: {
-        maxWidth: 826,
+        maxWidth: 1032,
       },
     },
     searchIconTpkg: {

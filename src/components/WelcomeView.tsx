@@ -132,7 +132,10 @@ class WelcomeView extends React.Component<WelcomeProps> {
               </Typography>
               <Typography className={this.props.classes.text}>
                 Read about how to create your own package in the{" "}
-                <Link href="https://docs.toit.io/language/package/">Toit documentation</Link>.
+                <Link target="_blank" href="https://docs.toit.io/language/package/">
+                  Toit documentation
+                </Link>
+                .
               </Typography>
               <Typography className={this.props.classes.text}>
                 When you’re ready, you can contribute by publishing your packages to the Toit package registry.

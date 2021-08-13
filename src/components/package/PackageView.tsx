@@ -142,9 +142,12 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                       <Typography className={this.props.classes.bold}>Documentation</Typography>
                       <Grid container direction="row">
                         <ActionBox
-                          text={`pkg.toit.io/packages/${
-                            this.state.pkgs[this.state.pkgs.length - 1].result.version.name
-                          }`}
+                          text={
+                            process.env.REACT_APP_DOMAIN +
+                            `${this.state.pkgs[this.state.pkgs.length - 1].result.version.url}@${
+                              this.state.pkgs[this.state.pkgs.length - 1].result.version.version
+                            }/docs/`
+                          }
                           type="url"
                         />
                       </Grid>

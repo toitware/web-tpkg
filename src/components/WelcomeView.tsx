@@ -16,6 +16,7 @@ import Carousel from "react-material-ui-carousel";
 import { RouteComponentProps, withRouter } from "react-router";
 import { ReactComponent as PackagesImage } from "../assets/images/packages.svg";
 import { tigerShade } from "../assets/theme/theme";
+import { Package } from "./ExploreView";
 import Footer, { footerHeight } from "./general/Footer";
 import PackageCard from "./general/PackageCard";
 
@@ -70,10 +71,24 @@ const styles = (theme: Theme) =>
 
 interface WelcomeProps extends WithStyles<typeof styles>, RouteComponentProps, WithWidth {
   history: History;
+  packages?: Package[];
+}
+interface WelcomeState {
+  indexes: number[];
 }
 
-class WelcomeView extends React.Component<WelcomeProps> {
+class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
+  componentDidMount() {
+    const featuredPackageIndexes: number[] = [];
+    this.props.packages?.forEach((element, index) => {
+      if (["color_tft", "pid", "roboto", "ublox_gnss", "bme280"].includes(element.result.package.name)) {
+        featuredPackageIndexes.push(index);
+      }
+    });
+    this.setState({ indexes: featuredPackageIndexes });
+  }
   render() {
+    const state: WelcomeState = this.state || {};
     return (
       <>
         <Grid container className={this.props.classes.container}>
@@ -84,32 +99,85 @@ class WelcomeView extends React.Component<WelcomeProps> {
             </Typography>{" "}
             {isWidthUp("md", this.props.width) ? (
               <Grid container spacing={2}>
-                <PackageCard width={4} url={"v1/packages/github.com/toitware/toit-color-tft/versions"} />
-                <PackageCard width={4} url={"v1/packages/github.com/andersjohnsen/pid/versions"} />
-                <PackageCard width={4} url={"v1/packages/github.com/toitware/bme280-driver/versions"} />
-                <PackageCard
-                  width={4}
-                  url={"v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions"}
-                />
-                <PackageCard width={4} url={"v1/packages/github.com/toitware/ublox-gnss-driver/versions"} />
+                {state.indexes &&
+                  state.indexes.map((element, index) => (
+                    <PackageCard
+                      width={4}
+                      name={this.props.packages ? this.props.packages[element].result.package.name : ""}
+                      url={this.props.packages ? this.props.packages[element].result.package.url : ""}
+                      version={this.props.packages ? this.props.packages[element].result.package.latestVersion : ""}
+                      description={this.props.packages ? this.props.packages[element].result.package.description : ""}
+                      key={index}
+                    />
+                  ))}
               </Grid>
             ) : (
-              <Carousel className={this.props.classes.carousel}>
-                <Grid container spacing={2} key={0}>
-                  <PackageCard width={6} url={"v1/packages/github.com/toitware/toit-color-tft/versions"} />
-                  <PackageCard width={6} url={"v1/packages/github.com/andersjohnsen/pid/versions"} />
-                </Grid>
-                <Grid container spacing={2} key={1}>
-                  <PackageCard width={6} url={"v1/packages/github.com/toitware/bme280-driver/versions"} />
-                  <PackageCard
-                    width={6}
-                    url={"v1/packages/github.com/toitware/toit-font-google-100dpi-roboto/versions"}
-                  />
-                </Grid>
-                <Grid container spacing={2} key={2}>
-                  <PackageCard width={6} url={"v1/packages/github.com/toitware/ublox-gnss-driver/versions"} />
-                </Grid>
-              </Carousel>
+              state.indexes && (
+                <Carousel className={this.props.classes.carousel}>
+                  <Grid container spacing={2} key={0}>
+                    <PackageCard
+                      width={6}
+                      name={this.props.packages ? this.props.packages[state.indexes[0]].result.package.name : ""}
+                      url={this.props.packages ? this.props.packages[state.indexes[0]].result.package.url : ""}
+                      version={
+                        this.props.packages ? this.props.packages[state.indexes[0]].result.package.latestVersion : ""
+                      }
+                      description={
+                        this.props.packages ? this.props.packages[state.indexes[0]].result.package.description : ""
+                      }
+                    />
+                    <PackageCard
+                      width={6}
+                      name={this.props.packages ? this.props.packages[state.indexes[1]].result.package.name : ""}
+                      url={this.props.packages ? this.props.packages[state.indexes[1]].result.package.url : ""}
+                      version={
+                        this.props.packages ? this.props.packages[state.indexes[1]].result.package.latestVersion : ""
+                      }
+                      description={
+                        this.props.packages ? this.props.packages[state.indexes[1]].result.package.description : ""
+                      }
+                    />
+                  </Grid>
+                  <Grid container spacing={2} key={1}>
+                    <PackageCard
+                      width={6}
+                      name={this.props.packages ? this.props.packages[state.indexes[2]].result.package.name : ""}
+                      url={this.props.packages ? this.props.packages[state.indexes[2]].result.package.url : ""}
+                      version={
+                        this.props.packages ? this.props.packages[state.indexes[2]].result.package.latestVersion : ""
+                      }
+                      description={
+                        this.props.packages ? this.props.packages[state.indexes[2]].result.package.description : ""
+                      }
+                    />
+                    <PackageCard
+                      width={6}
+                      name={this.props.packages ? this.props.packages[state.indexes[3]].result.package.name : ""}
+                      url={this.props.packages ? this.props.packages[state.indexes[3]].result.package.url : ""}
+                      version={
+                        this.props.packages ? this.props.packages[state.indexes[3]].result.package.latestVersion : ""
+                      }
+                      description={
+                        this.props.packages ? this.props.packages[state.indexes[3]].result.package.description : ""
+                      }
+                    />
+                  </Grid>
+
+                  <Grid container spacing={2} key={2}>
+                    <PackageCard
+                      width={6}
+                      name={this.props.packages ? this.props.packages[state.indexes[4]].result.package.name : ""}
+                      url={this.props.packages ? this.props.packages[state.indexes[4]].result.package.url : ""}
+                      version={
+                        this.props.packages ? this.props.packages[state.indexes[4]].result.package.latestVersion : ""
+                      }
+                      description={
+                        this.props.packages ? this.props.packages[state.indexes[4]].result.package.description : ""
+                      }
+                    />
+                  </Grid>
+                </Carousel>
+              )
             )}
           </Grid>
           <Grid container spacing={1}>

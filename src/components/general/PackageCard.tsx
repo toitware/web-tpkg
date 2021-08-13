@@ -2,8 +2,6 @@ import { Box, createStyles, Grid, Theme, Typography, WithStyles, withStyles } fr
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { API_URL } from "../../App";
-import { Version } from "../package/DependenciesView";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -22,15 +20,11 @@ const styles = (theme: Theme) =>
 
 interface PackageLineDetailsProps extends WithStyles<typeof styles>, RouteComponentProps {
   history: History;
-  url: string;
-  width: boolean | "auto" | 3 | 2 | 1 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
-}
-
-interface PackageCardState {
   name: string;
   description: string;
-  version: string;
   url: string;
+  version: string;
+  width: boolean | "auto" | 3 | 2 | 1 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 }
 
 export type Pkg = {
@@ -46,43 +40,20 @@ export type Pkg = {
   };
 };
 
-class PackageCard extends React.Component<PackageLineDetailsProps, PackageCardState> {
-  async componentDidMount() {
-    try {
-      const response = await fetch(API_URL + this.props.url);
-      const text = await response.text();
-      const split = await text.split("\n");
-      const filter = await split.filter((line) => {
-        return line !== "";
-      });
-      const map = await filter.map((line) => {
-        return JSON.parse(line);
-      });
-      const lines = map as Version[];
-      const lastIndex = lines.length - 1;
-      const json = lines[lastIndex];
-      this.setState({
-        name: json.result.version.name,
-        description: json.result.version.description,
-        version: json.result.version.version,
-        url: json.result.version.url,
-      });
-    } catch (error) {
-      console.log("Error fetching", error);
-    }
-  }
+class PackageCard extends React.Component<PackageLineDetailsProps> {
   render() {
-    const state: PackageCardState = this.state || {};
     return (
       <Grid item xs={this.props.width}>
         <Box
           className={this.props.classes.featuredPackage}
-          onClick={() => this.props.history.push("package/" + state.name + "&url=" + state.url.split("/").join("%2F"))}
+          onClick={() =>
+            this.props.history.push("package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F"))
+          }
         >
           <Box className={this.props.classes.featuredPackageContent}>
-            <Typography variant="h6">{state.name}</Typography>
-            <Typography>{state.description}</Typography>
-            <Typography variant="body2">{state.version}</Typography>
+            <Typography variant="h6">{this.props.name}</Typography>
+            <Typography>{this.props.description}</Typography>
+            <Typography variant="body2">{this.props.version}</Typography>
           </Box>
         </Box>
       </Grid>

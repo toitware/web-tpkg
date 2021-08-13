@@ -1,4 +1,4 @@
-import { createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
+import { createStyles, Grid, Link, Theme, Typography, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
 
@@ -50,8 +50,15 @@ class DependenciesView extends React.Component<DependenciesProps, DependenciesSt
         <Grid item xs={12}>
           {this.props.pkg.result.version.dependencies.length > 0 ? (
             this.props.pkg.result.version.dependencies.map((element, i) => (
-              <Typography onClick={() => window.open("https://" + element.url)} key={i}>
-                {element.url} ({element.version})
+              <Typography key={i}>
+                <Link
+                  href={new URL(
+                    `url=${element.url.split("/").join("%2F")}&index=latest`,
+                    window.location.href
+                  ).toString()}
+                >
+                  {element.url} ({element.version})
+                </Link>
               </Typography>
             ))
           ) : (

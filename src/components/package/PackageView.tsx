@@ -63,6 +63,7 @@ interface PackageState {
   snackbar: boolean;
   pkgs: Version[];
   loading: boolean;
+  index: number;
 }
 
 class PackageView extends React.Component<PackageProps, PackageState> {
@@ -70,11 +71,14 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     snackbar: false,
     pkgs: [] as Version[],
     loading: true,
+    index: 0,
   };
   async componentDidMount() {
     this.setState({ loading: true });
     const pathName = this.props.history.location.pathname;
-    const url = pathName.split("url=")[1];
+    const urlAndVersion = pathName.split("url=")[1];
+    const url = urlAndVersion.split("&index=")[0];
+    const index = urlAndVersion.split("&index=")[1];
     try {
       const response = await fetch(API_URL + "v1/packages/" + url + "/versions");
       const text = await response.text();
@@ -90,7 +94,8 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     } catch (error) {
       console.log("Error fetching", error);
     }
-    this.setState({ loading: false });
+    if (index === "latest" || this.state.pkgs.length >= parseInt(index) - 1)
+      this.setState({ loading: false, index: index === "latest" ? this.state.pkgs.length - 1 : parseInt(index) });
   }
 
   handleCopyInstallationText(text: string) {
@@ -99,18 +104,30 @@ class PackageView extends React.Component<PackageProps, PackageState> {
   }
 
   render() {
+    if (!this.state.loading) {
+      console.log(
+        "URL",
+        new URL(
+          process.env.REACT_APP_DOMAIN +
+            `${this.state.pkgs[this.state.index].result.version.url}@${
+              this.state.pkgs[this.state.index].result.version.version
+            }/docs/`,
+          window.location.href
+        ).toString()
+      );
+    }
     return (
       !this.state.loading && (
         <>
           <Grid container className={this.props.classes.grid}>
             <Grid item xs={12}>
               <Typography variant="h4" className={this.props.classes.title}>
-                {this.state.pkgs[this.state.pkgs.length - 1].result.version.name}
+                {this.state.pkgs[this.state.index].result.version.name}
               </Typography>
               <PackageLineDetails
-                version={this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
+                version={this.state.pkgs[this.state.index].result.version.version}
                 published={Date.now()}
-                url={this.state.pkgs[this.state.pkgs.length - 1].result.version.url}
+                url={this.state.pkgs[this.state.index].result.version.url}
               />
               <Grid container className={this.props.classes.content}>
                 <Grid item xs={12} md={8}>
@@ -123,32 +140,33 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>License</Typography>
                         <Typography variant="body2">
-                          {this.state.pkgs[this.state.pkgs.length - 1].result.version.license}
+                          {this.state.pkgs[this.state.index].result.version.license}
                         </Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>Version</Typography>
                         <Typography variant="body2">
-                          {this.state.pkgs[this.state.pkgs.length - 1].result.version.version}
+                          {this.state.pkgs[this.state.index].result.version.version}
                         </Typography>
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Repository</Typography>
                       <Grid container direction="row">
-                        <ActionBox text={this.state.pkgs[this.state.pkgs.length - 1].result.version.url} type="url" />
+                        <ActionBox text={this.state.pkgs[this.state.index].result.version.url} type="url" />
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Documentation</Typography>
                       <Grid container direction="row">
                         <ActionBox
-                          text={
+                          text={new URL(
                             process.env.REACT_APP_DOMAIN +
-                            `${this.state.pkgs[this.state.pkgs.length - 1].result.version.url}@${
-                              this.state.pkgs[this.state.pkgs.length - 1].result.version.version
-                            }/docs/`
-                          }
+                              `${this.state.pkgs[this.state.index].result.version.url}@${
+                                this.state.pkgs[this.state.index].result.version.version
+                              }/docs/`,
+                            window.location.href
+                          ).toString()}
                           type="url"
                         />
                       </Grid>

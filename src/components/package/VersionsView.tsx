@@ -26,7 +26,16 @@ class VersionsView extends React.Component<VersionsProps> {
       <Grid container className={this.props.classes.grid}>
         <Grid item container xs={12} direction="column">
           {this.props.pkgs.map((element, i) => (
-            <Link href={element.result.version.url} key={i}>
+            <Link
+              href={
+                this.props.pkgs[i].result.version.name +
+                "&url=" +
+                this.props.pkgs[i].result.version.url.split("/").join("%2F") +
+                "&index=" +
+                i.toString()
+              }
+              key={i}
+            >
               {element.result.version.version}
             </Link>
           ))}

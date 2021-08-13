@@ -110,11 +110,7 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
       );
     if (this.props.type === "url")
       return (
-        <Box
-          onClick={() => window.open("https://" + this.props.text)}
-          className={this.props.classes.box}
-          marginTop={10}
-        >
+        <Box onClick={() => window.open(this.props.text)} className={this.props.classes.box} marginTop={10}>
           <Grid container wrap="nowrap" spacing={2} className={this.props.classes.containerUrl}>
             <Grid item>
               <LinkIcon />

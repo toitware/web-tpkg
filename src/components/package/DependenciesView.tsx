@@ -53,7 +53,7 @@ class DependenciesView extends React.Component<DependenciesProps, DependenciesSt
               <Typography key={i}>
                 <Link
                   href={new URL(
-                    `url=${element.url.split("/").join("%2F")}&index=latest`,
+                    element.url.split("/").join("%2F") + "@v" + element.version.split("^").join(""),
                     window.location.href
                   ).toString()}
                 >

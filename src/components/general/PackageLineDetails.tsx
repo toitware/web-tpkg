@@ -10,9 +10,9 @@ const styles = (theme: Theme) =>
   });
 
 interface PackageLineDetailsProps extends WithStyles<typeof styles> {
-  version: string;
-  published: number | undefined;
-  url: string;
+  version?: string;
+  published?: number;
+  url?: string;
 }
 
 class PackageLineDetailsView extends React.Component<PackageLineDetailsProps> {

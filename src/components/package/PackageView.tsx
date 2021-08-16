@@ -9,7 +9,7 @@ import Footer, { footerHeight } from "../general/Footer";
 import PackageLineDetails from "../general/PackageLineDetails";
 import { SnackBar } from "../general/SnackBar";
 import ActionBox from "./ActionBox";
-import { Version } from "./DependenciesView";
+import { Dependency, Version } from "./DependenciesView";
 import PackageMenuView from "./PackageMenuView";
 
 const styles = (theme: Theme) =>
@@ -59,29 +59,40 @@ interface PackageProps extends WithStyles<typeof styles>, RouteComponentProps {
   history: History;
 }
 
+interface PackageRaw {
+  name: string;
+  description: string;
+  license: string;
+  url: string;
+  version: string;
+  dependencies: Dependency[];
+}
+
 interface PackageState {
   snackbar: boolean;
   pkgs: Version[];
+  package: PackageRaw;
   loading: boolean;
-  index: number;
+  version: string;
 }
 
 class PackageView extends React.Component<PackageProps, PackageState> {
-  state = {
-    snackbar: false,
-    pkgs: [] as Version[],
-    loading: true,
-    index: 0,
-  };
   async componentDidMount() {
-    this.setState({ loading: true, snackbar: false, pkgs: [] as Version[], index: 0 });
+    this.setState({
+      loading: true,
+      snackbar: false,
+      pkgs: [] as Version[],
+      version: "",
+      package: {} as PackageRaw,
+    });
     const pathName = this.props.history.location.pathname;
-    const urlAndVersion = pathName.split("url=")[1];
-    const url = urlAndVersion.split("&index=")[0];
-    const index = urlAndVersion.split("&index=")[1];
+    const url = pathName.split("package/")[1];
+    const urlWithoutVersion = url.split("@v")[0];
+    const version = url.split("@v")[1];
+    let pkg = {} as Version;
     try {
-      const response = await fetch(API_URL + "v1/packages/" + url + "/versions");
-      const text = await response.text();
+      const responseVersions = await fetch(API_URL + "v1/packages/" + urlWithoutVersion + "/versions");
+      const text = await responseVersions.text();
       const split = await text.split("\n");
       const filter = await split.filter((line) => {
         return line !== "";
@@ -90,12 +101,28 @@ class PackageView extends React.Component<PackageProps, PackageState> {
         return JSON.parse(line);
       });
       const lines = map as Version[];
+
+      lines.forEach((val: Version) => {
+        if (val.result.version.version === version) {
+          pkg = val;
+        }
+      });
+      if (!pkg.result) pkg = lines[lines.length - 1];
       this.setState({ pkgs: lines });
     } catch (error) {
       console.log("Error fetching", error);
     }
-    if (index === "latest" || this.state.pkgs.length >= parseInt(index) - 1)
-      this.setState({ loading: false, index: index === "latest" ? this.state.pkgs.length - 1 : parseInt(index) });
+    this.setState({
+      package: {
+        name: pkg.result.version.name,
+        description: pkg.result.version.description,
+        license: pkg.result.version.license,
+        url: pkg.result.version.url,
+        version: pkg.result.version.version,
+        dependencies: pkg.result.version.dependencies,
+      },
+      loading: false,
+    });
   }
 
   handleCopyInstallationText(text: string) {
@@ -111,13 +138,9 @@ class PackageView extends React.Component<PackageProps, PackageState> {
           <Grid container className={this.props.classes.grid}>
             <Grid item xs={12}>
               <Typography variant="h4" className={this.props.classes.title}>
-                {state.pkgs[state.index].result.version.name}
+                {state.package?.name}
               </Typography>
-              <PackageLineDetails
-                version={state.pkgs[state.index].result.version.version}
-                published={Date.now()}
-                url={state.pkgs[state.index].result.version.url}
-              />
+              <PackageLineDetails version={state.package?.version} published={Date.now()} url={state.package?.url} />
               <Grid container className={this.props.classes.content}>
                 <Grid item xs={12} md={8}>
                   <PackageMenuView pkgs={state.pkgs} />
@@ -128,32 +151,31 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>License</Typography>
-                        <Typography variant="body2">{state.pkgs[state.index].result.version.license}</Typography>
+                        <Typography variant="body2">{state.package?.license}</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>Version</Typography>
-                        <Typography variant="body2">{state.pkgs[state.index].result.version.version}</Typography>
+                        <Typography variant="body2">{state.package?.version}</Typography>
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Repository</Typography>
                       <Grid container direction="row">
-                        <ActionBox text={"https://" + state.pkgs[state.index].result.version.url} type="url" />
+                        <ActionBox text={"https://" + state.package?.url} type="url" />
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Documentation</Typography>
                       <Grid container direction="row">
-                        <ActionBox
-                          text={new URL(
-                            process.env.REACT_APP_DOMAIN +
-                              `${state.pkgs[state.index].result.version.url}@${
-                                state.pkgs[state.index].result.version.version
-                              }/docs/`,
-                            window.location.href
-                          ).toString()}
-                          type="url"
-                        />
+                        {state.package && (
+                          <ActionBox
+                            text={new URL(
+                              process.env.REACT_APP_DOMAIN + `${state.package?.url}@${state.package?.version}/docs/`,
+                              window.location.href
+                            ).toString()}
+                            type="url"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>

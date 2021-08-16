@@ -123,7 +123,10 @@ class PublishView extends React.Component<PublishProps, PublishState> {
         method: "POST",
         credentials: "include",
       });
-      if (!response.ok) {
+      if (response.ok) {
+        analytics.track("Package Published Successfully", { name: this.state.url, tag: this.state.version });
+      } else {
+        analytics.track("Package Published Failed", { name: this.state.url, tag: this.state.version });
         let err = response.statusText;
         try {
           const body = await response.text();
@@ -148,6 +151,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
 
   componentDidMount() {
     this.setState({ url: "", version: "" });
+    analytics.page();
   }
 
   render() {

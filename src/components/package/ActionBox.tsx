@@ -78,6 +78,11 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
   handleCopyInstallationText(text: string) {
     void navigator.clipboard.writeText(text);
     this.setState({ snackbar: true });
+    analytics.track("Installation Line Copied", { data: text });
+  }
+  handleLinkClick(text: string) {
+    analytics.track("Installation Line Copied", { data: text });
+    window.open(this.props.text);
   }
 
   componentDidMount() {}
@@ -110,7 +115,7 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
       );
     if (this.props.type === "url")
       return (
-        <Box onClick={() => window.open(this.props.text)} className={this.props.classes.box} marginTop={10}>
+        <Box onClick={() => this.handleLinkClick(this.props.text)} className={this.props.classes.box} marginTop={10}>
           <Grid container wrap="nowrap" spacing={2} className={this.props.classes.containerUrl}>
             <Grid item>
               <LinkIcon />

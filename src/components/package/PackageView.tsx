@@ -74,7 +74,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     index: 0,
   };
   async componentDidMount() {
-    this.setState({ loading: true });
+    this.setState({ loading: true, snackbar: false, pkgs: [] as Version[], index: 0 });
     const pathName = this.props.history.location.pathname;
     const urlAndVersion = pathName.split("url=")[1];
     const url = urlAndVersion.split("&index=")[0];
@@ -96,6 +96,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     }
     if (index === "latest" || this.state.pkgs.length >= parseInt(index) - 1)
       this.setState({ loading: false, index: index === "latest" ? this.state.pkgs.length - 1 : parseInt(index) });
+    analytics.page(this.state.pkgs[this.state.index].result.version.name);
   }
 
   handleCopyInstallationText(text: string) {
@@ -104,34 +105,23 @@ class PackageView extends React.Component<PackageProps, PackageState> {
   }
 
   render() {
-    if (!this.state.loading) {
-      console.log(
-        "URL",
-        new URL(
-          process.env.REACT_APP_DOMAIN +
-            `${this.state.pkgs[this.state.index].result.version.url}@${
-              this.state.pkgs[this.state.index].result.version.version
-            }/docs/`,
-          window.location.href
-        ).toString()
-      );
-    }
+    const state: PackageState = this.state || {};
     return (
-      !this.state.loading && (
+      !state.loading && (
         <>
           <Grid container className={this.props.classes.grid}>
             <Grid item xs={12}>
               <Typography variant="h4" className={this.props.classes.title}>
-                {this.state.pkgs[this.state.index].result.version.name}
+                {state.pkgs[state.index].result.version.name}
               </Typography>
               <PackageLineDetails
-                version={this.state.pkgs[this.state.index].result.version.version}
+                version={state.pkgs[state.index].result.version.version}
                 published={Date.now()}
-                url={this.state.pkgs[this.state.index].result.version.url}
+                url={state.pkgs[state.index].result.version.url}
               />
               <Grid container className={this.props.classes.content}>
                 <Grid item xs={12} md={8}>
-                  <PackageMenuView pkgs={this.state.pkgs} />
+                  <PackageMenuView pkgs={state.pkgs} />
                 </Grid>
 
                 <Grid item xs={12} md={4} className={this.props.classes.sideInfo}>
@@ -139,24 +129,17 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>License</Typography>
-                        <Typography variant="body2">
-                          {this.state.pkgs[this.state.index].result.version.license}
-                        </Typography>
+                        <Typography variant="body2">{state.pkgs[state.index].result.version.license}</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography className={this.props.classes.bold}>Version</Typography>
-                        <Typography variant="body2">
-                          {this.state.pkgs[this.state.index].result.version.version}
-                        </Typography>
+                        <Typography variant="body2">{state.pkgs[state.index].result.version.version}</Typography>
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Repository</Typography>
                       <Grid container direction="row">
-                        <ActionBox
-                          text={"https://" + this.state.pkgs[this.state.index].result.version.url}
-                          type="url"
-                        />
+                        <ActionBox text={"https://" + state.pkgs[state.index].result.version.url} type="url" />
                       </Grid>
                     </Grid>
                     <Grid container direction="row" className={this.props.classes.textContainer}>
@@ -165,8 +148,8 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                         <ActionBox
                           text={new URL(
                             process.env.REACT_APP_DOMAIN +
-                              `${this.state.pkgs[this.state.index].result.version.url}@${
-                                this.state.pkgs[this.state.index].result.version.version
+                              `${state.pkgs[state.index].result.version.url}@${
+                                state.pkgs[state.index].result.version.version
                               }/docs/`,
                             window.location.href
                           ).toString()}
@@ -181,7 +164,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
             <SnackBar
               message="Text copied"
               type="success"
-              open={this.state.snackbar}
+              open={state.snackbar}
               onClose={() => this.setState({ snackbar: false })}
             ></SnackBar>
           </Grid>

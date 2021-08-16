@@ -32,9 +32,7 @@ class SearchPackage extends React.Component<SearchPackageProps> {
       <Grid container className={this.props.classes.grid}>
         <Box
           onClick={() =>
-            this.props.history.push(
-              "package/" + this.props.name + "&url=" + this.props.url.split("/").join("%2F") + "&index=latest"
-            )
+            this.props.history.push("package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version)
           }
           className={this.props.classes.package}
         >

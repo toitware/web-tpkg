@@ -78,10 +78,10 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
   handleCopyInstallationText(text: string) {
     void navigator.clipboard.writeText(text);
     this.setState({ snackbar: true });
-    analytics.track("Installation Line Copied", { data: text });
+    analytics.track("Copied Installation Line", { line: text });
   }
   handleLinkClick(text: string) {
-    analytics.track("Installation Line Copied", { data: text });
+    analytics.track("Clicked URL", { url: text });
     window.open(this.props.text);
   }
 

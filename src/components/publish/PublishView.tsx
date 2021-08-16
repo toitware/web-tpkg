@@ -116,17 +116,16 @@ class PublishView extends React.Component<PublishProps, PublishState> {
   };
 
   async publishPackage() {
-    this.setState({ snackbarOpen: true, snackbarText: "" });
-    this.setState({ loading: true });
+    this.setState({ snackbarOpen: true, snackbarText: "", loading: true });
     try {
       const response = await fetch(API_URL + `v1/register/${this.state.url}/version/${this.state.version}`, {
         method: "POST",
         credentials: "include",
       });
       if (response.ok) {
-        analytics.track("Published Package Successfully", { name: this.state.url, tag: this.state.version });
+        analytics.track("Published Package Successfully", { url: this.state.url, tag: this.state.version });
       } else {
-        analytics.track("Published Package Failed", { name: this.state.url, tag: this.state.version });
+        analytics.track("Published Package Failed", { url: this.state.url, tag: this.state.version });
         let err = response.statusText;
         try {
           const body = await response.text();

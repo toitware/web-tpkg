@@ -96,7 +96,6 @@ class PackageView extends React.Component<PackageProps, PackageState> {
     }
     if (index === "latest" || this.state.pkgs.length >= parseInt(index) - 1)
       this.setState({ loading: false, index: index === "latest" ? this.state.pkgs.length - 1 : parseInt(index) });
-    analytics.page(this.state.pkgs[this.state.index].result.version.name);
   }
 
   handleCopyInstallationText(text: string) {

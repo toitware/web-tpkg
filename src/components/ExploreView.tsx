@@ -50,7 +50,6 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
 
   componentDidMount() {
     this.setState({ loading: false });
-    analytics.page();
   }
 
   render() {

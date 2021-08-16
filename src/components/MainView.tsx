@@ -102,6 +102,7 @@ class MainView extends React.Component<MainProps, MenuState> {
       this.setState({
         location: location.pathname,
       });
+      analytics.page();
     });
     try {
       const response = await fetch(API_URL + "v1/packages");

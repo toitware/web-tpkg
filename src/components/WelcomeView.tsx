@@ -86,7 +86,6 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
       }
     });
     this.setState({ indexes: featuredPackageIndexes });
-    analytics.page();
   }
   render() {
     const state: WelcomeState = this.state || {};
@@ -207,7 +206,7 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                 color="primary"
                 className={this.props.classes.button}
                 href="https://docs.toit.io/language/package/"
-                onClick={() => analytics.track("Start Learning")}
+                onClick={() => analytics.track("Clicked Start Learning")}
                 target="blank"
               >
                 Start learning

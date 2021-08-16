@@ -11,7 +11,7 @@ const styles = (theme: Theme) =>
 
 interface PackageLineDetailsProps extends WithStyles<typeof styles> {
   version?: string;
-  published?: number | undefined;
+  published?: number;
   url?: string;
 }
 

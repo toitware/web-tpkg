@@ -121,8 +121,8 @@ class PackageView extends React.Component<PackageProps, PackageState> {
         version: pkg.result.version.version,
         dependencies: pkg.result.version.dependencies,
       },
+      loading: false,
     });
-    this.setState({ loading: false });
   }
 
   handleCopyInstallationText(text: string) {

@@ -91,10 +91,7 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
     const state: ActionBoxState = this.state || {};
     if (this.props.type === "copy")
       return (
-        <Box
-          onClick={() => this.handleCopyInstallationText("toit pkg install " + this.props.text)}
-          className={this.props.classes.box}
-        >
+        <Box onClick={() => this.handleCopyInstallationText(this.props.text)} className={this.props.classes.box}>
           <Grid container wrap="nowrap" spacing={2} className={this.props.classes.root}>
             <SnackBar
               open={state.snackbar}

@@ -71,7 +71,6 @@ interface PackageRaw {
 interface PackageState {
   snackbar: boolean;
   pkgs: Version[];
-  pkg: Version;
   package: PackageRaw;
   loading: boolean;
   version: string;
@@ -83,7 +82,6 @@ class PackageView extends React.Component<PackageProps, PackageState> {
       loading: true,
       snackbar: false,
       pkgs: [] as Version[],
-      pkg: {} as Version,
       version: "",
       package: {} as PackageRaw,
     });
@@ -124,7 +122,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
         dependencies: pkg.result.version.dependencies,
       },
     });
-    this.setState({ loading: false, pkg: pkg });
+    this.setState({ loading: false });
   }
 
   handleCopyInstallationText(text: string) {
@@ -169,7 +167,7 @@ class PackageView extends React.Component<PackageProps, PackageState> {
                     <Grid container direction="row" className={this.props.classes.textContainer}>
                       <Typography className={this.props.classes.bold}>Documentation</Typography>
                       <Grid container direction="row">
-                        {state.pkg && (
+                        {state.package && (
                           <ActionBox
                             text={new URL(
                               process.env.REACT_APP_DOMAIN + `${state.package?.url}@${state.package?.version}/docs/`,

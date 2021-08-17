@@ -27,6 +27,9 @@ const styles = (theme: Theme) =>
   createStyles({
     title: {
       paddingBottom: theme.spacing(4),
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "2rem",
+      },
     },
     featured: {
       paddingTop: theme.spacing(8),
@@ -50,6 +53,9 @@ const styles = (theme: Theme) =>
       zIndex: 1,
       marginBottom: theme.spacing(10),
       marginTop: 330,
+      [theme.breakpoints.down("xs")]: {
+        marginTop: 310,
+      },
     },
     button: {
       marginTop: theme.spacing(2),
@@ -58,7 +64,7 @@ const styles = (theme: Theme) =>
       paddingBottom: footerHeight + 120,
     },
     carousel: {
-      height: 332 - fullToSmallCut,
+      height: 332 - 120,
     },
     text: {
       paddingTop: theme.spacing(2),

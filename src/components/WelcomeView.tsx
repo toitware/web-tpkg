@@ -55,6 +55,7 @@ const styles = (theme: Theme) =>
       marginTop: 330,
       [theme.breakpoints.down("xs")]: {
         marginTop: 310,
+        marginBottom: theme.spacing(5),
       },
     },
     button: {

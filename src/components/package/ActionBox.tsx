@@ -1,4 +1,4 @@
-import { Box, createStyles, Grid, Theme, Typography, WithStyles } from "@material-ui/core";
+import { Box, createStyles, Grid, Link, Theme, Typography, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";
 import { black, lightGray, white } from "../../assets/theme/theme";
@@ -51,6 +51,11 @@ const styles = (theme: Theme) =>
       "&:hover": {
         cursor: "pointer",
       },
+      textDecoration: "none",
+      "&:hover, &:focus, &:visited, &:link, &:active": {
+        textDecoration: "none",
+      },
+      color: black,
     },
     boxUrl: {
       display: "contents",
@@ -80,10 +85,6 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
     this.setState({ snackbar: true });
     analytics.track("Copied Installation Line", { line: text });
   }
-  handleLinkClick(text: string) {
-    analytics.track("Clicked URL", { url: text });
-    window.open(this.props.text);
-  }
 
   componentDidMount() {}
 
@@ -112,17 +113,22 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
       );
     if (this.props.type === "url")
       return (
-        <Box onClick={() => this.handleLinkClick(this.props.text)} className={this.props.classes.box} marginTop={10}>
-          <Grid container wrap="nowrap" spacing={2} className={this.props.classes.containerUrl}>
-            <Grid item>
-              <LinkIcon />
+        <Box
+          onClick={() => analytics.track("Clicked URL", { url: this.props.text })}
+          className={this.props.classes.box}
+        >
+          <Link href={this.props.text} target="blank" className={this.props.classes.box}>
+            <Grid container wrap="nowrap" spacing={2} className={this.props.classes.containerUrl}>
+              <Grid item>
+                <LinkIcon />
+              </Grid>
+              <Grid item xs zeroMinWidth>
+                <Typography className={this.props.classes.fatText} noWrap>
+                  {this.props.text}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs zeroMinWidth>
-              <Typography className={this.props.classes.fatText} noWrap>
-                {this.props.text}
-              </Typography>
-            </Grid>
-          </Grid>
+          </Link>
         </Box>
       );
   }

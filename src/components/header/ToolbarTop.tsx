@@ -13,6 +13,7 @@ import withWidth, { isWidthDown, WithWidth } from "@material-ui/core/withWidth";
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import { MenuIcon } from "../../misc/icons";
 
 const styles = (theme: Theme) =>
@@ -75,11 +76,31 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
               open={Boolean(this.state.anchorEl)}
               onClose={() => this.setState({ anchorEl: null })}
             >
-              <MenuItem onClick={() => window.open(toitio, "_blank")}>Toit.io</MenuItem>
-              <MenuItem onClick={() => window.open(console, "_blank")}>Console</MenuItem>
-              <MenuItem onClick={() => window.open(docs, "_blank")}>Documentation</MenuItem>
-              <MenuItem onClick={() => window.open(libs, "_blank")}>Library</MenuItem>
-              <MenuItem onClick={() => window.open(community, "_blank")}>Community</MenuItem>
+              <MenuItem>
+                <Link to={toitio} target="blank">
+                  Toit.io
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={console} target="blank">
+                  Console
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={docs} target="blank">
+                  Documentation
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={libs} target="blank">
+                  Library
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={community} target="blank">
+                  Community
+                </Link>
+              </MenuItem>
             </Menu>
           </>
         ) : (

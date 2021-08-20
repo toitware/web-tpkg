@@ -85,9 +85,6 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
     this.setState({ snackbar: true });
     analytics.track("Copied Installation Line", { line: text });
   }
-  handleLinkClick(text: string) {
-    analytics.track("Clicked URL", { url: text });
-  }
 
   componentDidMount() {}
 
@@ -116,7 +113,10 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
       );
     if (this.props.type === "url")
       return (
-        <Box onClick={() => this.handleLinkClick(this.props.text)} className={this.props.classes.box}>
+        <Box
+          onClick={() => analytics.track("Clicked URL", { url: this.props.text })}
+          className={this.props.classes.box}
+        >
           <Link href={this.props.text} target="blank" className={this.props.classes.box}>
             <Grid container wrap="nowrap" spacing={2} className={this.props.classes.containerUrl}>
               <Grid item>

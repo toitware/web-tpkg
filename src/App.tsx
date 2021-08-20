@@ -17,7 +17,7 @@ export const SEGMENT_KEY = getMetaValue("segment-key") || "";
 class App extends React.Component {
   loadCrispChat(): void {
     window.$crisp = [];
-    window.CRISP_WEBSITE_ID = "bf6d2763-2d2d-4ebb-b8eb-da83a95ec3bf";
+    window.CRISP_WEBSITE_ID = "d7358065-35d6-43ee-bcd9-608d223d7aab";
 
     (function () {
       const d = document;

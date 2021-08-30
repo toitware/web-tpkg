@@ -56,7 +56,7 @@ class InstallationView extends React.Component<InstallationProps> {
         </Grid>
         <Grid item xs={12} className={this.props.classes.installation}>
           <Typography variant="h5">Installation</Typography>
-          <ActionBox type="copy" text={`toit pkg install ${this.props.pkg.result.version.name}`} />
+          <ActionBox type="copy" text={`toit pkg install ${this.props.pkg.result.version.url}`} />
         </Grid>
         <SnackBar
           message="Text copied"

@@ -65,13 +65,12 @@ const styles = (theme: Theme) =>
   });
 
 interface PackageMenuProps extends WithStyles<typeof styles> {
-  searchQuery?: string;
   pkgs: Version[];
+  currentPkgIndex: number;
 }
 
 interface PackageMenuState {
   menuValue: number;
-  loading: boolean;
 }
 
 interface TabPanelProps {
@@ -110,19 +109,14 @@ function a11yProps(index: number) {
 class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState> {
   state = {
     menuValue: 0,
-    loading: true,
   };
-
-  componentDidMount() {
-    this.setState({ loading: false });
-  }
 
   onTabChange = (event: React.ChangeEvent<unknown>, newValue: number): void => {
     this.setState({ menuValue: newValue });
   };
 
   render() {
-    return !this.state.loading ? (
+    return (
       <Grid container className={this.props.classes.grid}>
         <div className={this.props.classes.root}>
           <AppBar position="static" color="default">
@@ -187,18 +181,19 @@ class PackageMenuView extends React.Component<PackageMenuProps, PackageMenuState
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.menuValue} index={0}>
-            <InstallationView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />
+            <InstallationView
+              pkg={this.props.pkgs[this.props.currentPkgIndex]}
+              latest={this.props.pkgs.length - 1 === this.props.currentPkgIndex}
+            />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={1}>
-            <DependenciesView pkg={this.props.pkgs[this.props.pkgs.length - 1]} />
+            <DependenciesView pkg={this.props.pkgs[this.props.currentPkgIndex]} />
           </TabPanel>
           <TabPanel value={this.state.menuValue} index={2}>
             <VersionsView pkgs={this.props.pkgs} />
           </TabPanel>
         </div>
       </Grid>
-    ) : (
-      <Typography>Loading</Typography>
     );
   }
 }

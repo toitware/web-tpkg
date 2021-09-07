@@ -32,6 +32,7 @@ const styles = (theme: Theme) =>
 
 interface InstallationProps extends WithStyles<typeof styles> {
   pkg: Version;
+  latest: boolean;
 }
 
 class InstallationView extends React.Component<InstallationProps> {
@@ -56,7 +57,14 @@ class InstallationView extends React.Component<InstallationProps> {
         </Grid>
         <Grid item xs={12} className={this.props.classes.installation}>
           <Typography variant="h5">Installation</Typography>
-          <ActionBox type="copy" text={`toit pkg install ${this.props.pkg.result.version.name}`} />
+          <ActionBox
+            type="copy"
+            text={
+              this.props.latest
+                ? `toit pkg install ${this.props.pkg.result.version.url}`
+                : `toit pkg install ${this.props.pkg.result.version.url}@${this.props.pkg.result.version.version}`
+            }
+          />
         </Grid>
         <SnackBar
           message="Text copied"

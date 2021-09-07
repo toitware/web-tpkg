@@ -106,6 +106,14 @@ interface PublishState {
 }
 
 class PublishView extends React.Component<PublishProps, PublishState> {
+  state: PublishState = {
+    loading: false,
+    url: "",
+    version: "",
+    snackbarOpen: false,
+    snackbarText: "",
+  };
+
   handleTextChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState((prevState) => {
       return {
@@ -116,14 +124,21 @@ class PublishView extends React.Component<PublishProps, PublishState> {
   };
 
   async publishPackage() {
-    this.setState({ snackbarOpen: true, snackbarText: "", loading: true });
+    this.setState({ snackbarOpen: false, snackbarText: "", loading: true });
+    let url = this.state.url;
+    if (url.startsWith("https://")) {
+      url = url.substring(8);
+    } else if (url.startsWith("http://")) {
+      url = url.substring(7);
+    }
+
     try {
-      const response = await fetch(API_URL + `v1/register/${this.state.url}/version/${this.state.version}`, {
+      const response = await fetch(API_URL + `v1/register/${url}/version/${this.state.version}`, {
         method: "POST",
         credentials: "include",
       });
       if (response.ok) {
-        analytics.track("Published Package Successfully", { url: this.state.url, tag: this.state.version });
+        analytics.track("Published Package Successfully", { url: url, tag: this.state.version });
       } else {
         let err = response.statusText;
         try {
@@ -139,17 +154,13 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     } catch (e) {
       let err = "" + e;
       if (e instanceof Error) {
-        analytics.track("Published Package Failed", { url: this.state.url, tag: this.state.version });
+        analytics.track("Published Package Failed", { url: url, tag: this.state.version });
         err = `Error: ${e.message}`;
       }
       this.setState({ snackbarOpen: true, snackbarText: `Failed to publish. ${err}` });
     } finally {
       this.setState({ loading: false });
     }
-  }
-
-  componentDidMount() {
-    this.setState({ url: "", version: "" });
   }
 
   render() {

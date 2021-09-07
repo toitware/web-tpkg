@@ -18,15 +18,17 @@ export type Dependency = {
 
 export type Version = {
   result: {
-    version: {
-      name: string;
-      description: string;
-      license: string;
-      url: string;
-      version: string;
-      dependencies: Dependency[];
-    };
+    version: Package;
   };
+};
+
+export type Package = {
+  name: string;
+  description: string;
+  license: string;
+  url: string;
+  version: string;
+  dependencies: Dependency[];
 };
 
 interface DependenciesProps extends WithStyles<typeof styles> {

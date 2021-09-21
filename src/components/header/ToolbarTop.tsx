@@ -1,6 +1,7 @@
 import {
   Button,
   createStyles,
+  Link,
   Menu,
   MenuItem,
   Theme,
@@ -13,7 +14,6 @@ import withWidth, { isWidthDown, WithWidth } from "@material-ui/core/withWidth";
 import { History } from "history";
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Link } from "react-router-dom";
 import { MenuIcon } from "../../misc/icons";
 
 const styles = (theme: Theme) =>
@@ -77,27 +77,27 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
               onClose={() => this.setState({ anchorEl: null })}
             >
               <MenuItem>
-                <Link to={toitio} target="blank">
+                <Link href={toitio} target="_blank" rel="noreferrer">
                   Toit.io
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link to={console} target="blank">
+                <Link href={console} target="_blank" rel="noreferrer">
                   Console
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link to={docs} target="blank">
+                <Link href={docs} target="_blank" rel="noreferrer">
                   Documentation
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link to={libs} target="blank">
+                <Link href={libs} target="_blank" rel="noreferrer">
                   Library
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link to={community} target="blank">
+                <Link href={community} target="_blank" rel="noreferrer">
                   Community
                 </Link>
               </MenuItem>
@@ -108,19 +108,19 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
             <Typography variant="h6" className={this.props.classes.title}>
               {" "}
             </Typography>
-            <Button color="secondary" href={toitio} target="blank">
+            <Button color="secondary" href={toitio} target="_blank" rel="noreferrer">
               Toit.io
             </Button>
-            <Button color="secondary" href={console} target="blank">
+            <Button color="secondary" href={console} target="_blank" rel="noreferrer">
               Console
             </Button>
-            <Button color="secondary" href={docs} target="blank">
+            <Button color="secondary" href={docs} target="_blank" rel="noreferrer">
               Documentation
             </Button>
-            <Button color="secondary" href={libs} target="blank">
+            <Button color="secondary" href={libs} target="_blank" rel="noreferrer">
               Library
             </Button>
-            <Button color="secondary" href={community} target="blank">
+            <Button color="secondary" href={community} target="_blank" rel="noreferrer">
               Community
             </Button>
           </>

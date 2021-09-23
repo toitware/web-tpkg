@@ -68,9 +68,7 @@ interface MainProps extends WithStyles<typeof styles>, RouteComponentProps {
 
 interface MenuState {
   location: string;
-  packages: Package[];
-  filteredPackages: Package[];
-  loading: boolean;
+  packages?: Package[];
 }
 
 interface PageComponent {
@@ -86,16 +84,8 @@ class MainView extends React.Component<MainProps, MenuState> {
   unlisten?: UnregisterCallback = undefined;
   state = {
     location: "",
-    packages: [],
-    filteredPackages: [],
-    loading: true,
+    packages: undefined,
   };
-
-  setLoading(loading: boolean) {
-    this.setState({
-      loading: loading,
-    });
-  }
 
   async componentDidMount() {
     this.unlisten = this.props.history.listen((location, action) => {
@@ -118,9 +108,11 @@ class MainView extends React.Component<MainProps, MenuState> {
         packages: map,
       });
     } catch (error) {
+      this.setState({
+        packages: [],
+      });
       console.log("Error fetching", error);
     }
-    this.setState({ loading: false });
   }
 
   componentWillUnmount() {
@@ -156,7 +148,7 @@ class MainView extends React.Component<MainProps, MenuState> {
       routepath: "/search/:searchQuery?",
       linkpath: "",
       exact: true,
-      render: () => <SearchView packages={this.state.filteredPackages} />,
+      render: () => <SearchView packages={this.state.packages} />,
     },
     {
       name: "Publish",
@@ -167,10 +159,6 @@ class MainView extends React.Component<MainProps, MenuState> {
     },
   ];
 
-  handleCallback(pkgs: Package[]) {
-    this.setState({ filteredPackages: pkgs });
-  }
-
   render() {
     const { classes } = this.props;
 
@@ -178,8 +166,8 @@ class MainView extends React.Component<MainProps, MenuState> {
       <div className={classes.root}>
         <div className={classes.container}>
           <CssBaseline />
-          <AppBar callback={(p: Package[]) => this.handleCallback(p)} />
-          {!this.state.loading && (
+          <AppBar />
+          {this.state.packages !== undefined && (
             <main className={classes.content}>
               <div />
               <Switch>

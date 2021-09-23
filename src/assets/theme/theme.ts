@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 
 export const unknownColor = grey[700];
@@ -32,7 +32,7 @@ export const lineGraphColors = [dart, golden, tiger, python];
 
 // Note! If the theme colors change, the color placeholder in ../pkg/emailprovider/ must be manually updated
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: "light",
     primary: {

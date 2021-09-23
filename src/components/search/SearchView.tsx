@@ -5,6 +5,12 @@ import { Package } from "../ExploreView";
 import Footer, { footerHeight } from "../general/Footer";
 import SearchPackage from "./SearchPackage";
 
+export function getSearchString(): string | undefined {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get("query") || undefined;
+}
+
 const styles = (theme: Theme) =>
   createStyles({
     grid: {
@@ -27,28 +33,40 @@ const styles = (theme: Theme) =>
   });
 
 interface SearchProps extends WithStyles<typeof styles> {
-  searchQuery?: string;
   packages?: Package[];
 }
 
 interface SearchState {
-  searchResult: string;
-  searchParam: string;
+  searchParam?: string;
+  filteredPackages?: Package[];
 }
 
 class SearchView extends React.Component<SearchProps, SearchState> {
-  state = {
-    searchResult: "",
-    searchParam: "",
+  state: SearchState = {
+    searchParam: getSearchString(),
   };
 
+  componentDidMount() {
+    this.onUpdate();
+  }
+
   componentDidUpdate(prevProp: SearchProps, prevState: SearchState) {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const searchParam = urlParams.get("query") || "";
-    if (searchParam !== prevState.searchParam) {
-      this.setState({ searchParam: searchParam });
+    const searchParam = getSearchString();
+    if (this.state.searchParam === searchParam && this.props.packages === prevProp.packages) {
+      return;
     }
+    this.onUpdate();
+  }
+
+  onUpdate() {
+    const searchParam = getSearchString();
+    const packages = this.props.packages?.filter((pkg) => {
+      return pkg.result.package.name.toLowerCase().indexOf(searchParam?.toLowerCase() || "") >= 0;
+    });
+    this.setState({
+      filteredPackages: packages,
+      searchParam: searchParam,
+    });
   }
 
   render() {
@@ -57,10 +75,12 @@ class SearchView extends React.Component<SearchProps, SearchState> {
         <Grid container className={this.props.classes.grid}>
           <Grid item xs={12}>
             <Typography variant="h5" className={this.props.classes.searchInfo}>
-              {this.props.packages?.length === 1 ? "1 result" : this.props.packages?.length + " results"} for the
-              search: {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
+              {this.state.filteredPackages?.length === 1
+                ? "1 result"
+                : this.state.filteredPackages?.length + " results"}{" "}
+              for the search: {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
             </Typography>
-            {this.props.packages?.map((element, key) => (
+            {this.state.filteredPackages?.map((element, key) => (
               <SearchPackage
                 key={key}
                 name={element.result.package.name}
@@ -70,7 +90,7 @@ class SearchView extends React.Component<SearchProps, SearchState> {
                 url={element.result.package.url}
               />
             ))}
-            {this.props.packages?.length === 0 && (
+            {this.state.filteredPackages?.length === 0 && (
               <Grid container>
                 <Grid item xs={4}>
                   <EmptyPackages className={this.props.classes.emptyPackages} />{" "}

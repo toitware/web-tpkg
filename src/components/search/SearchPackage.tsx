@@ -1,7 +1,6 @@
 import { Box, createStyles, Grid, Theme, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { History } from "history";
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import PackageLineDetails from "../general/PackageLineDetails";
 
 const styles = (theme: Theme) =>
@@ -15,10 +14,13 @@ const styles = (theme: Theme) =>
     package: {
       cursor: "pointer",
     },
+    link: {
+      textDecoration: "none",
+      color: "inherit",
+    },
   });
 
 interface SearchPackageProps extends WithStyles<typeof styles>, RouteComponentProps {
-  history: History;
   name: string;
   description: string;
   version: string;
@@ -30,17 +32,17 @@ class SearchPackage extends React.Component<SearchPackageProps> {
   render() {
     return (
       <Grid container className={this.props.classes.grid}>
-        <Box
-          onClick={() =>
-            this.props.history.push("package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version)
-          }
-          className={this.props.classes.package}
-        >
-          <Grid item xs={12}>
-            <Typography variant="h6">{this.props.name}</Typography>
-            <Typography>{this.props.description}</Typography>
-            <PackageLineDetails version={this.props.version} published={this.props.published} url={this.props.url} />
-          </Grid>
+        <Box className={this.props.classes.package}>
+          <Link
+            to={"package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version}
+            className={this.props.classes.link}
+          >
+            <Grid item xs={12}>
+              <Typography variant="h6">{this.props.name}</Typography>
+              <Typography>{this.props.description}</Typography>
+              <PackageLineDetails version={this.props.version} published={this.props.published} url={this.props.url} />
+            </Grid>
+          </Link>
         </Box>
       </Grid>
     );

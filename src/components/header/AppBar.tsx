@@ -151,7 +151,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   };
 
   async componentDidMount() {
-    console.log("State", this.state)
+    console.log("State", this.state);
     this.unlisten = this.props.history.listen((location, action) => {
       this.setState({
         location: location.pathname,

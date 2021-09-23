@@ -17,7 +17,7 @@ const styles = (theme: Theme) =>
     link: {
       textDecoration: "none",
       color: "inherit",
-    }
+    },
   });
 
 interface SearchPackageProps extends WithStyles<typeof styles>, RouteComponentProps {
@@ -33,7 +33,10 @@ class SearchPackage extends React.Component<SearchPackageProps> {
     return (
       <Grid container className={this.props.classes.grid}>
         <Box className={this.props.classes.package}>
-          <Link to={"package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version} className={this.props.classes.link}>
+          <Link
+            to={"package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version}
+            className={this.props.classes.link}
+          >
             <Grid item xs={12}>
               <Typography variant="h6">{this.props.name}</Typography>
               <Typography>{this.props.description}</Typography>

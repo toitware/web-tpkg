@@ -11,9 +11,9 @@ const styles = (theme: Theme) =>
       minHeight: 150,
       borderRadius: 3,
     },
-    link: {
+    link: {
       color: "inherit",
-      textDecoration:"none",
+      textDecoration: "none",
     },
     featuredPackageContent: {
       padding: theme.spacing(2),
@@ -49,7 +49,10 @@ class PackageCard extends React.Component<PackageLineDetailsProps> {
     return (
       <Grid item xs={this.props.width}>
         <Box className={this.props.classes.featuredPackage}>
-          <Link to={"package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version} className={this.props.classes.link}>
+          <Link
+            to={"package/" + this.props.url.split("/").join("%2F") + "@v" + this.props.version}
+            className={this.props.classes.link}
+          >
             <Box className={this.props.classes.featuredPackageContent}>
               <Typography variant="h6">{this.props.name}</Typography>
               <Typography>{this.props.description}</Typography>

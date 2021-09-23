@@ -5,7 +5,7 @@ import { Package } from "../ExploreView";
 import Footer, { footerHeight } from "../general/Footer";
 import SearchPackage from "./SearchPackage";
 
-export function getSearchString(): string | undefined {
+export function getSearchString(): string | undefined {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get("query") || undefined;
@@ -42,33 +42,31 @@ interface SearchState {
 }
 
 class SearchView extends React.Component<SearchProps, SearchState> {
-  state:SearchState = {
+  state: SearchState = {
     searchParam: getSearchString(),
   };
 
   componentDidMount() {
-    this.onUpdate()
+    this.onUpdate();
   }
 
   componentDidUpdate(prevProp: SearchProps, prevState: SearchState) {
     const searchParam = getSearchString();
-    if (
-      this.state.searchParam === searchParam &&
-      this.props.packages === prevProp.packages) {
-      return
+    if (this.state.searchParam === searchParam && this.props.packages === prevProp.packages) {
+      return;
     }
-    this.onUpdate()
+    this.onUpdate();
   }
 
   onUpdate() {
     const searchParam = getSearchString();
     const packages = this.props.packages?.filter((pkg) => {
-      return pkg.result.package.name.toLowerCase().indexOf(searchParam?.toLowerCase() || "") >= 0;
-    })
+      return pkg.result.package.name.toLowerCase().indexOf(searchParam?.toLowerCase() || "") >= 0;
+    });
     this.setState({
       filteredPackages: packages,
       searchParam: searchParam,
-    })
+    });
   }
 
   render() {
@@ -77,8 +75,10 @@ class SearchView extends React.Component<SearchProps, SearchState> {
         <Grid container className={this.props.classes.grid}>
           <Grid item xs={12}>
             <Typography variant="h5" className={this.props.classes.searchInfo}>
-              {this.state.filteredPackages?.length === 1 ? "1 result" : this.state.filteredPackages?.length + " results"} for the
-              search: {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
+              {this.state.filteredPackages?.length === 1
+                ? "1 result"
+                : this.state.filteredPackages?.length + " results"}{" "}
+              for the search: {this.state.searchParam !== null ? this.state.searchParam : ""}{" "}
             </Typography>
             {this.state.filteredPackages?.map((element, key) => (
               <SearchPackage

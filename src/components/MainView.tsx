@@ -110,7 +110,7 @@ class MainView extends React.Component<MainProps, MenuState> {
     } catch (error) {
       this.setState({
         packages: [],
-      })
+      });
       console.log("Error fetching", error);
     }
   }

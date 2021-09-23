@@ -13,12 +13,13 @@ import {
 } from "@material-ui/core";
 import { History, UnregisterCallback } from "history";
 import React from "react";
-import { Route, RouteComponentProps, withRouter } from "react-router-dom";
+import { Link, Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { setTimeout } from "timers";
 import { API_URL } from "../../App";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import ProgressBar from "../general/BorderLinearProgress";
+import { getSearchString } from "../search/SearchView";
 import ToolbarTop from "./ToolbarTop";
 
 const styles = (theme: Theme) =>
@@ -127,18 +128,13 @@ const styles = (theme: Theme) =>
 
 interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps {
   history: History;
-  callback: (pkg: Package[]) => void;
 }
 interface AppBarState {
-  search: string;
+  search?: string;
   loading: boolean;
   location: string;
   packages: Package[];
   store: Package[];
-}
-
-interface SearchValues {
-  search: string;
 }
 
 const landingPage = "/";
@@ -147,7 +143,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   unlisten?: UnregisterCallback = undefined;
 
   state = {
-    search: "",
+    search: getSearchString(),
     loading: false,
     location: "",
     packages: [],
@@ -155,6 +151,7 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   };
 
   async componentDidMount() {
+    console.log("State", this.state)
     this.unlisten = this.props.history.listen((location, action) => {
       this.setState({
         location: location.pathname,
@@ -184,28 +181,15 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
     }
   }
 
-  filterSearch() {
-    const filtered = this.state.store.filter((pkg) => {
-      return pkg.result.package.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-    });
-    this.props.callback(filtered);
-  }
-
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async handleSearch() {
-    this.setState({ loading: true });
-    this.filterSearch();
-    await this.delay(100);
-    this.setState({ loading: false });
-    const searchValue = { search: this.state.search.toLowerCase() } as SearchValues;
     analytics.ready(() => {
-      analytics.track("Package Search", searchValue);
+      analytics.track("Package Search", { search: this.state.search?.toLowerCase() });
     });
     this.props.history.push("/search?query=" + this.state.search);
-    this.setState({ search: "" });
   }
 
   render() {
@@ -216,10 +200,12 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
           <Grid container direction="row">
             <Grid item xs={12} className={this.props.classes.tpkgLogo}>
               <Typography className={this.props.classes.title}>
-                <TpkgLogo className={this.props.classes.logo} onClick={() => this.props.history.push("/")} />
+                <Link to="/">
+                  <TpkgLogo className={this.props.classes.logo} />
+                </Link>
               </Typography>
             </Grid>
-            <Grid item xs={12} justifyContent="center" className={this.props.classes.tpkgContainer}>
+            <Grid container justifyContent="center" className={this.props.classes.tpkgContainer}>
               <div className={this.props.classes.searchTpkg}>
                 <div className={this.props.classes.searchIconTpkg}>
                   <SearchIcon />
@@ -262,7 +248,9 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
         <Divider className={this.props.classes.divider} />
         <MuiToolbar className={this.props.classes.toolbarSmall}>
           <Typography className={this.props.classes.title}>
-            <ToitLogo className={this.props.classes.logo} onClick={() => this.props.history.push("/")} />
+            <Link to="/">
+              <ToitLogo className={this.props.classes.logo} />
+            </Link>
           </Typography>
           <div className={this.props.classes.search}>
             <div className={this.props.classes.searchIcon}>
@@ -275,6 +263,8 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
                 root: this.props.classes.inputRoot,
                 input: this.props.classes.inputInput,
               }}
+              type="search"
+              value={this.state.search}
               inputProps={{ "aria-label": "search" }}
               onChange={(event) => this.setState({ search: event.target.value })}
               onKeyPress={(en) => {

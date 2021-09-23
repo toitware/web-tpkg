@@ -14,6 +14,7 @@ import { History } from "history";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 import { RouteComponentProps, withRouter } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
 import { ReactComponent as PackagesImage } from "../assets/images/packages.svg";
 import { tigerShade } from "../assets/theme/theme";
 import { Package } from "./ExploreView";
@@ -230,7 +231,8 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                 variant="contained"
                 color="primary"
                 className={this.props.classes.button}
-                onClick={() => this.props.history.push("/packages")}
+                component={RouterLink}
+                to="/packages"
               >
                 All packages
               </Button>
@@ -247,7 +249,8 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                 variant="contained"
                 color="primary"
                 className={this.props.classes.button}
-                onClick={() => this.props.history.push("/publish")}
+                component={RouterLink}
+                to="/publish"
               >
                 Publish package
               </Button>

@@ -89,7 +89,7 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
   componentDidMount() {
     const featuredPackageIndexes: number[] = [];
     this.props.packages?.forEach((element, index) => {
-      if (["color_tft", "pid", "roboto", "ublox_gnss", "bme280"].includes(element.result.package.name)) {
+      if (["mqtt", "pid", "color_tft", "ublox_gnss", "bme280"].includes(element.result.package.name)) {
         featuredPackageIndexes.push(index);
       }
     });

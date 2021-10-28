@@ -1732,10 +1732,10 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-7.2.1.tgz#2ad4e844175a3738cb9e7064be5ea070b8863a1c"
   integrity sha512-oZ0Ib5I4Z2pUEcoo95cT1cr6slco9WY7yiPpG+RGNkj8YcYgJnM7pXmYmorNOReh8MIGcKSqXyeGjxnr8YiZbA==
 
-"@toitware/cookie-consent@^0.1.4":
-  version "0.1.4"
-  resolved "https://npm.pkg.github.com/download/@toitware/cookie-consent/0.1.4/acbc8fd7551a3cce896e664c6795c3b2d160ad745ceee9bf9c715e399919884e#4b414705e8297e5e4da931069cbdb032c8b25bc9"
-  integrity sha512-acxi8rFmsVpV13sDCEKazokUq7TL6MDHGp7avg7cREL9hbAxFOx87iSrTH3wKhi/j+HNMbkQYitEPeANxlDluA==
+"@toitware/cookie-consent@0.1.5":
+  version "0.1.5"
+  resolved "https://npm.pkg.github.com/download/@toitware/cookie-consent/0.1.5/0309ff44bf230515151a2d91ad778a43c4d9b551493163a590fe94f3f21f5fbb#43ef2085858f6396e5f84ad5a26c4faef7f101ef"
+  integrity sha512-EsdOROAfVNDAi1oXQnIfo6CswxqTSsmzOtexUL0UYendZUhHLD6FKjQycDPArjmbHBLhYxsFtSu1Z0YxlhuRDA==
   dependencies:
     js-cookie "^2.2.1"
     react-icons "^4.2.0"

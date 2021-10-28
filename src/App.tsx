@@ -36,7 +36,12 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <MainView />
-        <CookieConsent segmentKey={SEGMENT_KEY} show={true} changeConsent={false} />
+        <CookieConsent
+          amplitudeAPIEndpoint={"amplitude.toit.io"}
+          segmentKey={SEGMENT_KEY}
+          show={true}
+          changeConsent={false}
+        />
       </MuiThemeProvider>
     );
   }

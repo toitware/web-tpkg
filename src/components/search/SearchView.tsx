@@ -60,13 +60,53 @@ class SearchView extends React.Component<SearchProps, SearchState> {
 
   onUpdate() {
     const searchParam = getSearchString();
-    const packages = this.props.packages?.filter((pkg) => {
-      return pkg.result.package.name.toLowerCase().indexOf(searchParam?.toLowerCase() || "") >= 0;
-    });
+    const words = SearchView.searchParamToWordList(searchParam || "")
+    const packages = SearchView.best10(words, this.props.packages)
+
     this.setState({
       filteredPackages: packages,
       searchParam: searchParam,
     });
+  }
+
+  static searchParamToWordList(searchParam: string) {
+    const words = searchParam.split(/[^a-z0-9]+/i).flatMap((str) => {
+      if (str === "") return []
+      // If we have long numbers or strings in the word we use them as independent search terms.
+      // So for example tm1640 will use 1640 as a search term, but not tm because it's too short.
+      // Zyxel2 will use Zyxel as a search term, even without the "2".
+      var components = str.match(/(?:[0-9]{3,})|(?:[a-z]{3,})/gi)
+      if (components) {
+        components.push(str)
+        return components.map((str) => str.toLowerCase())
+      } else {
+        return [str.toLowerCase()]
+      }
+    })
+    return words
+  }
+
+  static best10(words: string[], packages: Array<any> | undefined) {
+    if (!packages) return []
+    const scoredPackages = packages.flatMap((pkg) => {
+      var score = 0
+      for (const i in words) {
+        const word = words[i]
+        if (pkg.result.package.name.toLowerCase().indexOf(word) >= 0) score += 10
+        if (pkg.result.package.description.toLowerCase().indexOf(word) >= 0) score += 2
+        if (word !== "http" && word !== "https" && word !== "www" && word !== "github" && word !== "toit") {
+          if (pkg.result.package.url.toLowerCase().indexOf(word) >= 0) score += 2
+        }
+      }
+      if (score === 0) {
+          return []
+      } else {
+          return [{"pkg": pkg, "score": score}]
+      }
+    });
+
+    scoredPackages.sort((first, second) => second.score - first.score)
+    return scoredPackages.slice(0, 10).map((pair) => pair.pkg)
   }
 
   render() {

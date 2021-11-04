@@ -18,7 +18,7 @@ const styles = (theme: Theme) =>
     },
   });
 export type Package = {
-  result: {
+  result?: {
     package: {
       name: string;
       description: string;
@@ -27,6 +27,10 @@ export type Package = {
       latestVersion: string;
     };
   };
+  error?: {
+    code: number;
+    message: string;
+  }
 };
 export type Packages = {
   result: {
@@ -70,16 +74,19 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
             </>
           )}
           {this.props.packages
-            ?.sort((a, b) => a.result.package.name.localeCompare(b.result.package.name))
+            ?.sort((a, b) => (a.result?.package.name || "").localeCompare(b.result?.package.name || ""))
             .map((element, i) => {
+              if (element.result === undefined) {
+                return null;
+              }
               return (
                 <SearchPackage
-                  name={element.result.package.name}
-                  description={element.result.package.description}
-                  version={element.result.package.latestVersion}
+                  name={element.result?.package.name}
+                  description={element.result?.package.description}
+                  version={element.result?.package.latestVersion}
                   published={0}
                   key={i}
-                  url={element.result.package.url}
+                  url={element.result?.package.url}
                 />
               );
             })}

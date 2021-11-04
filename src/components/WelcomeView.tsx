@@ -89,7 +89,7 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
   componentDidMount() {
     const featuredPackageIndexes: number[] = [];
     this.props.packages?.forEach((element, index) => {
-      if (["mqtt", "pid", "color_tft", "ublox_gnss", "bme280"].includes(element.result.package.name)) {
+      if (["mqtt", "pid", "color_tft", "ublox_gnss", "bme280"].includes(element.result?.package.name || "")) {
         featuredPackageIndexes.push(index);
       }
     });
@@ -108,65 +108,68 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
             {isWidthUp("md", this.props.width) ? (
               <Grid container spacing={2}>
                 {state.indexes &&
-                  state.indexes.map((element, index) => (
-                    <PackageCard
+                  state.indexes.map((element, index) => {
+                    if (!this.props.packages) {
+                      return null;
+                    }
+                    return <PackageCard
                       width={4}
-                      name={this.props.packages ? this.props.packages[element].result.package.name : ""}
-                      url={this.props.packages ? this.props.packages[element].result.package.url : ""}
-                      version={this.props.packages ? this.props.packages[element].result.package.latestVersion : ""}
-                      description={this.props.packages ? this.props.packages[element].result.package.description : ""}
+                      name={this.props.packages[element].result?.package.name || ""}
+                      url={this.props.packages[element].result?.package.url || ""}
+                      version={this.props.packages[element].result?.package.latestVersion || ""}
+                      description={this.props.packages[element].result?.package.description || ""}
                       key={index}
                     />
-                  ))}
+  })}
               </Grid>
             ) : (
-              state.indexes && (
+              state.indexes && this.props.packages && (
                 <Carousel className={this.props.classes.carousel}>
                   <Grid container spacing={2} key={0}>
                     <PackageCard
                       width={6}
-                      name={this.props.packages ? this.props.packages[state.indexes[0]].result.package.name : ""}
-                      url={this.props.packages ? this.props.packages[state.indexes[0]].result.package.url : ""}
+                      name={this.props.packages[state.indexes[0]].result?.package.name || ""}
+                      url={this.props.packages[state.indexes[0]].result?.package.url || ""}
                       version={
-                        this.props.packages ? this.props.packages[state.indexes[0]].result.package.latestVersion : ""
+                        this.props.packages[state.indexes[0]].result?.package.latestVersion ||  ""
                       }
                       description={
-                        this.props.packages ? this.props.packages[state.indexes[0]].result.package.description : ""
+                        this.props.packages[state.indexes[0]].result?.package.description ||  ""
                       }
                     />
                     <PackageCard
                       width={6}
-                      name={this.props.packages ? this.props.packages[state.indexes[1]].result.package.name : ""}
-                      url={this.props.packages ? this.props.packages[state.indexes[1]].result.package.url : ""}
+                      name={this.props.packages[state.indexes[1]].result?.package.name || ""}
+                      url={this.props.packages[state.indexes[1]].result?.package.url || ""}
                       version={
-                        this.props.packages ? this.props.packages[state.indexes[1]].result.package.latestVersion : ""
+                        this.props.packages[state.indexes[1]].result?.package.latestVersion ||  ""
                       }
                       description={
-                        this.props.packages ? this.props.packages[state.indexes[1]].result.package.description : ""
+                        this.props.packages[state.indexes[1]].result?.package.description ||  ""
                       }
                     />
                   </Grid>
                   <Grid container spacing={2} key={1}>
                     <PackageCard
                       width={6}
-                      name={this.props.packages ? this.props.packages[state.indexes[2]].result.package.name : ""}
-                      url={this.props.packages ? this.props.packages[state.indexes[2]].result.package.url : ""}
+                      name={this.props.packages[state.indexes[2]].result?.package.name || ""}
+                      url={this.props.packages[state.indexes[2]].result?.package.url || ""}
                       version={
-                        this.props.packages ? this.props.packages[state.indexes[2]].result.package.latestVersion : ""
+                        this.props.packages[state.indexes[2]].result?.package.latestVersion ||  ""
                       }
                       description={
-                        this.props.packages ? this.props.packages[state.indexes[2]].result.package.description : ""
+                        this.props.packages[state.indexes[2]].result?.package.description ||  ""
                       }
                     />
                     <PackageCard
                       width={6}
-                      name={this.props.packages ? this.props.packages[state.indexes[3]].result.package.name : ""}
-                      url={this.props.packages ? this.props.packages[state.indexes[3]].result.package.url : ""}
+                      name={this.props.packages[state.indexes[3]].result?.package.name || ""}
+                      url={this.props.packages[state.indexes[3]].result?.package.url || ""}
                       version={
-                        this.props.packages ? this.props.packages[state.indexes[3]].result.package.latestVersion : ""
+                        this.props.packages[state.indexes[3]].result?.package.latestVersion ||  ""
                       }
                       description={
-                        this.props.packages ? this.props.packages[state.indexes[3]].result.package.description : ""
+                        this.props.packages[state.indexes[3]].result?.package.description ||  ""
                       }
                     />
                   </Grid>
@@ -174,13 +177,13 @@ class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
                   <Grid container spacing={2} key={2}>
                     <PackageCard
                       width={6}
-                      name={this.props.packages ? this.props.packages[state.indexes[4]].result.package.name : ""}
-                      url={this.props.packages ? this.props.packages[state.indexes[4]].result.package.url : ""}
+                      name={this.props.packages[state.indexes[4]].result?.package.name || ""}
+                      url={this.props.packages[state.indexes[4]].result?.package.url || ""}
                       version={
-                        this.props.packages ? this.props.packages[state.indexes[4]].result.package.latestVersion : ""
+                        this.props.packages[state.indexes[4]].result?.package.latestVersion ||  ""
                       }
                       description={
-                        this.props.packages ? this.props.packages[state.indexes[4]].result.package.description : ""
+                        this.props.packages[state.indexes[4]].result?.package.description ||  ""
                       }
                     />
                   </Grid>

@@ -62,7 +62,7 @@ class SearchView extends React.Component<SearchProps, SearchState> {
     const searchParam = getSearchString();
     const packages = this.props.packages?.filter((pkg) => {
       if (pkg.result === undefined) {
-        return false
+        return false;
       }
       return pkg.result.package.name.toLowerCase().indexOf(searchParam?.toLowerCase() || "") >= 0;
     });
@@ -88,14 +88,16 @@ class SearchView extends React.Component<SearchProps, SearchState> {
                 return null;
               }
 
-              return <SearchPackage
-                key={key}
-                name={element.result.package.name}
-                description={element.result.package.description}
-                version={element.result.package.latestVersion}
-                published={Date.now()}
-                url={element.result.package.url}
-              />
+              return (
+                <SearchPackage
+                  key={key}
+                  name={element.result.package.name}
+                  description={element.result.package.description}
+                  version={element.result.package.latestVersion}
+                  published={Date.now()}
+                  url={element.result.package.url}
+                />
+              );
             })}
             {this.state.filteredPackages?.length === 0 && (
               <Grid container>

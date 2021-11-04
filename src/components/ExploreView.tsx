@@ -30,7 +30,7 @@ export type Package = {
   error?: {
     code: number;
     message: string;
-  }
+  };
 };
 export type Packages = {
   result: {
@@ -74,7 +74,7 @@ class ExploreView extends React.Component<ExploreProps, ExploreState> {
             </>
           )}
           {this.props.packages
-            ?.sort((a, b) => (a.result?.package.name || "").localeCompare(b.result?.package.name || ""))
+            ?.sort((a, b) => (a.result?.package.name || "").localeCompare(b.result?.package.name || ""))
             .map((element, i) => {
               if (element.result === undefined) {
                 return null;

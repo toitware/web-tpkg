@@ -93,7 +93,7 @@ class SearchView extends React.Component<SearchProps, SearchState> {
     if (!packages) return [];
     const scoredPackages = packages.flatMap((pkg): ScoredPackage[] => {
       if (pkg.result === undefined) {
-        return []
+        return [];
       }
       let score = 0;
       for (const word of words) {

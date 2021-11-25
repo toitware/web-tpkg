@@ -16,6 +16,7 @@ import React from "react";
 import { Link, Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { setTimeout } from "timers";
 import { API_URL } from "../../App";
+import { white } from "../../assets/theme/theme";
 import { SearchIcon, ToitLogo, TpkgLogo } from "../../misc/icons";
 import { Package } from "../ExploreView";
 import ProgressBar from "../general/BorderLinearProgress";
@@ -107,8 +108,17 @@ const styles = (theme: Theme) =>
       borderRadius: theme.shape.borderRadius,
       height: 42,
       backgroundColor: theme.palette.primary.light,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
+      width: "90%",
+      [theme.breakpoints.only("xs")]: {
+        width: "60%",
+      },
+      [theme.breakpoints.only("sm")]: {
+        width: "70%",
+      },
+      [theme.breakpoints.only("md")]: {
+        width: "80%",
+      },
+      [theme.breakpoints.up("md")]: {
         maxWidth: 1032,
       },
     },
@@ -123,6 +133,16 @@ const styles = (theme: Theme) =>
     },
     tpkgContainer: {
       display: "inline-flex",
+    },
+    button: {
+      borderColor: white,
+      borderStyle: "solid",
+      borderWidth: 1,
+      background: "transparent",
+      color: white,
+      width: 150,
+      marginTop: theme.spacing(2),
+      margin: theme.spacing(1),
     },
   });
 
@@ -237,6 +257,14 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
                   Search
                 </Button>
               </Route>
+            </Grid>
+            <Grid container justifyContent="center">
+              <Button component={Link} className={this.props.classes.button} to="/publish">
+                Contribute
+              </Button>
+              <Button component={Link} className={this.props.classes.button} to="/packages">
+                All packages
+              </Button>
             </Grid>
           </Grid>
         </MuiToolbar>

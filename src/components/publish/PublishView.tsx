@@ -176,9 +176,13 @@ class PublishView extends React.Component<PublishProps, PublishState> {
             {!this.state.published ? (
               <>
                 <Typography variant="body2" className={this.props.classes.description}>
-                  You contribute to the community by publishing your packages and help other IoT developers get going
-                  faster. Learn how to write a package at{" "}
-                  <Link href="https://docs.toit.io/language/package/pkgtutorial">docs.toit.io</Link>. Thanks.
+                  You contribute to the community by publishing your packages and help other Toit developers get going
+                  faster. Learn more on how to{" "}
+                  <Link href="https://docs.toit.io/language/package/pkgtutorial/#publish-to-the-toit-package-registry">
+                    publish the package
+                  </Link>{" "}
+                  and how to <Link href="https://docs.toit.io/language/package/pkgtutorial">write a package</Link>.
+                  Thanks.
                 </Typography>
                 <InputLabel className={this.props.classes.formText}>
                   Git URL<Typography className={this.props.classes.star}>*</Typography>

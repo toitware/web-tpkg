@@ -62,7 +62,7 @@ class SearchView extends React.Component<SearchProps, SearchState> {
     const searchParam = getSearchString();
     const words = SearchView.searchParamToWordList(searchParam || "");
     let packages = [];
-    //If user search for a word, return best 10, if user search blank, return all packages
+    // If the search term is a word, then return the best 10. If the search term is empty, then return all packages.
     if (words.length !== 0) packages = SearchView.best10(words, this.props.packages);
     else packages = this.props.packages || [];
 

@@ -92,6 +92,11 @@ const styles = (theme: Theme) =>
     star: {
       color: tiger,
     },
+    commandText: {
+      fontWeight: 500,
+      fontStyle: "italic",
+      fontSize: 12,
+    },
   });
 
 type PublishProps = WithStyles<typeof styles>;
@@ -225,10 +230,14 @@ class PublishView extends React.Component<PublishProps, PublishState> {
                 )}
               </Button>
             </div>
-            <Typography variant="body2" className={this.props.classes.terms}>
+            <Typography display="inline" className={this.props.classes.terms}>
               Your Git repository (GitHub, GitLab or other) has to be public to successfully be able to publish a
               package to the Toit package registry. To make sure the information is correct before publishing, execute
-              the following command: toit pkg describe url tag.
+              the following command{" "}
+            </Typography>
+            <Typography display="inline" className={this.props.classes.commandText}>
+              {" "}
+              toit pkg describe YOUR_URL YOUR_TAG.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>

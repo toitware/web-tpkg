@@ -108,6 +108,7 @@ interface PublishState {
   url: string;
   snackbarOpen: boolean;
   snackbarText: string;
+  published: boolean;
 }
 
 class PublishView extends React.Component<PublishProps, PublishState> {
@@ -117,6 +118,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     version: "",
     snackbarOpen: false,
     snackbarText: "",
+    published: false,
   };
 
   handleTextChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,6 +146,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
       });
       if (response.ok) {
         analytics.track("Published Package Successfully", { url: url, tag: this.state.version });
+        this.setState({ snackbarOpen: true, snackbarText: `Successfully published the package` });
       } else {
         let err = response.statusText;
         try {
@@ -154,8 +157,6 @@ class PublishView extends React.Component<PublishProps, PublishState> {
           throw err;
         }
       }
-
-      this.setState({ snackbarOpen: true, snackbarText: "Successfully published package" });
     } catch (e) {
       let err = "" + e;
       if (e instanceof Error) {
@@ -177,68 +178,80 @@ class PublishView extends React.Component<PublishProps, PublishState> {
             <Typography variant="h2" className={this.props.classes.title}>
               Publish package
             </Typography>
-            <Typography variant="body2" className={this.props.classes.description}>
-              You contribute to the community by publishing your packages and help other IoT developers get going
-              faster. Learn how to write a package at{" "}
-              <Link href="https://docs.toit.io/language/package/pkgtutorial">docs.toit.io</Link>. Thanks.
-            </Typography>
-            <InputLabel className={this.props.classes.formText}>
-              Git URL<Typography className={this.props.classes.star}>*</Typography>
-            </InputLabel>
-            <BlackBorderTextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="url"
-              name="url"
-              onChange={this.handleTextChange("url")}
-              autoComplete="url"
-              autoFocus
-              size="small"
-              className={this.props.classes.textField}
-            />
-            <InputLabel className={this.props.classes.formText}>
-              Git tag<Typography className={this.props.classes.star}>*</Typography>
-            </InputLabel>
-            <BlackBorderTextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="version"
-              name="version"
-              onChange={this.handleTextChange("version")}
-              autoComplete="version"
-              size="small"
-              className={this.props.classes.textField}
-            />
-            {state.error !== undefined && <FormHelperText error={true}>{state.error}</FormHelperText>}
-            <div className={this.props.classes.buttonWrapper}>
-              <Button
-                type="submit"
-                variant="contained"
-                className={this.props.classes.button}
-                color="primary"
-                disabled={state.version === "" || state.url === ""}
-                onClick={() => this.publishPackage()}
-              >
-                {!state.loading ? (
-                  "Publish"
-                ) : (
-                  <CircularProgress color="secondary" size="16px" className={this.props.classes.circularProgress} />
-                )}
-              </Button>
-            </div>
-            <Typography display="inline" className={this.props.classes.terms}>
-              Your Git repository (GitHub, GitLab or other) has to be public to successfully be able to publish a
-              package to the Toit package registry. To make sure the information is correct before publishing, execute
-              the following command{" "}
-            </Typography>
-            <Typography display="inline" className={this.props.classes.commandText}>
-              {" "}
-              toit pkg describe YOUR_URL YOUR_TAG.
-            </Typography>
+            {!this.state.published ? (
+              <>
+                <Typography variant="body2" className={this.props.classes.description}>
+                  You contribute to the community by publishing your packages and help other Toit developers get going
+                  faster. Learn how to{" "}
+                  <Link href="https://docs.toit.io/language/package/pkgtutorial/#publish-to-the-toit-package-registry">
+                    publish your package
+                  </Link>{" "}
+                  and how to <Link href="https://docs.toit.io/language/package/pkgtutorial">write a package</Link>.
+                  Thanks.
+                </Typography>
+                <InputLabel className={this.props.classes.formText}>
+                  Git URL<Typography className={this.props.classes.star}>*</Typography>
+                </InputLabel>
+                <BlackBorderTextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="url"
+                  name="url"
+                  onChange={this.handleTextChange("url")}
+                  autoComplete="url"
+                  autoFocus
+                  size="small"
+                  className={this.props.classes.textField}
+                />
+                <InputLabel className={this.props.classes.formText}>
+                  Git tag<Typography className={this.props.classes.star}>*</Typography>
+                </InputLabel>
+                <BlackBorderTextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="version"
+                  name="version"
+                  onChange={this.handleTextChange("version")}
+                  autoComplete="version"
+                  size="small"
+                  className={this.props.classes.textField}
+                />
+                {state.error !== undefined && <FormHelperText error={true}>{state.error}</FormHelperText>}
+                <div className={this.props.classes.buttonWrapper}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className={this.props.classes.button}
+                    color="primary"
+                    disabled={state.version === "" || state.url === ""}
+                    onClick={() => this.publishPackage()}
+                  >
+                    {!state.loading ? (
+                      "Publish"
+                    ) : (
+                      <CircularProgress color="secondary" size="16px" className={this.props.classes.circularProgress} />
+                    )}
+                  </Button>
+                </div>
+                <Typography display="inline" className={this.props.classes.terms}>
+                  Your Git repository (GitHub, GitLab or other) has to be public to successfully be able to publish a
+                  package to the Toit package registry. To make sure the information is correct before publishing,
+                  execute the following command{" "}
+                </Typography>
+                <Typography display="inline" className={this.props.classes.commandText}>
+                  {" "}
+                  toit pkg describe YOUR_URL YOUR_TAG.
+                </Typography>
+              </>
+            ) : (
+              <Typography variant="body2" className={this.props.classes.description}>
+                Your package has been successfully published!
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12} md={6} className={this.props.classes.packageFactory}>
             <PackageFactory width="100%" />

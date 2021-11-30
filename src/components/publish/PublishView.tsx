@@ -177,9 +177,9 @@ class PublishView extends React.Component<PublishProps, PublishState> {
               <>
                 <Typography variant="body2" className={this.props.classes.description}>
                   You contribute to the community by publishing your packages and help other Toit developers get going
-                  faster. Learn more on how to{" "}
+                  faster. Learn how to{" "}
                   <Link href="https://docs.toit.io/language/package/pkgtutorial/#publish-to-the-toit-package-registry">
-                    publish the package
+                    publish your package
                   </Link>{" "}
                   and how to <Link href="https://docs.toit.io/language/package/pkgtutorial">write a package</Link>.
                   Thanks.

@@ -100,10 +100,33 @@ class SearchView extends React.Component<SearchProps, SearchState> {
       }
       let score = 0;
       for (const word of words) {
-        if (pkg.result.package.name.toLowerCase().indexOf(word) >= 0) score += 10;
-        if (pkg.result.package.description.toLowerCase().indexOf(word) >= 0) score += 2;
+        const regexp = new RegExp(
+          word.replace(/./g, (letter) => {
+            if (letter === "x") return "."; // X is a wildcard.
+            if ("a" <= letter && letter <= "z") return "[x" + letter + "]"; // Other letters match themselves or an x.
+            if ("0" <= letter && letter <= "9") return "[x" + letter + "]"; // Numbers match themselves or an x
+            return "\\" + letter; // Regexp escape everything else.
+          })
+        );
+        const searchScores = [100, 30];
+        const searchStrings = [pkg.result.package.name.toLowerCase(), pkg.result.package.description.toLowerCase()];
         if (word !== "http" && word !== "https" && word !== "www" && word !== "github" && word !== "toit") {
-          if (pkg.result.package.url.toLowerCase().indexOf(word) >= 0) score += 2;
+          searchScores.push(20);
+          searchStrings.push(pkg.result.package.url.toLowerCase());
+        }
+        for (let i = 0; i < searchScores.length; i++) {
+          const scr = searchScores[i];
+          const str = searchStrings[i];
+          if (str.indexOf(word) >= 0) {
+            score += scr;
+          } else {
+            // If we didn't get an exact match, rerun using the electronics
+            // component naming convention that an x in the search term or the
+            // package description counts as a wildcard.
+            if (regexp.exec(str)) {
+              score += scr >> 1;
+            }
+          }
         }
       }
       if (score === 0) {

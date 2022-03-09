@@ -7,7 +7,7 @@ import {
   Theme,
   Typography,
   withStyles,
-  WithStyles
+  WithStyles,
 } from "@material-ui/core";
 import withWidth, { WithWidth } from "@material-ui/core/withWidth";
 import { History } from "history";

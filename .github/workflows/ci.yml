@@ -59,7 +59,7 @@ jobs:
 
       - name: Prepare artifacts
         run: |
-          tar c -zf VERSION.tgz -C $BUILD_DIR/ .
+          tar c -zf $VERSION.tgz -C $BUILD_DIR/ .
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2

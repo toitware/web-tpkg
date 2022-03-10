@@ -5,6 +5,12 @@ on:
   release:
     types: [published]
 
+env:
+  BUCKET: toit-web
+  BUCKET_PATH: pkg.toit.io
+  ARTIFACT_PREFIX: build_
+  RUN_TESTS: false
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -27,6 +33,17 @@ jobs:
         run: |
           npx browserslist --update-db
 
+      - name: Test
+        if: env.RUN_TESTS == 'true'
+        run: |
+          yarn test:ci
+
+      - name: Publish test report
+        if: env.RUN_TESTS == 'true' && always()
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: 'junit.xml'
+
       - name: Build
         run: |
           yarn build
@@ -42,7 +59,7 @@ jobs:
 
       - name: Prepare artifacts
         run: |
-          tar c -zf build_$VERSION.tgz -C build/ .
+          tar c -zf VERSION.tgz -C $BUILD_DIR/ .
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -51,7 +68,7 @@ jobs:
           retention-days: 2
           if-no-files-found: error
           path: |
-            build_${{ steps.version.outputs.version }}.tgz
+            $VERSION.tgz
             VERSION
 
   upload:
@@ -68,19 +85,12 @@ jobs:
         with:
           name: build
 
-      - name: Set up repository specific env
-        run: |
-          BUCKET=toit-web
-          BUCKET_PATH=pkg.toit.io
-          echo BUCKET=$BUCKET >> $GITHUB_ENV
-          echo BUCKET_PATH=$BUCKET_PATH >> $GITHUB_ENV
-
       - name: Set up env
         run: |
           # Just for debugging and better understanding list all files we have now.
           find .
           VERSION=$(cat VERSION)
-          ARTIFACT=build_$VERSION.tgz
+          ARTIFACT=$VERSION.tgz
           echo BUILD_VERSION=$VERSION >> $GITHUB_ENV
           echo ARTIFACT=$ARTIFACT >> $GITHUB_ENV
 

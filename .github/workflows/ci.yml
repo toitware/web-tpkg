@@ -8,7 +8,7 @@ on:
 env:
   BUCKET: toit-web
   BUCKET_PATH: pkg.toit.io
-  ARTIFACT_PREFIX: build_
+  BUILD_DIR: build
   RUN_TESTS: false
 
 jobs:

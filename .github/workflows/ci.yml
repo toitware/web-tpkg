@@ -73,7 +73,7 @@ jobs:
           # Just for debugging and better understanding list all files we have now.
           find .
           VERSION=$(cat VERSION)
-          ARTIFACT=build/build_$VERSION.tgz
+          ARTIFACT=build_$VERSION.tgz
           echo BUILD_VERSION=$VERSION >> $GITHUB_ENV
           echo ARTIFACT=$ARTIFACT >> $GITHUB_ENV
 

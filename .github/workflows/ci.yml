@@ -68,6 +68,13 @@ jobs:
         with:
           name: build
 
+      - name: Set up repository specific env
+        run: |
+          BUCKET=toit-web
+          BUCKET_PATH=pkg.toit.io
+          echo BUCKET=$BUCKET >> $GITHUB_ENV
+          echo BUCKET_PATH=$BUCKET_PATH >> $GITHUB_ENV
+
       - name: Set up env
         run: |
           # Just for debugging and better understanding list all files we have now.
@@ -92,8 +99,8 @@ jobs:
         run: |
           echo -n $BUILD_VERSION > LATEST.tmp
 
-          gsutil cp $ARTIFACT  gs://toit-web/pkg.toit.io/$BUILD_VERSION.tgz
-          gsutil cp LATEST.tmp gs://toit-web/pkg.toit.io/LATEST
+          gsutil cp $ARTIFACT  gs://$BUCKET/$BUCKET_PATH/$BUILD_VERSION.tgz
+          gsutil cp LATEST.tmp gs://$BUCKET/$BUCKET_PATH/LATEST
 
       - name: Update RELEASED in Google Cloud
         if: |
@@ -101,5 +108,5 @@ jobs:
         run: |
           echo -n $BUILD_VERSION > LATEST.tmp
 
-          gsutil cp LATEST.tmp gs://toit-web/pkg.toit.io/RELEASED
-          gsutil cp LATEST.tmp gs://toit-web/pkg.toit.io/RELEASED.$TOIT_VERSION
+          gsutil cp LATEST.tmp gs://$BUCKET/$BUCKET_PATH/RELEASED
+          gsutil cp LATEST.tmp gs://$BUCKET/$BUCKET_PATH/RELEASED.$TOIT_VERSION

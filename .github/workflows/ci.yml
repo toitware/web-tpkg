@@ -5,12 +5,21 @@ on:
   release:
     types: [published]
 
+env:
+  BUCKET: toit-web
+  BUCKET_PATH: pkg.toit.io
+  BUILD_DIR: build
+  HAS_PROTOBUF: false
+  RUN_TESTS: false
+
 jobs:
   ci:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Install
         env:
@@ -19,13 +28,21 @@ jobs:
           npm config set //npm.pkg.github.com/:_authToken=$GITHUB_NPM_TOKEN
           yarn install
 
+      - name: Protobuf
+        if: env.HAS_PROTOBUF == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install protobuf-compiler
+          make protobuf
+
       - name: Lint
         run: |
           yarn lint
 
-      - name: Update can-i-use
+      - name: Test
+        if: env.RUN_TESTS == 'true'
         run: |
-          npx browserslist --update-db
+          yarn test:ci
 
       - name: Build
         run: |
@@ -42,7 +59,7 @@ jobs:
 
       - name: Prepare artifacts
         run: |
-          tar c -zf build_$VERSION.tgz -C build/ .
+          tar c -zf $VERSION.tgz -C $BUILD_DIR/ .
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -51,7 +68,7 @@ jobs:
           retention-days: 2
           if-no-files-found: error
           path: |
-            build_${{ steps.version.outputs.version }}.tgz
+            ${{ env.VERSION }}.tgz
             VERSION
 
   upload:
@@ -73,7 +90,7 @@ jobs:
           # Just for debugging and better understanding list all files we have now.
           find .
           VERSION=$(cat VERSION)
-          ARTIFACT=build_$VERSION.tgz
+          ARTIFACT=$VERSION.tgz
           echo BUILD_VERSION=$VERSION >> $GITHUB_ENV
           echo ARTIFACT=$ARTIFACT >> $GITHUB_ENV
 
@@ -92,8 +109,8 @@ jobs:
         run: |
           echo -n $BUILD_VERSION > LATEST.tmp
 
-          gsutil cp $ARTIFACT  gs://toit-web/pkg.toit.io/$BUILD_VERSION.tgz
-          gsutil cp LATEST.tmp gs://toit-web/pkg.toit.io/LATEST
+          gsutil cp $ARTIFACT  gs://$BUCKET/$BUCKET_PATH/$BUILD_VERSION.tgz
+          gsutil cp LATEST.tmp gs://$BUCKET/$BUCKET_PATH/LATEST
 
       - name: Update RELEASED in Google Cloud
         if: |
@@ -101,5 +118,5 @@ jobs:
         run: |
           echo -n $BUILD_VERSION > LATEST.tmp
 
-          gsutil cp LATEST.tmp gs://toit-web/pkg.toit.io/RELEASED
-          gsutil cp LATEST.tmp gs://toit-web/pkg.toit.io/RELEASED.$TOIT_VERSION
+          gsutil cp LATEST.tmp gs://$BUCKET/$BUCKET_PATH/RELEASED
+          gsutil cp LATEST.tmp gs://$BUCKET/$BUCKET_PATH/RELEASED.$TOIT_VERSION

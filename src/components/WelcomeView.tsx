@@ -85,11 +85,20 @@ interface WelcomeState {
   indexes: number[];
 }
 
+const featuredPackages = [
+  "github.com/toitware/bme280-driver",
+  "github.com/toitware/mqtt",
+  "github.com/toitware/toit-color-tft",
+  "github.com/toitware/ublox-gnss-driver",
+  "github.com/toitlang/pkg-http",
+  "github.com/toitware/toit-solar-position",
+];
+
 class WelcomeView extends React.Component<WelcomeProps, WelcomeState> {
   componentDidMount() {
     const featuredPackageIndexes: number[] = [];
     this.props.packages?.forEach((element, index) => {
-      if (["mqtt", "pid", "color_tft", "ublox_gnss", "bme280"].includes(element.result?.package.name || "")) {
+      if (featuredPackages.includes(element.result?.package.url || "")) {
         featuredPackageIndexes.push(index);
       }
     });

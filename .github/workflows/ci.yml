@@ -11,7 +11,7 @@ env:
   BUILD_DIR: build
   HAS_PROTOBUF: false
   RUN_TESTS: false
-  ARTIFACT_EXTENSION: tar.gz
+  ARTIFACT_EXTENSION: tgz
 
 jobs:
   ci:

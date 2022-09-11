@@ -40,10 +40,10 @@ interface ToolbarState {
 }
 
 export const toitio = "https://toit.io";
-export const console = "https://console.toit.io";
+export const jaguar = "https://github.com/toitlang/jaguar#how-do-i-use-it";
 export const docs = "https://docs.toit.io";
 export const libs = "https://libs.toit.io";
-export const community = "https://chat.toit.io";
+export const discussions = "https://chat.toit.io";
 
 class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
   handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -82,8 +82,8 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link to={console} target="blank">
-                  Console
+                <Link to={jaguar} target="blank">
+                  Installation
                 </Link>
               </MenuItem>
               <MenuItem>
@@ -97,8 +97,8 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link to={community} target="blank">
-                  Community
+                <Link to={discussions} target="blank">
+                  Discussions
                 </Link>
               </MenuItem>
             </Menu>
@@ -111,8 +111,8 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
             <Button color="secondary" href={toitio} target="blank">
               Toit.io
             </Button>
-            <Button color="secondary" href={console} target="blank">
-              Console
+            <Button color="secondary" href={jaguar} target="blank">
+              Installation
             </Button>
             <Button color="secondary" href={docs} target="blank">
               Documentation
@@ -120,8 +120,8 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
             <Button color="secondary" href={libs} target="blank">
               Library
             </Button>
-            <Button color="secondary" href={community} target="blank">
-              Community
+            <Button color="secondary" href={discussions} target="blank">
+              Discussions
             </Button>
           </>
         )}

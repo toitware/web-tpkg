@@ -39,11 +39,11 @@ interface ToolbarState {
   anchorEl: null | HTMLElement;
 }
 
+export const jaguar = "https://github.com/toitlang/jaguar";
 export const toitio = "https://toit.io";
-export const console = "https://console.toit.io";
 export const docs = "https://docs.toit.io";
 export const libs = "https://libs.toit.io";
-export const community = "https://chat.toit.io";
+export const discussions = "https://chat.toit.io";
 
 class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
   handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -108,11 +108,11 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
             <Typography variant="h6" className={this.props.classes.title}>
               {" "}
             </Typography>
+            <Button color="secondary" href={jaguar} target="blank">
+              Get started!
+            </Button>
             <Button color="secondary" href={toitio} target="blank">
               Toit.io
-            </Button>
-            <Button color="secondary" href={console} target="blank">
-              Console
             </Button>
             <Button color="secondary" href={docs} target="blank">
               Documentation
@@ -120,8 +120,8 @@ class ToolbarTop extends React.Component<ToolbarTopProps, ToolbarState> {
             <Button color="secondary" href={libs} target="blank">
               Library
             </Button>
-            <Button color="secondary" href={community} target="blank">
-              Community
+            <Button color="secondary" href={discussions} target="blank">
+              Discussions
             </Button>
           </>
         )}

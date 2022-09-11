@@ -142,7 +142,7 @@ class Footer extends React.Component<FooterProps> {
             </Typography>
           </Grid>
         </Grid>
-        <Typography className={this.props.classes.copyright}>© Toitware ApS. 2021.</Typography>
+        <Typography className={this.props.classes.copyright}>© Toitware ApS</Typography>
       </Grid>
     );
   }

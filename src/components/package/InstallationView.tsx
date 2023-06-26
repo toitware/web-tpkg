@@ -61,8 +61,8 @@ class InstallationView extends React.Component<InstallationProps> {
             type="copy"
             text={
               this.props.latest
-                ? `toit pkg install ${this.props.pkg.result.version.url}`
-                : `toit pkg install ${this.props.pkg.result.version.url}@${this.props.pkg.result.version.version}`
+                ? `jag pkg install ${this.props.pkg.result.version.url}`
+                : `jag pkg install ${this.props.pkg.result.version.url}@${this.props.pkg.result.version.version}`
             }
           />
         </Grid>

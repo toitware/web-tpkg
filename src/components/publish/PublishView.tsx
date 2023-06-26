@@ -244,7 +244,7 @@ class PublishView extends React.Component<PublishProps, PublishState> {
                 </Typography>
                 <Typography display="inline" className={this.props.classes.commandText}>
                   {" "}
-                  toit pkg describe YOUR_URL YOUR_TAG.
+                  jag pkg describe YOUR_URL YOUR_TAG.
                 </Typography>
               </>
             ) : (

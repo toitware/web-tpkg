@@ -1,3 +1,7 @@
+// Copyright (C) 2023 Toitware ApS. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import { createStyles, CssBaseline, Theme, withStyles, WithStyles } from "@material-ui/core";
 import { History, UnregisterCallback } from "history";
 import React from "react";

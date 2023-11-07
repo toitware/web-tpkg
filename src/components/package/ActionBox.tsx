@@ -1,3 +1,7 @@
+// Copyright (C) 2023 Toitware ApS. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import { Box, createStyles, Grid, Link, Theme, Typography, WithStyles } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import React from "react";

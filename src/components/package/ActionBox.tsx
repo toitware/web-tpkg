@@ -116,9 +116,7 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
       );
     if (this.props.type === "url")
       return (
-        <Box
-          className={this.props.classes.box}
-        >
+        <Box className={this.props.classes.box}>
           <Link href={this.props.text} target="blank" className={this.props.classes.box}>
             <Grid container wrap="nowrap" spacing={2} className={this.props.classes.containerUrl}>
               <Grid item>

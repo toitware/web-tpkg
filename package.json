@@ -28,6 +28,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --max-warnings=0",
+    "fix-lint": "eslint --fix '*/**/*.{js,ts,tsx}'",
     "test": "tsc && react-app-rewired test",
     "test:ci": "tsc && react-app-rewired test --ci --coverage",
     "eject": "react-scripts eject"

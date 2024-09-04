@@ -73,17 +73,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          retention-days: 2
           if-no-files-found: error
           path: |
             ${{ env.VERSION }}.${{ env.ARTIFACT_EXTENSION }}
             VERSION
 
       - name: Upload release artifacts
-        if: |
-          github.event_name == 'release' ||
-          github.event_name == 'push' && github.ref_name == 'master' ||
-          github.event_name == 'push' && startsWith(github.ref_name, 'release-v')
+        if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

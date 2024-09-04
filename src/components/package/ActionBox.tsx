@@ -87,7 +87,6 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
   handleCopyInstallationText(text: string) {
     void navigator.clipboard.writeText(text);
     this.setState({ snackbar: true });
-    analytics.track("Copied Installation Line", { line: text });
   }
 
   componentDidMount() {}
@@ -118,7 +117,6 @@ class ActionBox extends React.Component<ActionBoxProps, ActionBoxState> {
     if (this.props.type === "url")
       return (
         <Box
-          onClick={() => analytics.track("Clicked URL", { url: this.props.text })}
           className={this.props.classes.box}
         >
           <Link href={this.props.text} target="blank" className={this.props.classes.box}>

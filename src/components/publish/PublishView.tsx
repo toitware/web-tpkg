@@ -149,7 +149,6 @@ class PublishView extends React.Component<PublishProps, PublishState> {
         credentials: "include",
       });
       if (response.ok) {
-        analytics.track("Published Package Successfully", { url: url, tag: this.state.version });
         this.setState({ snackbarOpen: true, snackbarText: `Successfully published the package` });
       } else {
         let err = response.statusText;
@@ -164,7 +163,6 @@ class PublishView extends React.Component<PublishProps, PublishState> {
     } catch (e) {
       let err = "" + e;
       if (e instanceof Error) {
-        analytics.track("Published Package Failed", { url: url, tag: this.state.version });
         err = `Error: ${e.message}`;
       }
       this.setState({ snackbarOpen: true, snackbarText: `Failed to publish. ${err}` });

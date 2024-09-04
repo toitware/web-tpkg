@@ -210,9 +210,6 @@ class AppBar extends React.PureComponent<AppBarProps, AppBarState> {
   }
 
   async handleSearch() {
-    analytics.ready(() => {
-      analytics.track("Package Search", { search: this.state.search?.toLowerCase() });
-    });
     this.props.history.push("/search?query=" + (this.state.search || ""));
   }
 

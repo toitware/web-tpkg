@@ -1,4 +1,25 @@
+# Toit package server
+
+This repository contains the web-page that is served on https://pkg.toit.io.
+
+The server, using this web-page, is located at https://github.com/toitware/tpkg.
+
 # Setup for development
+
+## Node version
+
+This project doesn't compile anymore with recent node versions. Use,
+for example, `nvm` to install an older version of node. The repository
+contains a `.nvmrc` file that specifies the node version that works.
+
+If you have nvm installed, but not automatically activated in your
+.bashrc, you will need to do
+
+```bash
+source /usr/share/nvm/init-nvm.sh
+```
+
+Then run `nvm install` to install the correct version of node.
 
 ## yarn
 

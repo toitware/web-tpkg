@@ -108,6 +108,11 @@ class Footer extends React.Component<FooterProps> {
                 API
               </Link>
             </Typography>
+            <Typography className={this.props.classes.link}>
+              <Link className={this.props.classes.link} href="https://help.toit.io/" target="blank">
+                Help
+              </Link>
+            </Typography>
           </Grid>
           <Grid item xs={6} sm={3} md={2}>
             <Typography className={this.props.classes.heading}>Legal</Typography>
@@ -132,11 +137,6 @@ class Footer extends React.Component<FooterProps> {
             <Typography className={this.props.classes.link}>
               <Link className={this.props.classes.link} href="https://blog.toit.io/" target="blank">
                 Blog
-              </Link>
-            </Typography>
-            <Typography className={this.props.classes.link}>
-              <Link className={this.props.classes.link} href="https://help.toit.io/" target="blank">
-                Help
               </Link>
             </Typography>
             <Typography className={this.props.classes.link}>

@@ -104,11 +104,6 @@ class Footer extends React.Component<FooterProps> {
               </Link>
             </Typography>
             <Typography className={this.props.classes.link}>
-              <Link className={this.props.classes.link} href="https://docs.toit.io/apis/api" target="blank">
-                API
-              </Link>
-            </Typography>
-            <Typography className={this.props.classes.link}>
               <Link className={this.props.classes.link} href="https://help.toit.io/" target="blank">
                 Help
               </Link>
